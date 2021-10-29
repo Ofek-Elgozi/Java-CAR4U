@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity
 {
@@ -19,10 +20,10 @@ public class MainActivity extends AppCompatActivity
         Log.d("TAG","MainActivity On Create");
     }
 
-    public void disable(View v){
-        findViewById(R.id.button).setEnabled(false);
-        ((Button)findViewById(R.id.button)).setText("New New Disabled");
-
+    public void handleText(View v){
+        TextView t= findViewById(R.id.Source);
+        String input = t.getText().toString();
+        Log.d("info", input);
     }
 
 
