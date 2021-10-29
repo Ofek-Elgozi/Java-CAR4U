@@ -20,10 +20,12 @@ public class MainActivity extends AppCompatActivity
     }
 
     public void disable(View v){
-        v.setEnabled(false);
-        Log.d("Success","Button Disabled");
-        Button button = (Button) v;
-        button.setText("Disabled");
+        View myView = findViewById(R.id.button);
+        myView.setEnabled(false);
+        Button button =(Button) myView;
+        button.setText("New Disabled");
+
+
     }
 
 
