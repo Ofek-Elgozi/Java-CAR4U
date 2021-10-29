@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity
 {
@@ -24,7 +25,7 @@ public class MainActivity extends AppCompatActivity
         TextView t= findViewById(R.id.Source);
         String input = t.getText().toString();
         ((TextView)findViewById(R.id.Output)).setText(input);
-        Log.d("info", input);
+        Toast.makeText(this, "Processing...", Toast.LENGTH_LONG).show();//Can Write Instead Of "text:.."->input
     }
 
 
