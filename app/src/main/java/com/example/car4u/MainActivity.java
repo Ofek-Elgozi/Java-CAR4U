@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 
 public class MainActivity extends AppCompatActivity
 {
@@ -20,35 +21,10 @@ public class MainActivity extends AppCompatActivity
 
     public void disable(View v){
         v.setEnabled(false);
-    }
-    /*
-    @Override
-    protected void onStart()
-    {
-        super.onStart();
-        Log.d("TAG","MainActivity On Start");
+        Log.d("Success","Button Disabled");
+        Button button = (Button) v;
+        button.setText("Disabled");
     }
 
-    @Override
-    protected void onResume()
-    {
-        super.onResume();
-        Log.d("TAG","MainActivity On Resume");
-    }
-
-    @Override
-    protected void onPause()
-    {
-        super.onPause();
-        Log.d("TAG","MainActivity On Pause");
-    }
-
-    @Override
-    protected void onStop()
-    {
-        super.onStop();
-        Log.d("TAG","MainActivity On Pause");
-    }
-    */
 
 }
