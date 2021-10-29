@@ -23,6 +23,7 @@ public class MainActivity extends AppCompatActivity
     public void handleText(View v){
         TextView t= findViewById(R.id.Source);
         String input = t.getText().toString();
+        ((TextView)findViewById(R.id.Output)).setText(input);
         Log.d("info", input);
     }
 
