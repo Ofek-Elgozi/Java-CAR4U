@@ -13,8 +13,6 @@ public class Activity2 extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_2);
         Log.d("TAG","Activity2 On Create");
-        Intent intent = new Intent(this,Activity3.class);
-        startActivity(intent);
     }
 
     @Override
