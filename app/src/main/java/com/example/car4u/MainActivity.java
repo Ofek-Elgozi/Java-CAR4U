@@ -14,7 +14,7 @@ public class MainActivity extends AppCompatActivity
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        CarLoginFragment frag = new CarLoginFragment();
+        FirstFragment frag = new FirstFragment();
         FragmentManager manager = getSupportFragmentManager();
         FragmentTransaction tran = manager.beginTransaction();
         tran.replace(R.id.mainactivity_container,frag);
