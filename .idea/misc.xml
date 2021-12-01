@@ -6,6 +6,9 @@
         <entry key="..\:/Java-CAR4U/app/src/main/res/layout/activity_2.xml" value="0.13020833333333334" />
         <entry key="..\:/Java-CAR4U/app/src/main/res/layout/activity_3.xml" value="0.13020833333333334" />
         <entry key="..\:/Java-CAR4U/app/src/main/res/layout/activity_main.xml" value="0.264" />
+        <entry key="..\:/Java-CAR4U/app/src/main/res/layout/fragment_car_list.xml" value="0.24010416666666667" />
+        <entry key="..\:/Java-CAR4U/app/src/main/res/layout/fragment_car_login.xml" value="0.25416666666666665" />
+        <entry key="..\:/Java-CAR4U/app/src/main/res/layout/fragment_car_register.xml" value="0.25416666666666665" />
       </map>
     </option>
   </component>

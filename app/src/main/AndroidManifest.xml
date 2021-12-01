@@ -10,9 +10,6 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.CAR4U">
         <activity
-            android:name=".Activity2"
-            android:exported="true" />
-        <activity
             android:name=".MainActivity"
             android:exported="true">
             <intent-filter>
