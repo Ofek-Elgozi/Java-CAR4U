@@ -5,9 +5,11 @@
       <map>
         <entry key="..\:/Java-CAR4U/app/src/main/res/layout/activity_2.xml" value="0.13020833333333334" />
         <entry key="..\:/Java-CAR4U/app/src/main/res/layout/activity_3.xml" value="0.13020833333333334" />
+        <entry key="..\:/Java-CAR4U/app/src/main/res/layout/activity_base.xml" value="0.13125" />
         <entry key="..\:/Java-CAR4U/app/src/main/res/layout/activity_main.xml" value="0.264" />
+        <entry key="..\:/Java-CAR4U/app/src/main/res/layout/cars_list_row.xml" value="0.21693840579710144" />
         <entry key="..\:/Java-CAR4U/app/src/main/res/layout/cars_list_view.xml" value="0.20572916666666666" />
-        <entry key="..\:/Java-CAR4U/app/src/main/res/layout/fragment_add_car.xml" value="0.25416666666666665" />
+        <entry key="..\:/Java-CAR4U/app/src/main/res/layout/fragment_add_car.xml" value="0.18645833333333334" />
         <entry key="..\:/Java-CAR4U/app/src/main/res/layout/fragment_add_car_description.xml" value="0.25416666666666665" />
         <entry key="..\:/Java-CAR4U/app/src/main/res/layout/fragment_car_details.xml" value="0.25416666666666665" />
         <entry key="..\:/Java-CAR4U/app/src/main/res/layout/fragment_car_edit.xml" value="0.264" />
@@ -18,6 +20,9 @@
         <entry key="..\:/Java-CAR4U/app/src/main/res/layout/fragment_cars_list.xml" value="0.20572916666666666" />
         <entry key="..\:/Java-CAR4U/app/src/main/res/layout/fragment_first.xml" value="0.264" />
         <entry key="..\:/Java-CAR4U/app/src/main/res/layout/fragment_user_profile.xml" value="0.20572916666666666" />
+        <entry key="..\:/Java-CAR4U/app/src/main/res/menu/carslist_menu.xml" value="0.18645833333333334" />
+        <entry key="..\:/Java-CAR4U/app/src/main/res/menu/main_activity_menu.xml" value="0.264" />
+        <entry key="..\:/Java-CAR4U/app/src/main/res/menu/main_activity_menu2.xml" value="0.264" />
       </map>
     </option>
   </component>
