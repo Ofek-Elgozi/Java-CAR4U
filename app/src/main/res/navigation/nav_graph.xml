@@ -1,6 +1,99 @@
 <?xml version="1.0" encoding="utf-8"?>
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
-             xmlns:app="http://schemas.android.com/apk/res-auto"
-             android:id="@+id/nav_graph">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/firstFragment">
 
+    <fragment
+        android:id="@+id/firstFragment"
+        android:name="com.example.car4u.FirstFragment"
+        android:label="CAR4U"
+        tools:layout="@layout/fragment_first">
+        <action
+            android:id="@+id/action_firstFragment_to_carLoginFragment"
+            app:destination="@id/carLoginFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/carLoginFragment"
+        android:name="com.example.car4u.CarLoginFragment"
+        android:label="Login"
+        tools:layout="@layout/fragment_car_login">
+        <action
+            android:id="@+id/action_carLoginFragment_to_carRegisterFragment2"
+            app:destination="@id/carRegisterFragment" />
+        <action
+            android:id="@+id/action_carLoginFragment_to_carsListFragment"
+            app:destination="@id/carsListFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/carRegisterFragment"
+        android:name="com.example.car4u.CarRegisterFragment"
+        android:label="Register"
+        tools:layout="@layout/fragment_car_register" />
+    <fragment
+        android:id="@+id/carsListFragment"
+        android:name="com.example.car4u.CarsListFragment"
+        android:label="Cars List"
+        tools:layout="@layout/fragment_cars_list">
+        <action
+            android:id="@+id/action_carsListFragment_to_addCarFragment"
+            app:destination="@id/addCarFragment" />
+        <action
+            android:id="@+id/action_carsListFragment_to_carDetailsFragment"
+            app:destination="@id/carDetailsFragment" />
+        <action
+            android:id="@+id/action_carsListFragment_to_userProfileFragment"
+            app:destination="@id/userProfileFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/addCarFragment"
+        android:name="com.example.car4u.AddCarFragment"
+        android:label="Add Car"
+        tools:layout="@layout/fragment_add_car" >
+        <action
+            android:id="@+id/action_addCarFragment_to_addCarDescriptionFragment"
+            app:destination="@id/addCarDescriptionFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/carDetailsFragment"
+        android:name="com.example.car4u.CarDetailsFragment"
+        android:label="Dar Details"
+        tools:layout="@layout/fragment_car_details" />
+    <fragment
+        android:id="@+id/userProfileFragment"
+        android:name="com.example.car4u.UserProfileFragment"
+        android:label="User Profile"
+        tools:layout="@layout/fragment_user_profile" >
+        <action
+            android:id="@+id/action_userProfileFragment_to_carEditFragment"
+            app:destination="@id/carEditFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/addCarDescriptionFragment"
+        android:name="com.example.car4u.AddCarDescriptionFragment"
+        android:label="Add Car Description"
+        tools:layout="@layout/fragment_add_car_description" >
+        <action
+            android:id="@+id/action_addCarDescriptionFragment_pop"
+            app:popUpTo="@id/carsListFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/carEditFragment"
+        android:name="com.example.car4u.CarEditFragment"
+        android:label="Edit Car"
+        tools:layout="@layout/fragment_car_edit">
+        <action
+            android:id="@+id/action_carEditFragment_to_carEditDescriptionFragment"
+            app:destination="@id/carEditDescriptionFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/carEditDescriptionFragment"
+        android:name="com.example.car4u.CarEditDescriptionFragment"
+        android:label="Edit Car Description"
+        tools:layout="@layout/fragment_car_edit_description" >
+        <action
+            android:id="@+id/action_carEditDescriptionFragment_pop"
+            app:popUpTo="@id/userProfileFragment" />
+    </fragment>
 </navigation>
