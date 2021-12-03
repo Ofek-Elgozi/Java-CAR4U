@@ -43,8 +43,8 @@ public class CarsListFragment extends Fragment
             public void onItemClick(AdapterView<?> parent, View view, int position, long id)
             {
                 car=data.get(position);
-                //action = CarsListFragmentDirections.actionCarsListFragmentToCarDetailsFragment(car);
-                //Navigation.findNavController(view).navigate(action);
+                CarsListFragmentDirections.ActionCarsListFragmentToCarDetailsFragment action = CarsListFragmentDirections.actionCarsListFragmentToCarDetailsFragment(car);
+                Navigation.findNavController(view).navigate(action);
             }
         });
         setHasOptionsMenu(true);
@@ -115,3 +115,4 @@ public class CarsListFragment extends Fragment
         return true;
     }
 }
+
