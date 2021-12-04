@@ -44,7 +44,7 @@ public class UserProfileFragment extends Fragment
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id)
             {
-                //car=data.get(position);
+                car=data.get(position);
                 //UserProfileFragmentDirections.ActionUserProfileFragmentToCarEditFragment action = UserProfileFragmentDirections.actionUserProfileFragmentToCarEditFragment(car);
                 //Navigation.findNavController(view).navigate(action);
             }
