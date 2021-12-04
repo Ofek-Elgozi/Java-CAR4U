@@ -11,7 +11,8 @@ public class Car implements Parcelable
     public String price;
     public String location;
     public String phone;
-    public String Description;
+    public String description;
+    public String car_username;
 
 
     public Car()
@@ -22,19 +23,22 @@ public class Car implements Parcelable
         price=" ";
         location=" ";
         phone=" ";
-        Description=" ";
+        description =" ";
+        car_username =" ";
     }
 
-    public Car(Car s)
+    public Car(Car c)
     {
-        this.owner=s.owner;
-        this.model=s.model;
-        this.year=s.year;
-        this.price=s.price;
-        this.location=s.location;
-        this.phone=s.phone;
-        this.Description=s.Description;
+        this.owner=c.owner;
+        this.model=c.model;
+        this.year=c.year;
+        this.price=c.price;
+        this.location=c.location;
+        this.phone=c.phone;
+        this.description =c.description;
+        this.car_username =c.car_username;
     }
+
 
     protected Car(Parcel in) {
         owner = in.readString();
@@ -43,7 +47,8 @@ public class Car implements Parcelable
         price = in.readString();
         location = in.readString();
         phone = in.readString();
-        Description = in.readString();
+        description = in.readString();
+        car_username = in.readString();
     }
 
     public static final Creator<Car> CREATOR = new Creator<Car>() {
@@ -71,6 +76,7 @@ public class Car implements Parcelable
         dest.writeString(price);
         dest.writeString(location);
         dest.writeString(phone);
-        dest.writeString(Description);
+        dest.writeString(description);
+        dest.writeString(car_username);
     }
 }

@@ -91,7 +91,7 @@ public class CarsListFragment extends Fragment
             TextView price= convertView.findViewById(R.id.carlistrow_text_v3);
             price.setText(data.get(position).price);
             TextView description= convertView.findViewById(R.id.carlistrow_text_v4);
-            description.setText(data.get(position).Description);
+            description.setText(data.get(position).description);
             return convertView;
         }
     }

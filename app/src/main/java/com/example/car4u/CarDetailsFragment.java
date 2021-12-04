@@ -20,7 +20,8 @@ import com.example.car4u.Model.Model;
 import java.util.List;
 
 
-public class CarDetailsFragment extends Fragment {
+public class CarDetailsFragment extends Fragment
+{
 
     List<Car> data;
     Car car;

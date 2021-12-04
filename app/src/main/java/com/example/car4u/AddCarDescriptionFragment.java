@@ -2,12 +2,10 @@ package com.example.car4u;
 
 import android.os.Bundle;
 
-import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
 
 import android.view.LayoutInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -57,7 +55,7 @@ public class AddCarDescriptionFragment extends Fragment {
                 car.price=temp_price;
                 car.location=temp_location;
                 car.phone=temp_phone;
-                car.Description=description.getText().toString();
+                car.description =description.getText().toString();
                 Model.instance.addCar(car);
                 Navigation.findNavController(v).navigate(R.id.action_addCarDescriptionFragment_pop);
             }

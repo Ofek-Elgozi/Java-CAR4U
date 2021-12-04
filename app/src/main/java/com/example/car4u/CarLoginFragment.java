@@ -55,7 +55,7 @@ public class CarLoginFragment extends Fragment
                 }
                 else
                 {
-                    Toast.makeText(getActivity(), "Wrong User, Please Try Again.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(), "Invaild User, Please Try Again.", Toast.LENGTH_SHORT).show();
                 }
             }
         });

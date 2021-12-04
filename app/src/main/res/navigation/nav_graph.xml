@@ -57,6 +57,9 @@
         <action
             android:id="@+id/action_addCarFragment_to_addCarDescriptionFragment"
             app:destination="@id/addCarDescriptionFragment" />
+        <argument
+            android:name="user"
+            app:argType="com.example.car4u.Model.User" />
     </fragment>
     <fragment
         android:id="@+id/carDetailsFragment"
@@ -75,6 +78,9 @@
         <action
             android:id="@+id/action_userProfileFragment_to_carEditFragment"
             app:destination="@id/carEditFragment" />
+        <argument
+            android:name="user"
+            app:argType="com.example.car4u.Model.User" />
     </fragment>
     <fragment
         android:id="@+id/addCarDescriptionFragment"
@@ -102,6 +108,9 @@
         <argument
             android:name="temp_phone"
             app:argType="string" />
+        <argument
+            android:name="user"
+            app:argType="com.example.car4u.Model.User" />
     </fragment>
     <fragment
         android:id="@+id/carEditFragment"
@@ -111,6 +120,9 @@
         <action
             android:id="@+id/action_carEditFragment_to_carEditDescriptionFragment"
             app:destination="@id/carEditDescriptionFragment" />
+        <argument
+            android:name="car"
+            app:argType="com.example.car4u.Model.Car" />
     </fragment>
     <fragment
         android:id="@+id/carEditDescriptionFragment"
@@ -120,5 +132,8 @@
         <action
             android:id="@+id/action_carEditDescriptionFragment_pop"
             app:popUpTo="@id/userProfileFragment" />
+        <argument
+            android:name="car"
+            app:argType="com.example.car4u.Model.Car" />
     </fragment>
 </navigation>
