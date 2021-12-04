@@ -34,6 +34,15 @@ public class CarRegisterFragment extends Fragment
         EditText emailEt = view.findViewById(R.id.email_register);
         EditText phoneEt = view.findViewById(R.id.phone_register);
 
+        Button cancelBtn = view.findViewById(R.id.register_cancel_btn);
+        cancelBtn.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+                Navigation.findNavController(v).popBackStack();
+            }
+        });
         Button signupBtn = view.findViewById(R.id.signup_btn);
         signupBtn.setOnClickListener(new View.OnClickListener()
         {
