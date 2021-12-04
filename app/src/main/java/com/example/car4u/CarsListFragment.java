@@ -16,9 +16,11 @@ import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.car4u.Model.Car;
 import com.example.car4u.Model.Model;
+import com.example.car4u.Model.User;
 
 import java.util.List;
 
@@ -27,12 +29,15 @@ public class CarsListFragment extends Fragment
 {
     List<Car> data;
     Car car;
+    User user;
     View view;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState)
     {
         view =inflater.inflate(R.layout.fragment_cars_list, container, false);
+        user=CarsListFragmentArgs.fromBundle(getArguments()).getUser();
+        Toast.makeText(getActivity(), "Welcome " + user.username + "!!", Toast.LENGTH_SHORT).show();
         ListView list=view.findViewById(R.id.carslistfragment_listv);
         data = Model.instance.getAllCars();
         MyAdapter adapter = new MyAdapter();

@@ -7,21 +7,30 @@ public class User implements Parcelable
 {
     public String username;
     public String password;
+    public String email;
+    public String phone;
 
     public User()
     {
         username=" ";
         password=" ";
+        email=" ";
+        phone=" ";
     }
     public User(User u)
     {
         this.username=u.username;
         this.password=u.password;
+        this.email=u.email;
+        this.phone=u.phone;
     }
+
 
     protected User(Parcel in) {
         username = in.readString();
         password = in.readString();
+        email = in.readString();
+        phone = in.readString();
     }
 
     public static final Creator<User> CREATOR = new Creator<User>() {
@@ -45,5 +54,7 @@ public class User implements Parcelable
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(username);
         dest.writeString(password);
+        dest.writeString(email);
+        dest.writeString(phone);
     }
 }

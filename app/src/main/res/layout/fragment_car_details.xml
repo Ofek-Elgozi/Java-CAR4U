@@ -77,82 +77,82 @@
         app:layout_constraintStart_toStartOf="@+id/textView10"
         app:layout_constraintTop_toBottomOf="@+id/textView10" />
 
-    <EditText
+    <TextView
         android:id="@+id/car_details_owner"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
-        android:ems="10"
-        android:inputType="textPersonName"
-        android:minHeight="48dp"
+        android:text="TextView"
+        android:textColor="#FF1744"
+        android:textSize="28sp"
+        android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="@+id/textView5"
         app:layout_constraintStart_toEndOf="@+id/textView5"
-        app:layout_constraintTop_toTopOf="@+id/textView5"
-        tools:ignore="SpeakableTextPresentCheck" />
+        app:layout_constraintTop_toTopOf="@+id/textView5" />
 
-    <EditText
+    <TextView
         android:id="@+id/car_details_model"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
-        android:ems="10"
-        android:inputType="textPersonName"
-        android:minHeight="48dp"
+        android:text="TextView"
+        android:textColor="#FF1744"
+        android:textSize="28sp"
+        android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="@+id/textView6"
         app:layout_constraintStart_toEndOf="@+id/textView6"
-        app:layout_constraintTop_toTopOf="@+id/textView6"
-        tools:ignore="SpeakableTextPresentCheck" />
+        app:layout_constraintTop_toTopOf="@+id/textView6" />
 
-    <EditText
+    <TextView
         android:id="@+id/car_details_year"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
-        android:ems="10"
-        android:inputType="textPersonName"
-        android:minHeight="48dp"
+        android:text="TextView"
+        android:textColor="#FF1744"
+        android:textSize="28sp"
+        android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="@+id/textView7"
         app:layout_constraintStart_toEndOf="@+id/textView7"
-        app:layout_constraintTop_toTopOf="@+id/textView7"
-        tools:ignore="SpeakableTextPresentCheck" />
+        app:layout_constraintTop_toTopOf="@+id/textView7" />
 
-    <EditText
+    <TextView
         android:id="@+id/car_details_price"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
-        android:ems="10"
-        android:inputType="textPersonName"
-        android:minHeight="48dp"
+        android:text="TextView"
+        android:textColor="#FF1744"
+        android:textSize="28sp"
+        android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="@+id/textView8"
         app:layout_constraintStart_toEndOf="@+id/textView8"
-        app:layout_constraintTop_toTopOf="@+id/textView8"
-        tools:ignore="SpeakableTextPresentCheck" />
+        app:layout_constraintTop_toTopOf="@+id/textView8" />
 
-    <EditText
+    <TextView
         android:id="@+id/car_details_location"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
-        android:ems="10"
-        android:inputType="textPersonName"
-        android:minHeight="48dp"
+        android:text="TextView"
+        android:textColor="#FF1744"
+        android:textSize="28sp"
+        android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="@+id/textView10"
         app:layout_constraintStart_toEndOf="@+id/textView10"
-        app:layout_constraintTop_toTopOf="@+id/textView10"
-        tools:ignore="SpeakableTextPresentCheck" />
+        app:layout_constraintTop_toTopOf="@+id/textView10" />
 
-    <EditText
+    <TextView
         android:id="@+id/car_details_phone"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
-        android:ems="10"
-        android:inputType="textPersonName"
-        android:minHeight="48dp"
+        android:text="TextView"
+        android:textColor="#FF1744"
+        android:textSize="28sp"
         app:layout_constraintBottom_toBottomOf="@+id/textView15"
         app:layout_constraintStart_toEndOf="@+id/textView15"
         app:layout_constraintTop_toTopOf="@+id/textView15"
-        tools:ignore="SpeakableTextPresentCheck" />
+        android:textStyle="bold" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
