@@ -52,7 +52,7 @@ public class AddCarFragment extends Fragment
                 temp_price=price.getText().toString();
                 temp_location=location.getText().toString();
                 temp_phone=phone.getText().toString();
-                AddCarFragmentDirections.ActionAddCarFragmentToAddCarDescriptionFragment action = AddCarFragmentDirections.actionAddCarFragmentToAddCarDescriptionFragment(temp_owner,temp_model,temp_year,temp_price,temp_location,temp_phone,user.username);
+                AddCarFragmentDirections.ActionAddCarFragmentToAddCarDescriptionFragment action = AddCarFragmentDirections.actionAddCarFragmentToAddCarDescriptionFragment(temp_owner,temp_model,temp_year,temp_price,temp_location,temp_phone,user);
                 Navigation.findNavController(view).navigate(action);
             }
         });

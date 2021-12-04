@@ -14,6 +14,7 @@ import android.widget.Toast;
 
 import com.example.car4u.Model.Car;
 import com.example.car4u.Model.Model;
+import com.example.car4u.Model.User;
 
 import java.util.List;
 
@@ -21,6 +22,7 @@ import java.util.List;
 public class AddCarDescriptionFragment extends Fragment {
     View view;
     List<Car> data;
+    User user;
     public String temp_owner=" ";
     public String temp_model=" ";
     public String temp_year=" ";
@@ -40,7 +42,7 @@ public class AddCarDescriptionFragment extends Fragment {
         temp_price= AddCarDescriptionFragmentArgs.fromBundle(getArguments()).getTempPrice();
         temp_location= AddCarDescriptionFragmentArgs.fromBundle(getArguments()).getTempLocation();
         temp_phone= AddCarDescriptionFragmentArgs.fromBundle(getArguments()).getTempPhone();
-        temp_username= AddCarDescriptionFragmentArgs.fromBundle(getArguments()).getUsername();
+        user= AddCarDescriptionFragmentArgs.fromBundle(getArguments()).getUser();
 
         EditText description = view.findViewById(R.id.addcar_des_description_et);
         Button saveBtn= view.findViewById(R.id.addcar_des_save_btn);
@@ -57,7 +59,8 @@ public class AddCarDescriptionFragment extends Fragment {
                 car.price=temp_price;
                 car.location=temp_location;
                 car.phone=temp_phone;
-                car.car_username=temp_username;
+                car.car_username=user.username;
+                user.car_amount++;
                 car.description =description.getText().toString();
                 Model.instance.addCar(car);
                 Toast.makeText(getActivity(), car.car_username + " Added New Car!!", Toast.LENGTH_SHORT).show();

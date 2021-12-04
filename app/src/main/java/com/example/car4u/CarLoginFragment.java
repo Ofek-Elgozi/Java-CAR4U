@@ -38,7 +38,6 @@ public class CarLoginFragment extends Fragment
         EditText usernameEt = view.findViewById(R.id.login_username);
         EditText passwordEt = view.findViewById(R.id.login_password);
 
-
         Button sign_inBtn = view.findViewById(R.id.signin_btn);
         sign_inBtn.setOnClickListener(new View.OnClickListener()
         {
@@ -50,7 +49,7 @@ public class CarLoginFragment extends Fragment
                 user=Model.instance.getUserByUsername(temp_username);
                 if(Model.instance.UserIsExist(temp_username, temp_password)==true)
                 {
-                    Toast.makeText(getActivity(), "Welcome " + user.username + "!!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(), "Welcome " + user.username + "!! Car Amount:" + user.car_amount, Toast.LENGTH_SHORT).show();
                     CarLoginFragmentDirections.ActionCarLoginFragmentToCarsListFragment action = CarLoginFragmentDirections.actionCarLoginFragmentToCarsListFragment(user);
                     Navigation.findNavController(v).navigate(action);
                 }

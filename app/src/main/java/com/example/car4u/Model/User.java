@@ -9,6 +9,7 @@ public class User implements Parcelable
     public String password;
     public String email;
     public String phone;
+    public int car_amount;
 
     public User()
     {
@@ -16,6 +17,7 @@ public class User implements Parcelable
         password=" ";
         email=" ";
         phone=" ";
+        car_amount=0;
     }
     public User(User u)
     {
@@ -23,14 +25,15 @@ public class User implements Parcelable
         this.password=u.password;
         this.email=u.email;
         this.phone=u.phone;
+        this.car_amount=u.car_amount;
     }
-
 
     protected User(Parcel in) {
         username = in.readString();
         password = in.readString();
         email = in.readString();
         phone = in.readString();
+        car_amount = in.readInt();
     }
 
     public static final Creator<User> CREATOR = new Creator<User>() {
@@ -56,5 +59,6 @@ public class User implements Parcelable
         dest.writeString(password);
         dest.writeString(email);
         dest.writeString(phone);
+        dest.writeInt(car_amount);
     }
 }
