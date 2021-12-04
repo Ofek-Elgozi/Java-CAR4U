@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.example.car4u.Model.Car;
 import com.example.car4u.Model.Model;
@@ -26,6 +27,7 @@ public class AddCarDescriptionFragment extends Fragment {
     public String temp_price=" ";
     public String temp_location=" ";
     public String temp_phone=" ";
+    public String temp_username=" ";
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState)
@@ -38,7 +40,7 @@ public class AddCarDescriptionFragment extends Fragment {
         temp_price= AddCarDescriptionFragmentArgs.fromBundle(getArguments()).getTempPrice();
         temp_location= AddCarDescriptionFragmentArgs.fromBundle(getArguments()).getTempLocation();
         temp_phone= AddCarDescriptionFragmentArgs.fromBundle(getArguments()).getTempPhone();
-
+        temp_username= AddCarDescriptionFragmentArgs.fromBundle(getArguments()).getUsername();
 
         EditText description = view.findViewById(R.id.addcar_des_description_et);
         Button saveBtn= view.findViewById(R.id.addcar_des_save_btn);
@@ -55,8 +57,10 @@ public class AddCarDescriptionFragment extends Fragment {
                 car.price=temp_price;
                 car.location=temp_location;
                 car.phone=temp_phone;
+                car.car_username=temp_username;
                 car.description =description.getText().toString();
                 Model.instance.addCar(car);
+                Toast.makeText(getActivity(), car.car_username + " Added New Car!!", Toast.LENGTH_SHORT).show();
                 Navigation.findNavController(v).navigate(R.id.action_addCarDescriptionFragment_pop);
             }
         });

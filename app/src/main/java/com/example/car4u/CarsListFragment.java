@@ -37,7 +37,6 @@ public class CarsListFragment extends Fragment
     {
         view =inflater.inflate(R.layout.fragment_cars_list, container, false);
         user=CarsListFragmentArgs.fromBundle(getArguments()).getUser();
-        Toast.makeText(getActivity(), "Welcome " + user.username + "!!", Toast.LENGTH_SHORT).show();
         ListView list=view.findViewById(R.id.carslistfragment_listv);
         data = Model.instance.getAllCars();
         MyAdapter adapter = new MyAdapter();
@@ -109,10 +108,13 @@ public class CarsListFragment extends Fragment
         switch (item.getItemId())
         {
             case R.id.menu_add:
-                Navigation.findNavController(view).navigate(R.id.addCarFragment);
+                CarsListFragmentDirections.ActionCarsListFragmentToAddCarFragment action = CarsListFragmentDirections.actionCarsListFragmentToAddCarFragment(user);
+                Navigation.findNavController(view).navigate(action);
                 break;
             case R.id.menu_profile:
-                Navigation.findNavController(view).navigate(R.id.userProfileFragment);
+                CarsListFragmentDirections.ActionCarsListFragmentToUserProfileFragment action2 = CarsListFragmentDirections.actionCarsListFragmentToUserProfileFragment(user);
+                Toast.makeText(getActivity(), "Welcome To Your Profile " + user.username + "!", Toast.LENGTH_SHORT).show();
+                Navigation.findNavController(view).navigate(action2);
                 break;
             default:
                 return super.onOptionsItemSelected(item);
