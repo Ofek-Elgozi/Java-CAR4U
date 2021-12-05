@@ -81,13 +81,13 @@ public class UserProfileFragment extends Fragment
         @Override
         public View getView(int position, View convertView, ViewGroup parent)
         {
-            if(convertView == null)
-            {
-                LayoutInflater inflater =getLayoutInflater();
-                convertView = inflater.inflate(R.layout.cars_list_row,null);
-            }
             if(data.get(position).car_username.equals(user.username))
             {
+                if(convertView == null)
+                {
+                    LayoutInflater inflater =getLayoutInflater();
+                    convertView = inflater.inflate(R.layout.cars_list_row,null);
+                }
                 TextView model = convertView.findViewById(R.id.carlistrow_text_v1);
                 model.setText(data.get(position).model);
                 TextView year = convertView.findViewById(R.id.carlistrow_text_v2);
@@ -96,8 +96,17 @@ public class UserProfileFragment extends Fragment
                 price.setText(data.get(position).price);
                 TextView description = convertView.findViewById(R.id.carlistrow_text_v4);
                 description.setText(data.get(position).description);
+                return convertView;
             }
-            return convertView;
+            else
+            {
+                if(convertView == null)
+                {
+                    LayoutInflater inflater = getLayoutInflater();
+                    convertView = inflater.inflate(R.layout.empty_list_row, null);
+                }
+                return convertView;
+            }
         }
     }
 
