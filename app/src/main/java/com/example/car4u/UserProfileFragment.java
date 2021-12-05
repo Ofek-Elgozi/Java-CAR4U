@@ -45,8 +45,11 @@ public class UserProfileFragment extends Fragment
             public void onItemClick(AdapterView<?> parent, View view, int position, long id)
             {
                 car=data.get(position);
-                //UserProfileFragmentDirections.ActionUserProfileFragmentToCarEditFragment action = UserProfileFragmentDirections.actionUserProfileFragmentToCarEditFragment(car);
-                //Navigation.findNavController(view).navigate(action);
+                if(car.car_username.equals(user.username))
+                {
+                    UserProfileFragmentDirections.ActionUserProfileFragmentToCarEditFragment action = UserProfileFragmentDirections.actionUserProfileFragmentToCarEditFragment(car,user);
+                    Navigation.findNavController(view).navigate(action);
+                }
             }
         });
 

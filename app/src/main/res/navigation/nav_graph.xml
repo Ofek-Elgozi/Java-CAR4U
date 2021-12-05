@@ -123,6 +123,9 @@
         <argument
             android:name="car"
             app:argType="com.example.car4u.Model.Car" />
+        <argument
+            android:name="user"
+            app:argType="com.example.car4u.Model.User" />
     </fragment>
     <fragment
         android:id="@+id/carEditDescriptionFragment"
@@ -135,5 +138,23 @@
         <argument
             android:name="car"
             app:argType="com.example.car4u.Model.Car" />
+        <argument
+            android:name="owner"
+            app:argType="string" />
+        <argument
+            android:name="model"
+            app:argType="string" />
+        <argument
+            android:name="year"
+            app:argType="string" />
+        <argument
+            android:name="price"
+            app:argType="string" />
+        <argument
+            android:name="location"
+            app:argType="string" />
+        <argument
+            android:name="phone"
+            app:argType="string" />
     </fragment>
 </navigation>

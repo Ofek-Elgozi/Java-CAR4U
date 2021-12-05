@@ -29,7 +29,6 @@ public class AddCarDescriptionFragment extends Fragment {
     public String temp_price=" ";
     public String temp_location=" ";
     public String temp_phone=" ";
-    public String temp_username=" ";
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState)
