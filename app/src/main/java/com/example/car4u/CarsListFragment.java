@@ -5,6 +5,8 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -14,6 +16,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
+import android.widget.CheckBox;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -31,67 +34,96 @@ public class CarsListFragment extends Fragment
     Car car;
     User user;
     View view;
+    MyAdapter adapter;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState)
     {
         view =inflater.inflate(R.layout.fragment_cars_list, container, false);
         user=CarsListFragmentArgs.fromBundle(getArguments()).getUser();
-        ListView list=view.findViewById(R.id.carslistfragment_listv);
         data = Model.instance.getAllCars();
-        MyAdapter adapter = new MyAdapter();
+        RecyclerView list= view.findViewById(R.id.carslistfragment_listv);
+        list.setHasFixedSize(true);
+        list.setLayoutManager(new LinearLayoutManager(getContext()));
+        adapter = new MyAdapter();
         list.setAdapter(adapter);
-        list.setOnItemClickListener(new AdapterView.OnItemClickListener()
+        adapter.setOnItemClickListener(new OnItemClickListener()
         {
             @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id)
+            public void onItemClick(int position, View v)
             {
                 car=data.get(position);
                 CarsListFragmentDirections.ActionCarsListFragmentToCarDetailsFragment action = CarsListFragmentDirections.actionCarsListFragmentToCarDetailsFragment(car);
-                Navigation.findNavController(view).navigate(action);
+                Navigation.findNavController(v).navigate(action);
             }
         });
         setHasOptionsMenu(true);
         return view;
     }
 
-    class MyAdapter extends BaseAdapter
+    class MyViewHolder extends RecyclerView.ViewHolder
     {
+        TextView model;
+        TextView year;
+        TextView price;
+        TextView description;
+        public MyViewHolder(@NonNull View itemView, OnItemClickListener listener)
+        {
+            super(itemView);
+            model= itemView.findViewById(R.id.carlistrow_text_v1);
+            year= itemView.findViewById(R.id.carlistrow_text_v2);
+            price= itemView.findViewById(R.id.carlistrow_text_v3);
+            description= itemView.findViewById(R.id.carlistrow_text_v4);
+            itemView.setOnClickListener(new View.OnClickListener()
+            {
+                @Override
+                public void onClick(View v)
+                {
+                    int pos = getAdapterPosition();
+                    if (listener != null)
+                    {
+                        listener.onItemClick(pos,v);
+                    }
+                }
+            });
+        }
+    }
+
+    interface OnItemClickListener
+    {
+        void onItemClick(int position, View v);
+    }
+
+    class MyAdapter extends RecyclerView.Adapter<MyViewHolder>
+    {
+        OnItemClickListener listener;
+        public void setOnItemClickListener(OnItemClickListener listener)
+        {
+            this.listener = listener;
+        }
+
+        @NonNull
         @Override
-        public int getCount()
+        public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType)
+        {
+            view = getLayoutInflater().inflate(R.layout.cars_list_row,parent,false);
+            MyViewHolder holder = new MyViewHolder(view,listener);
+            return holder;
+        }
+
+        @Override
+        public void onBindViewHolder(@NonNull MyViewHolder holder, int position)
+        {
+            holder.model.setText(data.get(position).model);
+            holder.year.setText(data.get(position).year);
+            holder.price.setText(data.get(position).price);
+            holder.description.setText(data.get(position).description);
+        }
+
+        @Override
+        public int getItemCount()
         {
             return data.size();
-        }
-
-        @Override
-        public Object getItem(int position)
-        {
-            return null;
-        }
-
-        @Override
-        public long getItemId(int position)
-        {
-            return 0;
-        }
-
-        @Override
-        public View getView(int position, View convertView, ViewGroup parent)
-        {
-            if(convertView == null)
-            {
-                LayoutInflater inflater =getLayoutInflater();
-                convertView = inflater.inflate(R.layout.cars_list_row,null);
-            }
-            TextView model= convertView.findViewById(R.id.carlistrow_text_v1);
-            model.setText(data.get(position).model);
-            TextView year= convertView.findViewById(R.id.carlistrow_text_v2);
-            year.setText(data.get(position).year);
-            TextView price= convertView.findViewById(R.id.carlistrow_text_v3);
-            price.setText(data.get(position).price);
-            TextView description= convertView.findViewById(R.id.carlistrow_text_v4);
-            description.setText(data.get(position).description);
-            return convertView;
         }
     }
 
