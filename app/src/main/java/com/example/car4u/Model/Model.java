@@ -60,7 +60,7 @@ public class Model
             {
                 e.printStackTrace();
             }
-            AppLocalDB.db.carDao().insertAllCars(car);
+            AppLocalDB.db.carDao().insertAll(car);
             MyApplication.mainHandler.post(()->
             {
                 listener.onComplete();

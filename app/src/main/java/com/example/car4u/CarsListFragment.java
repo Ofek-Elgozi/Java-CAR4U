@@ -42,19 +42,20 @@ public class CarsListFragment extends Fragment
     {
         view =inflater.inflate(R.layout.fragment_cars_list, container, false);
         user=CarsListFragmentArgs.fromBundle(getArguments()).getUser();
-        RecyclerView list= view.findViewById(R.id.carslistfragment_listv);
-        list.setHasFixedSize(true);
-        list.setLayoutManager(new LinearLayoutManager(getContext()));
-        adapter = new MyAdapter();
-        list.setAdapter(adapter);
         Model.instance.getAllCars(new Model.getAllCarsListener()
         {
             @Override
             public void onComplete(List<Car> car_data)
             {
                 data = car_data;
+                adapter.notifyDataSetChanged();
             }
         });
+        RecyclerView list= view.findViewById(R.id.carslistfragment_listv);
+        list.setHasFixedSize(true);
+        list.setLayoutManager(new LinearLayoutManager(getContext()));
+        adapter = new MyAdapter();
+        list.setAdapter(adapter);
         adapter.setOnItemClickListener(new OnItemClickListener()
         {
             @Override
@@ -153,7 +154,6 @@ public class CarsListFragment extends Fragment
                 break;
             case R.id.menu_profile:
                 CarsListFragmentDirections.ActionCarsListFragmentToUserProfileFragment action2 = CarsListFragmentDirections.actionCarsListFragmentToUserProfileFragment(user);
-                //Toast.makeText(getActivity(), "Welcome To Your Profile " + user.username + "!", Toast.LENGTH_SHORT).show();
                 Navigation.findNavController(view).navigate(action2);
                 break;
             default:

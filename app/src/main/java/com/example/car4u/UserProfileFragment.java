@@ -40,17 +40,13 @@ public class UserProfileFragment extends Fragment
     {
         view = inflater.inflate(R.layout.fragment_user_profile, container, false);
         user = UserProfileFragmentArgs.fromBundle(getArguments()).getUser();
-        RecyclerView list=view.findViewById(R.id.userprofilefragment_listv);
-        list.setHasFixedSize(true);
-        list.setLayoutManager(new LinearLayoutManager(getContext()));
-        adapter = new MyAdapter();
-        list.setAdapter(adapter);
         Model.instance.getAllCars(new Model.getAllCarsListener()
         {
             @Override
             public void onComplete(List<Car> car_data)
             {
                 data = car_data;
+                adapter.notifyDataSetChanged();
                 data2= new LinkedList<Car>();
                 for(Car c:data)
                 {
@@ -61,6 +57,11 @@ public class UserProfileFragment extends Fragment
                 }
             }
         });
+        RecyclerView list=view.findViewById(R.id.userprofilefragment_listv);
+        list.setHasFixedSize(true);
+        list.setLayoutManager(new LinearLayoutManager(getContext()));
+        adapter = new MyAdapter();
+        list.setAdapter(adapter);
         adapter.setOnItemClickListener(new OnItemClickListener()
         {
             @Override

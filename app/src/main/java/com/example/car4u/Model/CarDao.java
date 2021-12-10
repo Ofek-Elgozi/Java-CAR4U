@@ -15,7 +15,7 @@ public interface CarDao
     List<Car> getAllCars();
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    void insertAllCars(Car... cars);
+    void insertAll(Car... cars);
 
     @Delete
     void delete(Car car);
