@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.example.car4u.Model.Car;
@@ -23,17 +24,26 @@ public class CarRegisterFragment extends Fragment
 {
     List<User> data;
     View view;
+    ProgressBar progressBar;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState)
     {
         view = inflater.inflate(R.layout.fragment_car_register, container, false);
-        data = Model.instance.getAllUsers();
+        Model.instance.getAllUsers(new Model.getAllUsersListener()
+        {
+            @Override
+            public void onComplete(List<User> user_data)
+            {
+                data=user_data;
+            }
+        });
         EditText usernameEt = view.findViewById(R.id.username_register);
         EditText passwordEt = view.findViewById(R.id.password_register);
         EditText emailEt = view.findViewById(R.id.email_register);
         EditText phoneEt = view.findViewById(R.id.phone_register);
-
+        progressBar = view.findViewById(R.id.progressbar_register);
+        progressBar.setVisibility(View.GONE);
         Button cancelBtn = view.findViewById(R.id.register_cancel_btn);
         cancelBtn.setOnClickListener(new View.OnClickListener()
         {
@@ -49,14 +59,22 @@ public class CarRegisterFragment extends Fragment
             @Override
             public void onClick(View v)
             {
+                progressBar.setVisibility(View.VISIBLE);
                 User user = new User();
                 user.username=usernameEt.getText().toString();
                 user.password=passwordEt.getText().toString();
                 user.email=emailEt.getText().toString();
                 user.phone=phoneEt.getText().toString();
-                Model.instance.addUser(user);
+                usernameEt.setEnabled(false);
+                passwordEt.setEnabled(false);
+                emailEt.setEnabled(false);
+                phoneEt.setEnabled(false);
+                cancelBtn.setEnabled(false);
+                Model.instance.addUser(user,()->
+                {
+                    Navigation.findNavController(v).popBackStack();
+                });
                 Toast.makeText(getActivity(), "User " + user.username + " Added Successfully!", Toast.LENGTH_SHORT).show();
-                Navigation.findNavController(v).popBackStack();
             }
         });
         return view;

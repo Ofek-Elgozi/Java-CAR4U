@@ -1,5 +1,7 @@
 package com.example.car4u.Model;
 
+import com.example.car4u.MyApplication;
+
 import java.util.LinkedList;
 import java.util.List;
 
@@ -7,21 +9,17 @@ public class Model
 {
     public final static Model instance = new Model();
     private Model(){}
-    List<Car> data = new LinkedList<Car>();
-    List<User> user_data = new LinkedList<User>();
+
+    List<Car> car_data = new LinkedList<Car>();
 
     public List<Car> getAllCars()
     {
-        return data;
-    }
-    public List<User> getAllUsers()
-    {
-        return user_data;
+        return car_data;
     }
 
     public Car getCarByOwner(String owner)
     {
-        for(Car c:data)
+        for(Car c:car_data)
         {
             if(c.owner.equals(owner))
             {
@@ -31,44 +29,72 @@ public class Model
         return null;
     }
 
-    public boolean UserIsExist(String username, String password)
-    {
-        for(User u:user_data)
-        {
-            if(u.username.equals(username) && u.password.equals(password))
-            {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    public User getUserByUsername(String username)
-    {
-        for(User u:user_data)
-        {
-            if(u.username.equals(username))
-            {
-                return u;
-            }
-        }
-        return null;
-    }
-
     public void addCar(Car car)
     {
-        data.add(car);
+        car_data.add(car);
     }
 
     public void removeCar(Car car)
     {
-        data.remove(car);
+        car_data.remove(car);
     }
 
-    public void addUser(User user)
+    public interface getAllUsersListener
     {
-        user_data.add(user);
+        void onComplete(List<User> user_data);
     }
 
+    public void getAllUsers(getAllUsersListener listener)
+    {
+        MyApplication.executorService.execute(()->
+        {
+            List<User> user_data = AppLocalDB.db.userDao().getAllUsers();
+            MyApplication.mainHandler.post(()->
+            {
+                listener.onComplete(user_data);
+            });
+        });
+    }
+
+    public interface getUserByUsernameListener
+    {
+        void onComplete(User user);
+    }
+
+    public void getUserByUsername(String username,getUserByUsernameListener listener)
+    {
+        MyApplication.executorService.execute(()->
+        {
+            User user = AppLocalDB.db.userDao().getUserByUsername(username);
+            MyApplication.mainHandler.post(()->
+            {
+                listener.onComplete(user);
+            });
+        });
+    }
+
+    public interface addUserListener
+    {
+        void onComplete();
+    }
+
+    public void addUser(User user, addUserListener listener)
+    {
+        MyApplication.executorService.execute(()->
+        {
+            try
+            {
+                Thread.sleep(3000);
+            } catch (InterruptedException e)
+            {
+                e.printStackTrace();
+            }
+            AppLocalDB.db.userDao().insertAll(user);
+            MyApplication.mainHandler.post(()->
+            {
+                listener.onComplete();
+            });
+        });
+    }
 }
 

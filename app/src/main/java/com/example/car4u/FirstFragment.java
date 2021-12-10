@@ -11,8 +11,13 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.Toast;
 
+import com.example.car4u.Model.Model;
+import com.example.car4u.Model.User;
 
-public class FirstFragment extends Fragment {
+
+public class FirstFragment extends Fragment
+{
+    User user = new User();
     View view;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,

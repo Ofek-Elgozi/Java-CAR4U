@@ -14,6 +14,9 @@ import android.os.Bundle;
 import android.view.MenuItem;
 import android.widget.Button;
 
+import com.example.car4u.Model.Model;
+import com.example.car4u.Model.User;
+
 
 public class MainActivity extends AppCompatActivity
 {
