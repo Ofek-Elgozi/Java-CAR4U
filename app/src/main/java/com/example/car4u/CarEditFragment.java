@@ -12,17 +12,20 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import com.example.car4u.Model.Car;
 import com.example.car4u.Model.Model;
 import com.example.car4u.Model.User;
 
+import java.util.LinkedList;
 import java.util.List;
 
 
 public class CarEditFragment extends Fragment
 {
-    List<Car> data;
+    List<Car> data = new LinkedList<Car>();
     Car car;
     View view;
     User user;
@@ -32,16 +35,25 @@ public class CarEditFragment extends Fragment
     public String temp_price=" ";
     public String temp_location=" ";
     public String temp_phone=" ";
+    ProgressBar progressBar;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState)
     {
         view =inflater.inflate(R.layout.fragment_car_edit, container, false);
-        data = Model.instance.getAllCars();
+        Model.instance.getAllCars(new Model.getAllCarsListener()
+        {
+            @Override
+            public void onComplete(List<Car> car_data)
+            {
+                data = car_data;
+            }
+        });
         car=CarEditFragmentArgs.fromBundle(getArguments()).getCar();
         user=CarEditFragmentArgs.fromBundle(getArguments()).getUser();
-
-        EditText edit_owner = view.findViewById(R.id.car_edit_owner);
+        progressBar = view.findViewById(R.id.car_edit_progressBar);
+        progressBar.setVisibility(View.GONE);
+        TextView edit_owner = view.findViewById(R.id.car_edit_owner);
         edit_owner.setText(car.owner);
 
         EditText edit_model = view.findViewById(R.id.car_edit_model);
@@ -91,9 +103,20 @@ public class CarEditFragment extends Fragment
             @Override
             public void onClick(View v)
             {
+                progressBar.setVisibility(View.VISIBLE);
+                cancelBtn.setEnabled(false);
+                continueBtn.setEnabled(false);
+                edit_owner.setEnabled(false);
+                edit_model.setEnabled(false);
+                edit_year.setEnabled(false);
+                edit_price.setEnabled(false);
+                edit_location.setEnabled(false);
+                edit_phone.setEnabled(false);
                 user.car_amount=user.car_amount-1;
-                Model.instance.removeCar(car);
-                Navigation.findNavController(v).popBackStack();
+                Model.instance.removeCar(car,()->
+                {
+                    Navigation.findNavController(v).popBackStack();
+                });
             }
         });
         return view;

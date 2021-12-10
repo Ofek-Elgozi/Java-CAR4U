@@ -28,7 +28,7 @@ import java.util.List;
 
 public class UserProfileFragment extends Fragment
 {
-    List<Car> data;
+    List<Car> data = new LinkedList<Car>();;
     List<Car> data2;
     Car car;
     User user;
@@ -40,20 +40,27 @@ public class UserProfileFragment extends Fragment
     {
         view = inflater.inflate(R.layout.fragment_user_profile, container, false);
         user = UserProfileFragmentArgs.fromBundle(getArguments()).getUser();
-        data = Model.instance.getAllCars();
-        data2= new LinkedList<Car>();
-        for(Car c:data)
-        {
-            if(c.car_username.equals(user.username))
-            {
-                data2.add(c);
-            }
-        }
         RecyclerView list=view.findViewById(R.id.userprofilefragment_listv);
         list.setHasFixedSize(true);
         list.setLayoutManager(new LinearLayoutManager(getContext()));
         adapter = new MyAdapter();
         list.setAdapter(adapter);
+        Model.instance.getAllCars(new Model.getAllCarsListener()
+        {
+            @Override
+            public void onComplete(List<Car> car_data)
+            {
+                data = car_data;
+                data2= new LinkedList<Car>();
+                for(Car c:data)
+                {
+                    if(c.car_username.equals(user.username))
+                    {
+                        data2.add(c);
+                    }
+                }
+            }
+        });
         adapter.setOnItemClickListener(new OnItemClickListener()
         {
             @Override

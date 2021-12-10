@@ -25,12 +25,13 @@ import com.example.car4u.Model.Car;
 import com.example.car4u.Model.Model;
 import com.example.car4u.Model.User;
 
+import java.util.LinkedList;
 import java.util.List;
 
 
 public class CarsListFragment extends Fragment
 {
-    List<Car> data;
+    List<Car> data= new LinkedList<Car>();
     Car car;
     User user;
     View view;
@@ -41,12 +42,19 @@ public class CarsListFragment extends Fragment
     {
         view =inflater.inflate(R.layout.fragment_cars_list, container, false);
         user=CarsListFragmentArgs.fromBundle(getArguments()).getUser();
-        data = Model.instance.getAllCars();
         RecyclerView list= view.findViewById(R.id.carslistfragment_listv);
         list.setHasFixedSize(true);
         list.setLayoutManager(new LinearLayoutManager(getContext()));
         adapter = new MyAdapter();
         list.setAdapter(adapter);
+        Model.instance.getAllCars(new Model.getAllCarsListener()
+        {
+            @Override
+            public void onComplete(List<Car> car_data)
+            {
+                data = car_data;
+            }
+        });
         adapter.setOnItemClickListener(new OnItemClickListener()
         {
             @Override
@@ -145,7 +153,7 @@ public class CarsListFragment extends Fragment
                 break;
             case R.id.menu_profile:
                 CarsListFragmentDirections.ActionCarsListFragmentToUserProfileFragment action2 = CarsListFragmentDirections.actionCarsListFragmentToUserProfileFragment(user);
-                Toast.makeText(getActivity(), "Welcome To Your Profile " + user.username + "!", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(getActivity(), "Welcome To Your Profile " + user.username + "!", Toast.LENGTH_SHORT).show();
                 Navigation.findNavController(view).navigate(action2);
                 break;
             default:

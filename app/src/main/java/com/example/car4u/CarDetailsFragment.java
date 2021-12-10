@@ -17,13 +17,13 @@ import android.widget.TextView;
 import com.example.car4u.Model.Car;
 import com.example.car4u.Model.Model;
 
+import java.util.LinkedList;
 import java.util.List;
 
 
 public class CarDetailsFragment extends Fragment
 {
-
-    List<Car> data;
+    List<Car> data = new LinkedList<Car>();
     Car car;
     View view;
     @Override
@@ -31,7 +31,14 @@ public class CarDetailsFragment extends Fragment
                              Bundle savedInstanceState)
     {
         view =inflater.inflate(R.layout.fragment_car_details, container, false);
-        data = Model.instance.getAllCars();
+        Model.instance.getAllCars(new Model.getAllCarsListener()
+        {
+            @Override
+            public void onComplete(List<Car> car_data)
+            {
+                data = car_data;
+            }
+        });
         car=CarDetailsFragmentArgs.fromBundle(getArguments()).getCar();
         TextView owner= view.findViewById(R.id.car_details_owner);
         owner.setText(car.owner);

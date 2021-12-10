@@ -6,10 +6,11 @@ import androidx.room.RoomDatabase;
 
 import com.example.car4u.MyApplication;
 
-@Database(entities = {User.class}, version = 2)
+@Database(entities = {User.class, Car.class}, version = 3)
 abstract class AppLocalDbRepository extends RoomDatabase
 {
     public abstract UserDao userDao();
+    public abstract CarDao carDao();
 }
 
 public class AppLocalDB

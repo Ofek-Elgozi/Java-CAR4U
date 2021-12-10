@@ -10,33 +10,86 @@ public class Model
     public final static Model instance = new Model();
     private Model(){}
 
-    List<Car> car_data = new LinkedList<Car>();
-
-    public List<Car> getAllCars()
+    public interface getAllCarsListener
     {
-        return car_data;
+        void onComplete(List<Car> car_data);
     }
 
-    public Car getCarByOwner(String owner)
+    public void getAllCars(getAllCarsListener listener)
     {
-        for(Car c:car_data)
+        MyApplication.executorService.execute(()->
         {
-            if(c.owner.equals(owner))
+            List<Car> car_data = AppLocalDB.db.carDao().getAllCars();
+            MyApplication.mainHandler.post(()->
             {
-                return c;
+                listener.onComplete(car_data);
+            });
+        });
+    }
+
+    public interface getCarByOwnerListener
+    {
+        void onComplete(Car car);
+    }
+
+    public void getCarByOwner(String owner,getCarByOwnerListener listener)
+    {
+        MyApplication.executorService.execute(()->
+        {
+            Car car = AppLocalDB.db.carDao().getCarByOwner(owner);
+            MyApplication.mainHandler.post(()->
+            {
+                listener.onComplete(car);
+            });
+        });
+    }
+
+    public interface addCarListener
+    {
+        void onComplete();
+    }
+
+    public void addCar(Car car, addCarListener listener)
+    {
+        MyApplication.executorService.execute(()->
+        {
+            try
+            {
+                Thread.sleep(3000);
+            } catch (InterruptedException e)
+            {
+                e.printStackTrace();
             }
-        }
-        return null;
+            AppLocalDB.db.carDao().insertAllCars(car);
+            MyApplication.mainHandler.post(()->
+            {
+                listener.onComplete();
+            });
+        });
     }
 
-    public void addCar(Car car)
+    public interface removeCarListener
     {
-        car_data.add(car);
+        void onComplete();
     }
 
-    public void removeCar(Car car)
+    public void removeCar(Car car,removeCarListener listener)
     {
-        car_data.remove(car);
+        MyApplication.executorService.execute(()->
+        {
+            try
+            {
+                Thread.sleep(3000);
+            } catch (InterruptedException e)
+            {
+                e.printStackTrace();
+            }
+            AppLocalDB.db.carDao().delete(car);
+            MyApplication.mainHandler.post(()->
+            {
+                listener.onComplete();
+            });
+        });
     }
 
     public interface getAllUsersListener

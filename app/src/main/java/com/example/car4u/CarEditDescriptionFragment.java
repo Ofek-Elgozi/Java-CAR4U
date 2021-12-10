@@ -10,19 +10,21 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.example.car4u.Model.Car;
 import com.example.car4u.Model.Model;
 import com.example.car4u.Model.User;
 
+import java.util.LinkedList;
 import java.util.List;
 
 
 public class CarEditDescriptionFragment extends Fragment
 {
     View view;
-    List<Car> data;
+    List<Car> data = new LinkedList<Car>();
     Car car;
     public String temp_owner=" ";
     public String temp_model=" ";
@@ -30,12 +32,20 @@ public class CarEditDescriptionFragment extends Fragment
     public String temp_price=" ";
     public String temp_location=" ";
     public String temp_phone=" ";
+    ProgressBar progressBar;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState)
     {
         view =inflater.inflate(R.layout.fragment_car_edit_description, container, false);
-        data = Model.instance.getAllCars();
+        Model.instance.getAllCars(new Model.getAllCarsListener()
+        {
+            @Override
+            public void onComplete(List<Car> car_data)
+            {
+                data = car_data;
+            }
+        });
         temp_owner= CarEditDescriptionFragmentArgs.fromBundle(getArguments()).getOwner();
         temp_model= CarEditDescriptionFragmentArgs.fromBundle(getArguments()).getModel();
         temp_year= CarEditDescriptionFragmentArgs.fromBundle(getArguments()).getYear();
@@ -43,7 +53,8 @@ public class CarEditDescriptionFragment extends Fragment
         temp_location=CarEditDescriptionFragmentArgs.fromBundle(getArguments()).getLocation();
         temp_phone=CarEditDescriptionFragmentArgs.fromBundle(getArguments()).getPhone();
         car=CarEditDescriptionFragmentArgs.fromBundle(getArguments()).getCar();
-
+        progressBar = view.findViewById(R.id.car_edit_des_progressBar);
+        progressBar.setVisibility(View.GONE);
         EditText description = view.findViewById(R.id.car_edit_des);
         description.setText(car.description);
 
@@ -54,6 +65,9 @@ public class CarEditDescriptionFragment extends Fragment
             @Override
             public void onClick(View v)
             {
+                progressBar.setVisibility(View.VISIBLE);
+                description.setEnabled(false);
+                cancelBtn.setEnabled(false);
                 car.owner=temp_owner;
                 car.model=temp_model;
                 car.year=temp_year;
@@ -61,8 +75,11 @@ public class CarEditDescriptionFragment extends Fragment
                 car.location=temp_location;
                 car.phone=temp_phone;
                 car.description =description.getText().toString();
-                Toast.makeText(getActivity(), "Car Details successfully Edited", Toast.LENGTH_SHORT).show();
-                Navigation.findNavController(v).navigate(R.id.action_carEditDescriptionFragment_pop);
+                Model.instance.addCar(car,()->
+                {
+                    Navigation.findNavController(v).navigate(R.id.action_carEditDescriptionFragment_pop);
+                });
+                //Toast.makeText(getActivity(), "Car Details successfully Edited", Toast.LENGTH_SHORT).show();
             }
         });
         cancelBtn.setOnClickListener(new View.OnClickListener()
