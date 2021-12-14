@@ -40,14 +40,13 @@ public class UserProfileFragment extends Fragment
     {
         view = inflater.inflate(R.layout.fragment_user_profile, container, false);
         user = UserProfileFragmentArgs.fromBundle(getArguments()).getUser();
+        data2= new LinkedList<Car>();
         Model.instance.getAllCars(new Model.getAllCarsListener()
         {
             @Override
             public void onComplete(List<Car> car_data)
             {
                 data = car_data;
-                adapter.notifyDataSetChanged();
-                data2= new LinkedList<Car>();
                 for(Car c:data)
                 {
                     if(c.car_username.equals(user.username))
@@ -55,6 +54,7 @@ public class UserProfileFragment extends Fragment
                         data2.add(c);
                     }
                 }
+                adapter.notifyDataSetChanged();
             }
         });
         RecyclerView list=view.findViewById(R.id.userprofilefragment_listv);
@@ -121,8 +121,8 @@ public class UserProfileFragment extends Fragment
         @Override
         public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType)
         {
-            view = getLayoutInflater().inflate(R.layout.cars_list_row,parent,false);
-            MyViewHolder holder = new MyViewHolder(view,listener);
+            View v = getLayoutInflater().inflate(R.layout.cars_list_row,parent,false);
+            MyViewHolder holder = new MyViewHolder(v,listener);
             return holder;
         }
 

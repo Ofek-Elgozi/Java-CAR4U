@@ -115,8 +115,8 @@ public class CarsListFragment extends Fragment
         @Override
         public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType)
         {
-            view = getLayoutInflater().inflate(R.layout.cars_list_row,parent,false);
-            MyViewHolder holder = new MyViewHolder(view,listener);
+            View v = getLayoutInflater().inflate(R.layout.cars_list_row,parent,false);
+            MyViewHolder holder = new MyViewHolder(v,listener);
             return holder;
         }
 
