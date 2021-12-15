@@ -79,7 +79,7 @@ public class AddCarDescriptionFragment extends Fragment {
                 {
                     Navigation.findNavController(v).navigate(R.id.action_addCarDescriptionFragment_pop);
                 });
-                //Toast.makeText(getActivity(), car.car_username + " Added New Car!!", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(), car.car_username + " Added New Car!!", Toast.LENGTH_SHORT).show();
             }
         });
         cancelBtn.setOnClickListener(new View.OnClickListener()

@@ -12,6 +12,7 @@ public class Car implements Parcelable
 {
     @PrimaryKey
     @NonNull
+    public int id_key;
     public String owner;
     public String model;
     public String year;
@@ -20,7 +21,7 @@ public class Car implements Parcelable
     public String phone;
     public String description;
     public String car_username;
-
+    public static int counter=0;
 
     public Car()
     {
@@ -32,9 +33,12 @@ public class Car implements Parcelable
         phone=" ";
         description =" ";
         car_username =" ";
+        counter++;
+        id_key=counter;
     }
 
     protected Car(Parcel in) {
+        id_key = in.readInt();
         owner = in.readString();
         model = in.readString();
         year = in.readString();
@@ -134,7 +138,6 @@ public class Car implements Parcelable
         this.car_username =c.car_username;
     }
 
-
     @Override
     public int describeContents() {
         return 0;
@@ -142,6 +145,7 @@ public class Car implements Parcelable
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(id_key);
         dest.writeString(owner);
         dest.writeString(model);
         dest.writeString(year);

@@ -53,7 +53,7 @@ public class CarEditFragment extends Fragment
         user=CarEditFragmentArgs.fromBundle(getArguments()).getUser();
         progressBar = view.findViewById(R.id.car_edit_progressBar);
         progressBar.setVisibility(View.GONE);
-        TextView edit_owner = view.findViewById(R.id.car_edit_owner);
+        EditText edit_owner = view.findViewById(R.id.car_edit_owner);
         edit_owner.setText(car.owner);
 
         EditText edit_model = view.findViewById(R.id.car_edit_model);

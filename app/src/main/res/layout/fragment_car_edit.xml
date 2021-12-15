@@ -81,7 +81,7 @@
         android:id="@+id/car_edit_model"
         android:layout_width="250dp"
         android:layout_height="48dp"
-        android:layout_marginStart="40dp"
+        android:layout_marginStart="20dp"
         android:ems="10"
         android:inputType="textPersonName"
         android:minHeight="48dp"
@@ -197,14 +197,18 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
+    <EditText
         android:id="@+id/car_edit_owner"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
-        android:textSize="18sp"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:minHeight="48dp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="@+id/textView20"
         app:layout_constraintStart_toEndOf="@+id/textView20"
-        app:layout_constraintTop_toTopOf="@+id/textView20" />
+        app:layout_constraintTop_toTopOf="@+id/textView20"
+        tools:ignore="SpeakableTextPresentCheck" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
