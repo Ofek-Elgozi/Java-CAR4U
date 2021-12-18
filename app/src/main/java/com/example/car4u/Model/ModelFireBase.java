@@ -21,22 +21,113 @@ public class ModelFireBase
     FirebaseFirestore db = FirebaseFirestore.getInstance();
     public void getAllCars(Model.getAllCarsListener listener)
     {
-
+        db.collection("cars").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>()
+        {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task)
+            {
+                LinkedList<Car> carList = new LinkedList<Car>();
+                if(task.isSuccessful())
+                {
+                    for(QueryDocumentSnapshot doc: task.getResult())
+                    {
+                        Car c = Car.fromJson(doc.getData());
+                        if(c!=null)
+                            carList.add(c);
+                    }
+                }
+                try
+                {
+                    Thread.sleep(250);
+                }
+                catch (InterruptedException e)
+                {
+                    e.printStackTrace();
+                }
+                listener.onComplete(carList);
+            }
+        }).addOnFailureListener(new OnFailureListener()
+        {
+            @Override
+            public void onFailure(@NonNull Exception e)
+            {
+                listener.onComplete(null);
+            }
+        });
     }
 
     public void getCarByOwner(String owner, Model.getCarByOwnerListener listener)
     {
-
+        DocumentReference docRef = db.collection("cars").document(owner);
+        docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>()
+        {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task)
+            {
+                if (task.isSuccessful())
+                {
+                    DocumentSnapshot document = task.getResult();
+                    if (document.exists())
+                    {
+                        Car c = Car.fromJson(document.getData());
+                        if(c!=null)
+                            listener.onComplete(c);
+                    }
+                    else
+                    {
+                        listener.onComplete(null);
+                    }
+                }
+                else
+                {
+                    Log.d("TAG", "get failed with ", task.getException());
+                    listener.onComplete(null);
+                }
+            }
+        });
     }
 
     public void addCar(Car car, Model.addCarListener listener)
     {
-
+        db.collection("cars")
+                .document((String.valueOf(car.getId_key()))).set(car.toJson())
+                .addOnSuccessListener(new OnSuccessListener<Void>()
+                {
+                    @Override
+                    public void onSuccess(@NonNull Void unused)
+                    {
+                        listener.onComplete();
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener()
+                {
+                    @Override
+                    public void onFailure(@NonNull Exception e)
+                    {
+                        Log.d("TAG", e.getMessage());
+                    }
+                });
     }
 
     public void removeCar(Car car, Model.removeCarListener listener)
     {
-
+        db.collection("cars").document((String.valueOf(car.getId_key()))).delete()
+                .addOnSuccessListener(new OnSuccessListener<Void>()
+                {
+                    @Override
+                    public void onSuccess(Void aVoid)
+                    {
+                        listener.onComplete();
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener()
+                {
+                    @Override
+                    public void onFailure(@NonNull Exception e)
+                    {
+                        Log.d("TAG", e.getMessage());
+                    }
+                });
     }
 
     public void getAllUsers(Model.getAllUsersListener listener)
@@ -55,10 +146,6 @@ public class ModelFireBase
                         if(u!=null)
                             userList.add(u);
                     }
-                }
-                else
-                {
-
                 }
                 listener.onComplete(userList);
             }

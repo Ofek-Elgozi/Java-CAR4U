@@ -6,8 +6,19 @@
     android:layout_height="match_parent"
     tools:context=".UserProfileFragment">
 
-    <androidx.recyclerview.widget.RecyclerView
+        <ProgressBar
+            android:id="@+id/user_profile_progressBar"
+            style="?android:attr/progressBarStyle"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            app:layout_constraintBottom_toBottomOf="@+id/userprofilefragment_listv"
+            app:layout_constraintEnd_toEndOf="@+id/userprofilefragment_listv"
+            app:layout_constraintStart_toStartOf="@+id/userprofilefragment_listv"
+            app:layout_constraintTop_toTopOf="@+id/userprofilefragment_listv" />
+
+        <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/userprofilefragment_listv"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

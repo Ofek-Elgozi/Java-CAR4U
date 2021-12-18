@@ -66,14 +66,14 @@ public class AddCarDescriptionFragment extends Fragment {
                 cancelBtn.setEnabled(false);
                 description.setEnabled(false);
                 Car car = new Car();
-                car.owner=temp_owner;
-                car.model=temp_model;
-                car.year=temp_year;
-                car.price=temp_price;
-                car.location=temp_location;
-                car.phone=temp_phone;
-                car.car_username=user.username;
-                car.description =description.getText().toString();
+                car.setOwner(temp_owner);
+                car.setModel(temp_model);
+                car.setYear(temp_year);
+                car.setPrice(temp_price);
+                car.setLocation(temp_location);
+                car.setPhone(temp_phone);
+                car.setCar_username(user.username);
+                car.setDescription(description.getText().toString());
                 Model.instance.addCar(car,()->
                 {
                     Navigation.findNavController(v).navigate(R.id.action_addCarDescriptionFragment_pop);

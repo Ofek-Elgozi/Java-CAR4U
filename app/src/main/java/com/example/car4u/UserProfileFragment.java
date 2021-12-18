@@ -7,6 +7,7 @@ import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -17,6 +18,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.example.car4u.Model.Car;
@@ -34,29 +36,16 @@ public class UserProfileFragment extends Fragment
     User user;
     View view;
     MyAdapter adapter;
+    ProgressBar userprofile_progressBar;
+    SwipeRefreshLayout swipeRefresh;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState)
     {
         view = inflater.inflate(R.layout.fragment_user_profile, container, false);
         user = UserProfileFragmentArgs.fromBundle(getArguments()).getUser();
-        data2= new LinkedList<Car>();
-        Model.instance.getAllCars(new Model.getAllCarsListener()
-        {
-            @Override
-            public void onComplete(List<Car> car_data)
-            {
-                data = car_data;
-                for(Car c:data)
-                {
-                    if(c.car_username.equals(user.username))
-                    {
-                        data2.add(c);
-                    }
-                }
-                adapter.notifyDataSetChanged();
-            }
-        });
+        userprofile_progressBar = view.findViewById(R.id.user_profile_progressBar);
+        userprofile_progressBar.setVisibility(View.VISIBLE);
         RecyclerView list=view.findViewById(R.id.userprofilefragment_listv);
         list.setHasFixedSize(true);
         list.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -73,7 +62,30 @@ public class UserProfileFragment extends Fragment
             }
         });
         setHasOptionsMenu(true);
+        refreshData();
         return view;
+    }
+
+    public void refreshData()
+    {
+        data2= new LinkedList<Car>();
+        Model.instance.getAllCars(new Model.getAllCarsListener()
+        {
+            @Override
+            public void onComplete(List<Car> car_data)
+            {
+                data = car_data;
+                for(Car c:data)
+                {
+                    if(c.car_username.equals(user.username))
+                    {
+                        data2.add(c);
+                    }
+                }
+                userprofile_progressBar.setVisibility(View.GONE);
+                adapter.notifyDataSetChanged();
+            }
+        });
     }
 
     class MyViewHolder extends RecyclerView.ViewHolder

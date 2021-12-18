@@ -7,6 +7,7 @@ import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -18,6 +19,7 @@ import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.CheckBox;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -36,21 +38,16 @@ public class CarsListFragment extends Fragment
     User user;
     View view;
     MyAdapter adapter;
+    ProgressBar carlist_progressBar;
+    SwipeRefreshLayout swipeRefresh;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState)
     {
         view =inflater.inflate(R.layout.fragment_cars_list, container, false);
         user=CarsListFragmentArgs.fromBundle(getArguments()).getUser();
-        Model.instance.getAllCars(new Model.getAllCarsListener()
-        {
-            @Override
-            public void onComplete(List<Car> car_data)
-            {
-                data = car_data;
-                adapter.notifyDataSetChanged();
-            }
-        });
+        carlist_progressBar = view.findViewById(R.id.carlist_progressBar);
+        carlist_progressBar.setVisibility(View.VISIBLE);
         RecyclerView list= view.findViewById(R.id.carslistfragment_listv);
         list.setHasFixedSize(true);
         list.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -67,7 +64,22 @@ public class CarsListFragment extends Fragment
             }
         });
         setHasOptionsMenu(true);
+        refreshData();
         return view;
+    }
+
+    public void refreshData()
+    {
+        Model.instance.getAllCars(new Model.getAllCarsListener()
+        {
+            @Override
+            public void onComplete(List<Car> car_data)
+            {
+                data = car_data;
+                carlist_progressBar.setVisibility(View.GONE);
+                adapter.notifyDataSetChanged();
+            }
+        });
     }
 
     class MyViewHolder extends RecyclerView.ViewHolder
