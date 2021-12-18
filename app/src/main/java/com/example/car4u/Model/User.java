@@ -7,6 +7,9 @@ import androidx.annotation.NonNull;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
+import java.util.HashMap;
+import java.util.Map;
+
 @Entity
 public class User implements Parcelable
 {
@@ -16,28 +19,22 @@ public class User implements Parcelable
     public String password;
     public String email;
     public String phone;
-    public int car_amount;
 
-    protected User(Parcel in)
-    {
+    protected User(Parcel in) {
         username = in.readString();
         password = in.readString();
         email = in.readString();
         phone = in.readString();
-        car_amount = in.readInt();
     }
 
-    public static final Creator<User> CREATOR = new Creator<User>()
-    {
+    public static final Creator<User> CREATOR = new Creator<User>() {
         @Override
-        public User createFromParcel(Parcel in)
-        {
+        public User createFromParcel(Parcel in) {
             return new User(in);
         }
 
         @Override
-        public User[] newArray(int size)
-        {
+        public User[] newArray(int size) {
             return new User[size];
         }
     };
@@ -59,10 +56,6 @@ public class User implements Parcelable
         return phone;
     }
 
-    public int getCar_amount() {
-        return car_amount;
-    }
-
     public void setUsername(@NonNull String username) {
         this.username = username;
     }
@@ -79,12 +72,12 @@ public class User implements Parcelable
         this.phone = phone;
     }
 
-    public void setCar_amount(int car_amount) {
-        this.car_amount = car_amount;
-    }
-
-    public static Creator<User> getCREATOR() {
-        return CREATOR;
+    public User(String username, String password, String email,String phone)
+    {
+        this.username=username;
+        this.password=password;
+        this.email=email;
+        this.phone=phone;
     }
 
     public User()
@@ -93,7 +86,6 @@ public class User implements Parcelable
         password=" ";
         email=" ";
         phone=" ";
-        car_amount=0;
     }
     public User(User u)
     {
@@ -101,7 +93,28 @@ public class User implements Parcelable
         this.password=u.password;
         this.email=u.email;
         this.phone=u.phone;
-        this.car_amount=u.car_amount;
+    }
+
+    public Map<String,Object> toJson()
+    {
+        Map<String, Object> json = new HashMap<>();
+        json.put("username", getUsername());
+        json.put("password", getPassword());
+        json.put("email", getEmail());
+        json.put("phone", getPhone());
+        return json;
+    }
+
+    static User fromJson(Map<String, Object> json)
+    {
+        String username=(String)json.get("username");
+        if(username==null)
+            return null;
+        String password=(String)json.get("password");
+        String email=(String)json.get("address");
+        String phone=(String)json.get("phone");
+        User user = new User(username,password,email,phone);
+        return user;
     }
 
     @Override
@@ -115,6 +128,5 @@ public class User implements Parcelable
         dest.writeString(password);
         dest.writeString(email);
         dest.writeString(phone);
-        dest.writeInt(car_amount);
     }
 }

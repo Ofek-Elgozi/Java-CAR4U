@@ -73,7 +73,6 @@ public class AddCarDescriptionFragment extends Fragment {
                 car.location=temp_location;
                 car.phone=temp_phone;
                 car.car_username=user.username;
-                user.car_amount++;
                 car.description =description.getText().toString();
                 Model.instance.addCar(car,()->
                 {

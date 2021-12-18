@@ -8,6 +8,7 @@ import java.util.List;
 public class Model
 {
     public final static Model instance = new Model();
+    ModelFireBase modelFireBase = new ModelFireBase();
     private Model(){}
 
     public interface getAllCarsListener
@@ -17,14 +18,7 @@ public class Model
 
     public void getAllCars(getAllCarsListener listener)
     {
-        MyApplication.executorService.execute(()->
-        {
-            List<Car> car_data = AppLocalDB.db.carDao().getAllCars();
-            MyApplication.mainHandler.post(()->
-            {
-                listener.onComplete(car_data);
-            });
-        });
+        modelFireBase.getAllCars(listener);
     }
 
     public interface getCarByOwnerListener
@@ -34,14 +28,7 @@ public class Model
 
     public void getCarByOwner(String owner,getCarByOwnerListener listener)
     {
-        MyApplication.executorService.execute(()->
-        {
-            Car car = AppLocalDB.db.carDao().getCarByOwner(owner);
-            MyApplication.mainHandler.post(()->
-            {
-                listener.onComplete(car);
-            });
-        });
+        modelFireBase.getCarByOwner(owner,listener);
     }
 
     public interface addCarListener
@@ -51,21 +38,7 @@ public class Model
 
     public void addCar(Car car, addCarListener listener)
     {
-        MyApplication.executorService.execute(()->
-        {
-            try
-            {
-                Thread.sleep(1000);
-            } catch (InterruptedException e)
-            {
-                e.printStackTrace();
-            }
-            AppLocalDB.db.carDao().insertAll(car);
-            MyApplication.mainHandler.post(()->
-            {
-                listener.onComplete();
-            });
-        });
+        modelFireBase.addCar(car,listener);
     }
 
     public interface removeCarListener
@@ -75,21 +48,7 @@ public class Model
 
     public void removeCar(Car car,removeCarListener listener)
     {
-        MyApplication.executorService.execute(()->
-        {
-            try
-            {
-                Thread.sleep(1000);
-            } catch (InterruptedException e)
-            {
-                e.printStackTrace();
-            }
-            AppLocalDB.db.carDao().delete(car);
-            MyApplication.mainHandler.post(()->
-            {
-                listener.onComplete();
-            });
-        });
+        modelFireBase.removeCar(car,listener);
     }
 
     public interface getAllUsersListener
@@ -99,14 +58,7 @@ public class Model
 
     public void getAllUsers(getAllUsersListener listener)
     {
-        MyApplication.executorService.execute(()->
-        {
-            List<User> user_data = AppLocalDB.db.userDao().getAllUsers();
-            MyApplication.mainHandler.post(()->
-            {
-                listener.onComplete(user_data);
-            });
-        });
+        modelFireBase.getAllUsers(listener);
     }
 
     public interface getUserByUsernameListener
@@ -116,14 +68,7 @@ public class Model
 
     public void getUserByUsername(String username,getUserByUsernameListener listener)
     {
-        MyApplication.executorService.execute(()->
-        {
-            User user = AppLocalDB.db.userDao().getUserByUsername(username);
-            MyApplication.mainHandler.post(()->
-            {
-                listener.onComplete(user);
-            });
-        });
+        modelFireBase.getUserByUsername(username,listener);
     }
 
     public interface addUserListener
@@ -133,21 +78,7 @@ public class Model
 
     public void addUser(User user, addUserListener listener)
     {
-        MyApplication.executorService.execute(()->
-        {
-            try
-            {
-                Thread.sleep(1000);
-            } catch (InterruptedException e)
-            {
-                e.printStackTrace();
-            }
-            AppLocalDB.db.userDao().insertAll(user);
-            MyApplication.mainHandler.post(()->
-            {
-                listener.onComplete();
-            });
-        });
+        modelFireBase.addUser(user,listener);
     }
 }
 
