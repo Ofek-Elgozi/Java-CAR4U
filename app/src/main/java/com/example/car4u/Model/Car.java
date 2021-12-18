@@ -24,7 +24,7 @@ public class Car implements Parcelable
     public String phone;
     public String description;
     public String car_username;
-    public static int counter=0;
+    public static int counter=1;
 
     public Car(Car c)
     {
@@ -61,35 +61,9 @@ public class Car implements Parcelable
         phone=" ";
         description =" ";
         car_username =" ";
-        counter++;
         id_key=counter;
+        counter++;
     }
-
-    protected Car(Parcel in)
-    {
-        id_key = in.readInt();
-        owner = in.readString();
-        model = in.readString();
-        year = in.readString();
-        price = in.readString();
-        location = in.readString();
-        phone = in.readString();
-        description = in.readString();
-        car_username = in.readString();
-    }
-
-    public static final Creator<Car> CREATOR = new Creator<Car>()
-    {
-        @Override
-        public Car createFromParcel(Parcel in) {
-            return new Car(in);
-        }
-
-        @Override
-        public Car[] newArray(int size) {
-            return new Car[size];
-        }
-    };
 
     @NonNull
     public String getOwner() {
@@ -222,4 +196,30 @@ public class Car implements Parcelable
         dest.writeString(description);
         dest.writeString(car_username);
     }
+
+    protected Car(Parcel in)
+    {
+        id_key = in.readInt();
+        owner = in.readString();
+        model = in.readString();
+        year = in.readString();
+        price = in.readString();
+        location = in.readString();
+        phone = in.readString();
+        description = in.readString();
+        car_username = in.readString();
+    }
+
+    public static final Creator<Car> CREATOR = new Creator<Car>()
+    {
+        @Override
+        public Car createFromParcel(Parcel in) {
+            return new Car(in);
+        }
+
+        @Override
+        public Car[] newArray(int size) {
+            return new Car[size];
+        }
+    };
 }

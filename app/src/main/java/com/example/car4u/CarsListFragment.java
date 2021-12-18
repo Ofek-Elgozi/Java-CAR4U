@@ -39,7 +39,7 @@ public class CarsListFragment extends Fragment
     View view;
     MyAdapter adapter;
     ProgressBar carlist_progressBar;
-    SwipeRefreshLayout swipeRefresh;
+    SwipeRefreshLayout carlist_swipeRefresh;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState)
@@ -63,6 +63,15 @@ public class CarsListFragment extends Fragment
                 Navigation.findNavController(v).navigate(action);
             }
         });
+        carlist_swipeRefresh = view.findViewById(R.id.carlist_SwipeRefresh);
+        carlist_swipeRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener()
+        {
+            @Override
+            public void onRefresh()
+            {
+                refreshData();
+            }
+        });
         setHasOptionsMenu(true);
         refreshData();
         return view;
@@ -78,6 +87,7 @@ public class CarsListFragment extends Fragment
                 data = car_data;
                 carlist_progressBar.setVisibility(View.GONE);
                 adapter.notifyDataSetChanged();
+                carlist_swipeRefresh.setRefreshing(false);
             }
         });
     }

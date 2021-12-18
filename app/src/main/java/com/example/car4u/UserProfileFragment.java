@@ -37,7 +37,7 @@ public class UserProfileFragment extends Fragment
     View view;
     MyAdapter adapter;
     ProgressBar userprofile_progressBar;
-    SwipeRefreshLayout swipeRefresh;
+    SwipeRefreshLayout userprofile_swipeRefresh;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState)
