@@ -30,7 +30,7 @@ import java.util.List;
 
 public class UserProfileFragment extends Fragment
 {
-    List<Car> data = new LinkedList<Car>();;
+    List<Car> data = new LinkedList<Car>();
     List<Car> data2;
     Car car;
     User user;
@@ -61,6 +61,15 @@ public class UserProfileFragment extends Fragment
                 Navigation.findNavController(v).navigate(action);
             }
         });
+        userprofile_swipeRefresh = view.findViewById(R.id.userprofile_SwipeRefresh);
+        userprofile_swipeRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener()
+        {
+            @Override
+            public void onRefresh()
+            {
+                refreshData();
+            }
+        });
         setHasOptionsMenu(true);
         refreshData();
         return view;
@@ -84,6 +93,7 @@ public class UserProfileFragment extends Fragment
                 }
                 userprofile_progressBar.setVisibility(View.GONE);
                 adapter.notifyDataSetChanged();
+                userprofile_swipeRefresh.setRefreshing(false);
             }
         });
     }
