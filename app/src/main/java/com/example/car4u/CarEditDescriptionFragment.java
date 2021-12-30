@@ -38,14 +38,14 @@ public class CarEditDescriptionFragment extends Fragment
                              Bundle savedInstanceState)
     {
         view =inflater.inflate(R.layout.fragment_car_edit_description, container, false);
-        Model.instance.getAllCars(new Model.getAllCarsListener()
-        {
-            @Override
-            public void onComplete(List<Car> car_data)
-            {
-                data = car_data;
-            }
-        });
+//        Model.instance.getAllCars(new Model.getAllCarsListener()
+//        {
+//            @Override
+//            public void onComplete(List<Car> car_data)
+//            {
+//                data = car_data;
+//            }
+//        });
         temp_owner= CarEditDescriptionFragmentArgs.fromBundle(getArguments()).getOwner();
         temp_model= CarEditDescriptionFragmentArgs.fromBundle(getArguments()).getModel();
         temp_year= CarEditDescriptionFragmentArgs.fromBundle(getArguments()).getYear();

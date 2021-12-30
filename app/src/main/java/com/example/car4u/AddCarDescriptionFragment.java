@@ -23,7 +23,6 @@ import java.util.List;
 
 public class AddCarDescriptionFragment extends Fragment {
     View view;
-    List<Car> data = new LinkedList<Car>();
     User user;
     public String temp_owner=" ";
     public String temp_model=" ";
@@ -37,14 +36,6 @@ public class AddCarDescriptionFragment extends Fragment {
                              Bundle savedInstanceState)
     {
         view = inflater.inflate(R.layout.fragment_add_car_description, container, false);
-        Model.instance.getAllCars(new Model.getAllCarsListener()
-        {
-            @Override
-            public void onComplete(List<Car> car_data)
-            {
-                data = car_data;
-            }
-        });
         temp_owner= AddCarDescriptionFragmentArgs.fromBundle(getArguments()).getTempOwner();
         temp_model= AddCarDescriptionFragmentArgs.fromBundle(getArguments()).getTempModel();
         temp_year= AddCarDescriptionFragmentArgs.fromBundle(getArguments()).getTempYear();

@@ -25,7 +25,6 @@ import java.util.List;
 
 public class CarEditFragment extends Fragment
 {
-    List<Car> data = new LinkedList<Car>();
     Car car;
     View view;
     User user;
@@ -41,14 +40,6 @@ public class CarEditFragment extends Fragment
                              Bundle savedInstanceState)
     {
         view =inflater.inflate(R.layout.fragment_car_edit, container, false);
-        Model.instance.getAllCars(new Model.getAllCarsListener()
-        {
-            @Override
-            public void onComplete(List<Car> car_data)
-            {
-                data = car_data;
-            }
-        });
         car=CarEditFragmentArgs.fromBundle(getArguments()).getCar();
         user=CarEditFragmentArgs.fromBundle(getArguments()).getUser();
         progressBar = view.findViewById(R.id.car_edit_progressBar);
@@ -112,6 +103,7 @@ public class CarEditFragment extends Fragment
                 edit_price.setEnabled(false);
                 edit_location.setEnabled(false);
                 edit_phone.setEnabled(false);
+                car.setDeleted(true);
                 Model.instance.removeCar(car,()->
                 {
                     Navigation.findNavController(v).popBackStack();

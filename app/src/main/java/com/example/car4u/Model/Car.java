@@ -1,11 +1,18 @@
 package com.example.car4u.Model;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
+
+import com.example.car4u.MyApplication;
+import com.google.firebase.Timestamp;
+import com.google.firebase.firestore.FieldValue;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -13,6 +20,7 @@ import java.util.Map;
 @Entity
 public class Car implements Parcelable
 {
+    public final static String LAST_UPDATED="LAST_UPDATED";
     @PrimaryKey
     @NonNull
     public int id_key;
@@ -21,9 +29,31 @@ public class Car implements Parcelable
     public String year;
     public String price;
     public String location;
+
+    public Long getLastUpdated() {
+        return lastUpdated;
+    }
+
     public String phone;
     public String description;
+
+    public void setLastUpdated(Long lastUpdated) {
+        this.lastUpdated = lastUpdated;
+    }
+
     public String car_username;
+    Long lastUpdated= new Long(0);
+    boolean deleted;
+
+    public void setDeleted(boolean deleted)
+    {
+        this.deleted = deleted;
+    }
+
+    public boolean isDeleted() {
+        return deleted;
+    }
+
     public static int counter=1;
 
     public Car(Car c)
@@ -36,6 +66,7 @@ public class Car implements Parcelable
         this.phone=c.phone;
         this.description =c.description;
         this.car_username =c.car_username;
+        this.deleted=c.deleted;
     }
 
     public Car(String owner, String model,String year,String price,String location,String phone,String description,String car_username,int id_key)
@@ -48,6 +79,7 @@ public class Car implements Parcelable
         this.phone=phone;
         this.description =description;
         this.car_username =car_username;
+        this.deleted=false;
         this.id_key=id_key;
     }
 
@@ -61,6 +93,7 @@ public class Car implements Parcelable
         phone=" ";
         description =" ";
         car_username =" ";
+        deleted=false;
         id_key=counter;
         counter++;
     }
@@ -157,6 +190,8 @@ public class Car implements Parcelable
         json.put("phone", getPhone());
         json.put("description", getDescription());
         json.put("car_username", getCar_username());
+        json.put("deleted", isDeleted());
+        json.put(LAST_UPDATED, FieldValue.serverTimestamp());
         return json;
     }
 
@@ -173,8 +208,27 @@ public class Car implements Parcelable
         String phone=(String)json.get("phone");
         String description=(String)json.get("description");
         String car_username=(String)json.get("car_username");
+        boolean deleted=(boolean)json.get("deleted");
         Car car = new Car(owner,model,year,price,location,phone,description,car_username,id_key);
+        car.setDeleted(deleted);
+        Timestamp ts = (Timestamp)json.get(LAST_UPDATED);
+        car.setLastUpdated(new Long(ts.getSeconds()));
         return car;
+    }
+
+    static long getLocalLastUpdated()
+    {
+        Long localLastUpdate = MyApplication.getContext().getSharedPreferences("TAG", Context.MODE_PRIVATE).getLong("CARS_LAST_UPDATE", 0 );
+        Log.d("TAG","localLastUpdate: " + localLastUpdate);
+        return localLastUpdate;
+    }
+
+    static void setLocalLastUpdated(Long date)
+    {
+        SharedPreferences.Editor editor = MyApplication.getContext().getSharedPreferences("TAG", Context.MODE_PRIVATE).edit();
+        editor.putLong("CARS_LAST_UPDATE",date);
+        editor.commit();
+        Log.d("TAG", "new lud" + date);
     }
 
     @Override

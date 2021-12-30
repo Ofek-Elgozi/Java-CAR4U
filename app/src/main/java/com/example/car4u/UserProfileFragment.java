@@ -78,24 +78,24 @@ public class UserProfileFragment extends Fragment
     public void refreshData()
     {
         data2= new LinkedList<Car>();
-        Model.instance.getAllCars(new Model.getAllCarsListener()
-        {
-            @Override
-            public void onComplete(List<Car> car_data)
-            {
-                data = car_data;
-                for(Car c:data)
-                {
-                    if(c.car_username.equals(user.username))
-                    {
-                        data2.add(c);
-                    }
-                }
-                userprofile_progressBar.setVisibility(View.GONE);
-                adapter.notifyDataSetChanged();
-                userprofile_swipeRefresh.setRefreshing(false);
-            }
-        });
+//        Model.instance.getAllCars(new Model.getAllCarsListener()
+//        {
+//            @Override
+//            public void onComplete(List<Car> car_data)
+//            {
+//                data = car_data;
+//                for(Car c:data)
+//                {
+//                    if(c.car_username.equals(user.username))
+//                    {
+//                        data2.add(c);
+//                    }
+//                }
+//                userprofile_progressBar.setVisibility(View.GONE);
+//                adapter.notifyDataSetChanged();
+//                userprofile_swipeRefresh.setRefreshing(false);
+//            }
+//        });
     }
 
     class MyViewHolder extends RecyclerView.ViewHolder

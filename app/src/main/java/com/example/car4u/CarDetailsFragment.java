@@ -23,7 +23,6 @@ import java.util.List;
 
 public class CarDetailsFragment extends Fragment
 {
-    List<Car> data = new LinkedList<Car>();
     Car car;
     View view;
     @Override
@@ -31,14 +30,6 @@ public class CarDetailsFragment extends Fragment
                              Bundle savedInstanceState)
     {
         view =inflater.inflate(R.layout.fragment_car_details, container, false);
-        Model.instance.getAllCars(new Model.getAllCarsListener()
-        {
-            @Override
-            public void onComplete(List<Car> car_data)
-            {
-                data = car_data;
-            }
-        });
         car=CarDetailsFragmentArgs.fromBundle(getArguments()).getCar();
         TextView owner= view.findViewById(R.id.car_details_owner);
         owner.setText(car.owner);

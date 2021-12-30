@@ -8,6 +8,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.Timestamp;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -19,9 +20,9 @@ import java.util.LinkedList;
 public class ModelFireBase
 {
     FirebaseFirestore db = FirebaseFirestore.getInstance();
-    public void getAllCars(Model.getAllCarsListener listener)
+    public void getAllCars(Long since, Model.getAllCarsListener listener)
     {
-        db.collection("cars").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>()
+        db.collection("cars").whereGreaterThanOrEqualTo(Car.LAST_UPDATED, new Timestamp(since, 0)).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>()
         {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task)
@@ -35,14 +36,6 @@ public class ModelFireBase
                         if(c!=null)
                             carList.add(c);
                     }
-                }
-                try
-                {
-                    Thread.sleep(250);
-                }
-                catch (InterruptedException e)
-                {
-                    e.printStackTrace();
                 }
                 listener.onComplete(carList);
             }

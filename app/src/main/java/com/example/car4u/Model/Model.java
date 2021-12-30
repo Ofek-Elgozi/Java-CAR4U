@@ -1,5 +1,10 @@
 package com.example.car4u.Model;
 
+import android.util.Log;
+
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
+
 import com.example.car4u.MyApplication;
 
 import java.util.LinkedList;
@@ -9,16 +14,54 @@ public class Model
 {
     public final static Model instance = new Model();
     ModelFireBase modelFireBase = new ModelFireBase();
-    private Model(){}
+    private Model()
+    {
+        reloadCarList();
+        reloadUserList();
+    }
 
     public interface getAllCarsListener
     {
         void onComplete(List<Car> car_data);
     }
 
-    public void getAllCars(getAllCarsListener listener)
+    MutableLiveData<List<Car>> carListLd = new MutableLiveData<List<Car>>();
+    public void reloadCarList()
     {
-        modelFireBase.getAllCars(listener);
+        //1.get local last update
+        Long localLastUpdate = Car.getLocalLastUpdated();
+        //2.get all cars record since local last update from firebase
+        modelFireBase.getAllCars(localLastUpdate, new getAllCarsListener()
+        {
+            @Override
+            public void onComplete(List<Car> car_data)
+            {
+                //3.update local last update date
+                //4.add new records to the local db
+                MyApplication.executorService.execute(()->
+                {
+                    Long lLastUpdate = new Long(0);
+                    Log.d("TAG", "FB returned " + car_data.size());
+                    for(Car c: car_data)
+                    {
+                        AppLocalDB.db.carDao().insertAll(c);
+                        if(c.getLastUpdated() > lLastUpdate)
+                        {
+                            lLastUpdate=c.getLastUpdated();
+                        }
+                    }
+                    Car.setLocalLastUpdated(lLastUpdate);
+                    //5.return all records to the caller
+                    List<Car> ctList = AppLocalDB.db.carDao().getAllCars();
+                    carListLd.postValue(ctList);
+                });
+            }
+        });
+    }
+
+    public LiveData<List<Car>> getAllCarsData()
+    {
+        return carListLd;
     }
 
     public interface getCarByOwnerListener
@@ -38,7 +81,15 @@ public class Model
 
     public void addCar(Car car, addCarListener listener)
     {
-        modelFireBase.addCar(car,listener);
+        modelFireBase.addCar(car, new addCarListener()
+        {
+            @Override
+            public void onComplete()
+            {
+                reloadCarList();
+                listener.onComplete();
+            }
+        });
     }
 
     public interface removeCarListener
@@ -48,12 +99,25 @@ public class Model
 
     public void removeCar(Car car,removeCarListener listener)
     {
-        modelFireBase.removeCar(car,listener);
+        car.setDeleted(true);
+        addCar(car, new addCarListener()
+        {
+            @Override
+            public void onComplete()
+            {
+                listener.onComplete();
+            }
+        });
     }
 
     public interface getAllUsersListener
     {
         void onComplete(List<User> user_data);
+    }
+
+    public void reloadUserList()
+    {
+
     }
 
     public void getAllUsers(getAllUsersListener listener)
