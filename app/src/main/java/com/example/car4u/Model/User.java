@@ -1,11 +1,18 @@
 package com.example.car4u.Model;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
+
+import com.example.car4u.MyApplication;
+import com.google.firebase.Timestamp;
+import com.google.firebase.firestore.FieldValue;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -13,12 +20,22 @@ import java.util.Map;
 @Entity
 public class User implements Parcelable
 {
+    public final static String LAST_UPDATED="LAST_UPDATED";
     @PrimaryKey
     @NonNull
     public String username;
     public String password;
     public String email;
     public String phone;
+    Long lastUpdated= new Long(0);
+
+    public Long getLastUpdated() {
+        return lastUpdated;
+    }
+
+    public void setLastUpdated(Long lastUpdated) {
+        this.lastUpdated = lastUpdated;
+    }
 
     protected User(Parcel in) {
         username = in.readString();
@@ -102,6 +119,7 @@ public class User implements Parcelable
         json.put("password", getPassword());
         json.put("email", getEmail());
         json.put("phone", getPhone());
+        json.put(LAST_UPDATED, FieldValue.serverTimestamp());
         return json;
     }
 
@@ -114,7 +132,24 @@ public class User implements Parcelable
         String email=(String)json.get("address");
         String phone=(String)json.get("phone");
         User user = new User(username,password,email,phone);
+        Timestamp ts = (Timestamp)json.get(LAST_UPDATED);
+        user.setLastUpdated(new Long(ts.getSeconds()));
         return user;
+    }
+
+    static long getLocalLastUpdated()
+    {
+        Long localLastUpdate = MyApplication.getContext().getSharedPreferences("TAG", Context.MODE_PRIVATE).getLong("USERS_LAST_UPDATE", 0 );
+        Log.d("TAG","localLastUpdate: " + localLastUpdate);
+        return localLastUpdate;
+    }
+
+    static void setLocalLastUpdated(Long date)
+    {
+        SharedPreferences.Editor editor = MyApplication.getContext().getSharedPreferences("TAG", Context.MODE_PRIVATE).edit();
+        editor.putLong("USERS_LAST_UPDATE",date);
+        editor.commit();
+        Log.d("TAG", "new lud" + date);
     }
 
     @Override

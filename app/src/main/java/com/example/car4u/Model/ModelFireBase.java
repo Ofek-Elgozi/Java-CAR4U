@@ -123,9 +123,9 @@ public class ModelFireBase
                 });
     }
 
-    public void getAllUsers(Model.getAllUsersListener listener)
+    public void getAllUsers(Long since, Model.getAllUsersListener listener)
     {
-        db.collection("users").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>()
+        db.collection("users").whereGreaterThanOrEqualTo(Car.LAST_UPDATED, new Timestamp(since, 0)).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>()
         {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task)

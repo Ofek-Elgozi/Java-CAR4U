@@ -29,21 +29,20 @@ public class Car implements Parcelable
     public String year;
     public String price;
     public String location;
-
-    public Long getLastUpdated() {
-        return lastUpdated;
-    }
-
+    public String car_username;
     public String phone;
     public String description;
+    boolean deleted;
+    Long lastUpdated= new Long(0);
+
+    public Long getLastUpdated()
+    {
+        return lastUpdated;
+    }
 
     public void setLastUpdated(Long lastUpdated) {
         this.lastUpdated = lastUpdated;
     }
-
-    public String car_username;
-    Long lastUpdated= new Long(0);
-    boolean deleted;
 
     public void setDeleted(boolean deleted)
     {

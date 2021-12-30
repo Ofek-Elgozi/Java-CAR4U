@@ -59,7 +59,7 @@ public class Model
         });
     }
 
-    public LiveData<List<Car>> getAllCarsData()
+    public MutableLiveData<List<Car>> getAllCarsData()
     {
         return carListLd;
     }
@@ -115,14 +115,43 @@ public class Model
         void onComplete(List<User> user_data);
     }
 
+    MutableLiveData<List<User>> userListLd = new MutableLiveData<List<User>>();
     public void reloadUserList()
     {
-
+        //1.get local last update
+        Long localLastUpdate = User.getLocalLastUpdated();
+        //2.get all cars record since local last update from firebase
+        modelFireBase.getAllUsers(localLastUpdate, new getAllUsersListener()
+        {
+            @Override
+            public void onComplete(List<User> user_data)
+            {
+                //3.update local last update date
+                //4.add new records to the local db
+                MyApplication.executorService.execute(()->
+                {
+                    Long lLastUpdate = new Long(0);
+                    Log.d("TAG", "FB returned " + user_data.size());
+                    for(User u: user_data)
+                    {
+                        AppLocalDB.db.userDao().insertAll(u);
+                        if(u.getLastUpdated() > lLastUpdate)
+                        {
+                            lLastUpdate=u.getLastUpdated();
+                        }
+                    }
+                    User.setLocalLastUpdated(lLastUpdate);
+                    //5.return all records to the caller
+                    List<User> utList = AppLocalDB.db.userDao().getAllUsers();
+                    userListLd.postValue(utList);
+                });
+            }
+        });
     }
 
-    public void getAllUsers(getAllUsersListener listener)
+    public MutableLiveData<List<User>> getAllUsersData()
     {
-        modelFireBase.getAllUsers(listener);
+        return userListLd;
     }
 
     public interface getUserByUsernameListener
@@ -142,7 +171,15 @@ public class Model
 
     public void addUser(User user, addUserListener listener)
     {
-        modelFireBase.addUser(user,listener);
+        modelFireBase.addUser(user, new addUserListener()
+        {
+            @Override
+            public void onComplete()
+            {
+                reloadUserList();
+                listener.onComplete();
+            }
+        });
     }
 }
 

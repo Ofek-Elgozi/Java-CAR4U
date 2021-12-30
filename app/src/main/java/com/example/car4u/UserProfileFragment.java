@@ -1,9 +1,12 @@
 package com.example.car4u;
 
+import android.content.Context;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -30,14 +33,22 @@ import java.util.List;
 
 public class UserProfileFragment extends Fragment
 {
-    List<Car> data = new LinkedList<Car>();
-    List<Car> data2;
+    CarListFragmentViewModel viewModel;
+    List<Car> data;
     Car car;
     User user;
     View view;
     MyAdapter adapter;
     ProgressBar userprofile_progressBar;
     SwipeRefreshLayout userprofile_swipeRefresh;
+
+    @Override
+    public void onAttach(@NonNull Context context)
+    {
+        super.onAttach(context);
+        viewModel=new ViewModelProvider(this).get(CarListFragmentViewModel.class);
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState)
@@ -56,7 +67,7 @@ public class UserProfileFragment extends Fragment
             @Override
             public void onItemClick(int position, View v)
             {
-                car=data2.get(position);
+                car=data.get(position);
                 UserProfileFragmentDirections.ActionUserProfileFragmentToCarEditFragment action = UserProfileFragmentDirections.actionUserProfileFragmentToCarEditFragment(car,user);
                 Navigation.findNavController(v).navigate(action);
             }
@@ -67,9 +78,30 @@ public class UserProfileFragment extends Fragment
             @Override
             public void onRefresh()
             {
+                Model.instance.reloadUserList();
+                userprofile_swipeRefresh.setRefreshing(false);
                 refreshData();
             }
         });
+
+        if(viewModel.getData() == null)
+        {
+            Model.instance.reloadUserList();
+            userprofile_swipeRefresh.setRefreshing(false);
+            refreshData();
+        }
+
+        viewModel.getData().observe(getViewLifecycleOwner(), new Observer<List<Car>>()
+        {
+            @Override
+            public void onChanged(List<Car> cars)
+            {
+                adapter.notifyDataSetChanged();
+                refreshData();
+                userprofile_progressBar.setVisibility(View.GONE);
+            }
+        });
+
         setHasOptionsMenu(true);
         refreshData();
         return view;
@@ -77,25 +109,18 @@ public class UserProfileFragment extends Fragment
 
     public void refreshData()
     {
-        data2= new LinkedList<Car>();
-//        Model.instance.getAllCars(new Model.getAllCarsListener()
-//        {
-//            @Override
-//            public void onComplete(List<Car> car_data)
-//            {
-//                data = car_data;
-//                for(Car c:data)
-//                {
-//                    if(c.car_username.equals(user.username))
-//                    {
-//                        data2.add(c);
-//                    }
-//                }
-//                userprofile_progressBar.setVisibility(View.GONE);
-//                adapter.notifyDataSetChanged();
-//                userprofile_swipeRefresh.setRefreshing(false);
-//            }
-//        });
+        data= new LinkedList<Car>();
+        if(viewModel.getData().getValue()!=null)
+        {
+            for(Car c: viewModel.getData().getValue())
+            {
+                if(c.isDeleted()==false && c.car_username.equals(user.username))
+                {
+                    data.add(c);
+                }
+            }
+        }
+        userprofile_swipeRefresh.setRefreshing(false);
     }
 
     class MyViewHolder extends RecyclerView.ViewHolder
@@ -151,16 +176,18 @@ public class UserProfileFragment extends Fragment
         @Override
         public void onBindViewHolder(@NonNull MyViewHolder holder, int position)
         {
-            holder.model.setText(data2.get(position).model);
-            holder.year.setText(data2.get(position).year);
-            holder.price.setText(data2.get(position).price);
-            holder.description.setText(data2.get(position).description);
+            holder.model.setText(data.get(position).model);
+            holder.year.setText(data.get(position).year);
+            holder.price.setText(data.get(position).price);
+            holder.description.setText(data.get(position).description);
         }
 
         @Override
         public int getItemCount()
         {
-            return data2.size();
+            if(data==null)
+                return 0;
+            return data.size();
         }
     }
 

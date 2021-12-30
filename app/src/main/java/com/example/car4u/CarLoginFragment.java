@@ -28,7 +28,6 @@ import java.util.List;
 
 public class CarLoginFragment extends Fragment
 {
-    List<User> data = new LinkedList<User>();
     User user;
     View view;
     public String temp_username=" ";
@@ -38,14 +37,6 @@ public class CarLoginFragment extends Fragment
                              Bundle savedInstanceState)
     {
         view= inflater.inflate(R.layout.fragment_car_login, container, false);
-        Model.instance.getAllUsers(new Model.getAllUsersListener()
-        {
-            @Override
-            public void onComplete(List<User> user_data)
-            {
-                data = user_data;
-            }
-        });
         EditText usernameEt = view.findViewById(R.id.login_username);
         EditText passwordEt = view.findViewById(R.id.login_password);
 
@@ -60,13 +51,13 @@ public class CarLoginFragment extends Fragment
                 Model.instance.getUserByUsername(temp_username, (user) ->
                 {
                     CarLoginFragment.this.user=user;
-                    if(CarLoginFragment.this.user!=null)
+                    if(CarLoginFragment.this.user!=null && temp_password.equals(CarLoginFragment.this.user.password))
                     {
                         Toast.makeText(getActivity(), "Welcome " + user.username +"!", Toast.LENGTH_SHORT).show();
                         CarLoginFragmentDirections.ActionCarLoginFragmentToCarsListFragment action = CarLoginFragmentDirections.actionCarLoginFragmentToCarsListFragment(user);
                         Navigation.findNavController(v).navigate(action);
                     }
-                    else if(CarLoginFragment.this.user==null)
+                    else if(CarLoginFragment.this.user==null || !(temp_password.equals(CarLoginFragment.this.user.password)))
                     {
                         Toast.makeText(getActivity(), "Invaild User, Please Try Again.", Toast.LENGTH_SHORT).show();
                     }

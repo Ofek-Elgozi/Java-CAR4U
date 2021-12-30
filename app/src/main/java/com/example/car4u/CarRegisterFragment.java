@@ -30,14 +30,6 @@ public class CarRegisterFragment extends Fragment
                              Bundle savedInstanceState)
     {
         view = inflater.inflate(R.layout.fragment_car_register, container, false);
-        Model.instance.getAllUsers(new Model.getAllUsersListener()
-        {
-            @Override
-            public void onComplete(List<User> user_data)
-            {
-                data=user_data;
-            }
-        });
         EditText usernameEt = view.findViewById(R.id.username_register);
         EditText passwordEt = view.findViewById(R.id.password_register);
         EditText emailEt = view.findViewById(R.id.email_register);
