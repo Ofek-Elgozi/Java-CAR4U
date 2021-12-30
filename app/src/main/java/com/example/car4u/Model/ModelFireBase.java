@@ -104,23 +104,23 @@ public class ModelFireBase
 
     public void removeCar(Car car, Model.removeCarListener listener)
     {
-        db.collection("cars").document((String.valueOf(car.getId_key()))).delete()
-                .addOnSuccessListener(new OnSuccessListener<Void>()
-                {
-                    @Override
-                    public void onSuccess(Void aVoid)
-                    {
-                        listener.onComplete();
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener()
-                {
-                    @Override
-                    public void onFailure(@NonNull Exception e)
-                    {
-                        Log.d("TAG", e.getMessage());
-                    }
-                });
+//        db.collection("cars").document((String.valueOf(car.getId_key()))).delete()
+//                .addOnSuccessListener(new OnSuccessListener<Void>()
+//                {
+//                    @Override
+//                    public void onSuccess(Void aVoid)
+//                    {
+//                        listener.onComplete();
+//                    }
+//                })
+//                .addOnFailureListener(new OnFailureListener()
+//                {
+//                    @Override
+//                    public void onFailure(@NonNull Exception e)
+//                    {
+//                        Log.d("TAG", e.getMessage());
+//                    }
+//                });
     }
 
     public void getAllUsers(Long since, Model.getAllUsersListener listener)

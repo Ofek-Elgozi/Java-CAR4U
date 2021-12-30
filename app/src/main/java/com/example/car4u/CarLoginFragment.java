@@ -39,7 +39,6 @@ public class CarLoginFragment extends Fragment
         view= inflater.inflate(R.layout.fragment_car_login, container, false);
         EditText usernameEt = view.findViewById(R.id.login_username);
         EditText passwordEt = view.findViewById(R.id.login_password);
-
         Button sign_inBtn = view.findViewById(R.id.signin_btn);
         sign_inBtn.setOnClickListener(new View.OnClickListener()
         {

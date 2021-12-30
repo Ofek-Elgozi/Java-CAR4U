@@ -29,19 +29,16 @@ public class User implements Parcelable
     public String phone;
     Long lastUpdated= new Long(0);
 
-    public Long getLastUpdated() {
-        return lastUpdated;
-    }
-
-    public void setLastUpdated(Long lastUpdated) {
-        this.lastUpdated = lastUpdated;
-    }
-
     protected User(Parcel in) {
         username = in.readString();
         password = in.readString();
         email = in.readString();
         phone = in.readString();
+        if (in.readByte() == 0) {
+            lastUpdated = null;
+        } else {
+            lastUpdated = in.readLong();
+        }
     }
 
     public static final Creator<User> CREATOR = new Creator<User>() {
@@ -87,6 +84,14 @@ public class User implements Parcelable
 
     public void setPhone(String phone) {
         this.phone = phone;
+    }
+
+    public Long getLastUpdated() {
+        return lastUpdated;
+    }
+
+    public void setLastUpdated(Long lastUpdated) {
+        this.lastUpdated = lastUpdated;
     }
 
     public User(String username, String password, String email,String phone)
@@ -163,5 +168,11 @@ public class User implements Parcelable
         dest.writeString(password);
         dest.writeString(email);
         dest.writeString(phone);
+        if (lastUpdated == null) {
+            dest.writeByte((byte) 0);
+        } else {
+            dest.writeByte((byte) 1);
+            dest.writeLong(lastUpdated);
+        }
     }
 }

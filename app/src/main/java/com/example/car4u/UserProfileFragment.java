@@ -78,7 +78,7 @@ public class UserProfileFragment extends Fragment
             @Override
             public void onRefresh()
             {
-                Model.instance.reloadUserList();
+                //Model.instance.reloadCarList();
                 userprofile_swipeRefresh.setRefreshing(false);
                 refreshData();
             }
@@ -86,8 +86,7 @@ public class UserProfileFragment extends Fragment
 
         if(viewModel.getData() == null)
         {
-            Model.instance.reloadUserList();
-            userprofile_swipeRefresh.setRefreshing(false);
+            //Model.instance.reloadCarList();
             refreshData();
         }
 

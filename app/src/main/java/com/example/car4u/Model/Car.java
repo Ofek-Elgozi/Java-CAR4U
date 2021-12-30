@@ -33,27 +33,8 @@ public class Car implements Parcelable
     public String phone;
     public String description;
     boolean deleted;
-    Long lastUpdated= new Long(0);
-
-    public Long getLastUpdated()
-    {
-        return lastUpdated;
-    }
-
-    public void setLastUpdated(Long lastUpdated) {
-        this.lastUpdated = lastUpdated;
-    }
-
-    public void setDeleted(boolean deleted)
-    {
-        this.deleted = deleted;
-    }
-
-    public boolean isDeleted() {
-        return deleted;
-    }
-
     public static int counter=1;
+    Long lastUpdated= new Long(0);
 
     public Car(Car c)
     {
@@ -92,10 +73,40 @@ public class Car implements Parcelable
         phone=" ";
         description =" ";
         car_username =" ";
-        deleted=false;
         id_key=counter;
         counter++;
+        deleted=false;
     }
+
+    protected Car(Parcel in) {
+        id_key = in.readInt();
+        owner = in.readString();
+        model = in.readString();
+        year = in.readString();
+        price = in.readString();
+        location = in.readString();
+        car_username = in.readString();
+        phone = in.readString();
+        description = in.readString();
+        deleted = in.readByte() != 0;
+        if (in.readByte() == 0) {
+            lastUpdated = null;
+        } else {
+            lastUpdated = in.readLong();
+        }
+    }
+
+    public static final Creator<Car> CREATOR = new Creator<Car>() {
+        @Override
+        public Car createFromParcel(Parcel in) {
+            return new Car(in);
+        }
+
+        @Override
+        public Car[] newArray(int size) {
+            return new Car[size];
+        }
+    };
 
     @NonNull
     public String getOwner() {
@@ -177,6 +188,24 @@ public class Car implements Parcelable
         return car_username;
     }
 
+    public Long getLastUpdated()
+    {
+        return lastUpdated;
+    }
+
+    public void setLastUpdated(Long lastUpdated) {
+        this.lastUpdated = lastUpdated;
+    }
+
+    public void setDeleted(boolean deleted)
+    {
+        this.deleted = deleted;
+    }
+
+    public boolean isDeleted() {
+        return deleted;
+    }
+
     public Map<String,Object> toJson()
     {
         Map<String, Object> json = new HashMap<>();
@@ -230,49 +259,29 @@ public class Car implements Parcelable
         Log.d("TAG", "new lud" + date);
     }
 
+
     @Override
-    public int describeContents()
-    {
+    public int describeContents() {
         return 0;
     }
 
     @Override
-    public void writeToParcel(Parcel dest, int flags)
-    {
+    public void writeToParcel(Parcel dest, int flags) {
         dest.writeInt(id_key);
         dest.writeString(owner);
         dest.writeString(model);
         dest.writeString(year);
         dest.writeString(price);
         dest.writeString(location);
+        dest.writeString(car_username);
         dest.writeString(phone);
         dest.writeString(description);
-        dest.writeString(car_username);
-    }
-
-    protected Car(Parcel in)
-    {
-        id_key = in.readInt();
-        owner = in.readString();
-        model = in.readString();
-        year = in.readString();
-        price = in.readString();
-        location = in.readString();
-        phone = in.readString();
-        description = in.readString();
-        car_username = in.readString();
-    }
-
-    public static final Creator<Car> CREATOR = new Creator<Car>()
-    {
-        @Override
-        public Car createFromParcel(Parcel in) {
-            return new Car(in);
+        dest.writeByte((byte) (deleted ? 1 : 0));
+        if (lastUpdated == null) {
+            dest.writeByte((byte) 0);
+        } else {
+            dest.writeByte((byte) 1);
+            dest.writeLong(lastUpdated);
         }
-
-        @Override
-        public Car[] newArray(int size) {
-            return new Car[size];
-        }
-    };
+    }
 }

@@ -103,7 +103,6 @@ public class CarEditFragment extends Fragment
                 edit_price.setEnabled(false);
                 edit_location.setEnabled(false);
                 edit_phone.setEnabled(false);
-                car.setDeleted(true);
                 Model.instance.removeCar(car,()->
                 {
                     Navigation.findNavController(v).popBackStack();
