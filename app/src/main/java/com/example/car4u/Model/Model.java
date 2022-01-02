@@ -44,7 +44,13 @@ public class Model
                     Log.d("TAG", "FB returned " + car_data.size());
                     for(Car c: car_data)
                     {
-                        AppLocalDB.db.carDao().insertAll(c);
+                        if(c.isDeleted()==false)
+                        {
+                            AppLocalDB.db.carDao().insertAll(c);                        }
+                        else
+                        {
+                            AppLocalDB.db.carDao().delete(c);
+                        }
                         if(c.getLastUpdated() > lLastUpdate)
                         {
                             lLastUpdate=c.getLastUpdated();

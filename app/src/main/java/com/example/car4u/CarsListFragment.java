@@ -45,7 +45,6 @@ public class CarsListFragment extends Fragment
     MyAdapter adapter;
     ProgressBar carlist_progressBar;
     SwipeRefreshLayout carlist_swipeRefresh;
-    List<Car> data;
 
 
     @Override
@@ -73,7 +72,7 @@ public class CarsListFragment extends Fragment
             @Override
             public void onItemClick(int position, View v)
             {
-                car=data.get(position);
+                car=viewModel.getData().getValue().get(position);
                 CarsListFragmentDirections.ActionCarsListFragmentToCarDetailsFragment action = CarsListFragmentDirections.actionCarsListFragmentToCarDetailsFragment(car);
                 Navigation.findNavController(v).navigate(action);
             }
@@ -86,15 +85,13 @@ public class CarsListFragment extends Fragment
             {
                 Model.instance.reloadCarList();
                 carlist_swipeRefresh.setRefreshing(false);
-                refreshData();
             }
         });
 
-        if(viewModel.getData() == null)
+        if(viewModel.getData().getValue() == null)
         {
             Model.instance.reloadCarList();
             carlist_swipeRefresh.setRefreshing(false);
-            refreshData();
         }
 
         viewModel.getData().observe(getViewLifecycleOwner(), new Observer<List<Car>>()
@@ -103,28 +100,12 @@ public class CarsListFragment extends Fragment
             public void onChanged(List<Car> cars)
             {
                 adapter.notifyDataSetChanged();
-                refreshData();
+                carlist_swipeRefresh.setRefreshing(false);
                 carlist_progressBar.setVisibility(View.GONE);
             }
         });
         setHasOptionsMenu(true);
         return view;
-    }
-
-    public void refreshData()
-    {
-        data= new LinkedList<Car>();
-        if(viewModel.getData().getValue()!=null)
-        {
-            for(Car c: viewModel.getData().getValue())
-            {
-                if(c.isDeleted()==false)
-                {
-                    data.add(c);
-                }
-            }
-        }
-        carlist_swipeRefresh.setRefreshing(false);
     }
 
     class MyViewHolder extends RecyclerView.ViewHolder
@@ -180,18 +161,18 @@ public class CarsListFragment extends Fragment
         @Override
         public void onBindViewHolder(@NonNull MyViewHolder holder, int position)
         {
-            holder.model.setText(data.get(position).model);
-            holder.year.setText(data.get(position).year);
-            holder.price.setText(data.get(position).price);
-            holder.description.setText(data.get(position).description);
+            holder.model.setText(viewModel.getData().getValue().get(position).model);
+            holder.year.setText(viewModel.getData().getValue().get(position).year);
+            holder.price.setText(viewModel.getData().getValue().get(position).price);
+            holder.description.setText(viewModel.getData().getValue().get(position).description);
         }
 
         @Override
         public int getItemCount()
         {
-            if(data==null)
+            if(viewModel.getData().getValue()==null)
                 return 0;
-            return data.size();
+            return viewModel.getData().getValue().size();
         }
     }
 

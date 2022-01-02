@@ -20,6 +20,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
+import android.widget.Filter;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -79,15 +80,14 @@ public class UserProfileFragment extends Fragment
             public void onRefresh()
             {
                 //Model.instance.reloadCarList();
-                userprofile_swipeRefresh.setRefreshing(false);
-                refreshData();
+                FilterData();
             }
         });
 
         if(viewModel.getData() == null)
         {
             //Model.instance.reloadCarList();
-            refreshData();
+            FilterData();
         }
 
         viewModel.getData().observe(getViewLifecycleOwner(), new Observer<List<Car>>()
@@ -96,27 +96,22 @@ public class UserProfileFragment extends Fragment
             public void onChanged(List<Car> cars)
             {
                 adapter.notifyDataSetChanged();
-                refreshData();
+                FilterData();
                 userprofile_progressBar.setVisibility(View.GONE);
             }
         });
-
         setHasOptionsMenu(true);
-        refreshData();
         return view;
     }
 
-    public void refreshData()
+    public void FilterData()
     {
-        data= new LinkedList<Car>();
-        if(viewModel.getData().getValue()!=null)
+        data = new LinkedList<Car>();
+        for(Car c: viewModel.getData().getValue())
         {
-            for(Car c: viewModel.getData().getValue())
+            if(c.car_username.equals(user.username))
             {
-                if(c.isDeleted()==false && c.car_username.equals(user.username))
-                {
-                    data.add(c);
-                }
+                data.add(c);
             }
         }
         userprofile_swipeRefresh.setRefreshing(false);
@@ -211,3 +206,6 @@ public class UserProfileFragment extends Fragment
         return true;
     }
 }
+
+
+
