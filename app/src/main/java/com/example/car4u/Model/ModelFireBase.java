@@ -96,6 +96,37 @@ public class ModelFireBase
         }
     }
 
+    public void getCarByID(String id, Model.getCarByIDListener listener)
+    {
+        DocumentReference docRef = db.collection("cars").document(id);
+        docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>()
+        {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task)
+            {
+                if (task.isSuccessful())
+                {
+                    DocumentSnapshot document = task.getResult();
+                    if (document.exists())
+                    {
+                        Car c = Car.fromJson(document.getData());
+                        if(c!=null)
+                            listener.onComplete(c);
+                    }
+                    else
+                    {
+                        listener.onComplete(null);
+                    }
+                }
+                else
+                {
+                    Log.d("TAG", "get failed with ", task.getException());
+                    listener.onComplete(null);
+                }
+            }
+        });
+    }
+
     public void getAllUsers(Long since, Model.getAllUsersListener listener)
     {
         db.collection("users").whereGreaterThanOrEqualTo(Car.LAST_UPDATED, new Timestamp(since, 0)).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>()
