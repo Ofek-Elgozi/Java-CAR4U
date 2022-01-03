@@ -27,6 +27,10 @@ public class CarDetailsFragment extends Fragment
     {
         view =inflater.inflate(R.layout.fragment_car_details, container, false);
         car=CarDetailsFragmentArgs.fromBundle(getArguments()).getCar();
+
+        TextView description= view.findViewById(R.id.car_details_description);
+        description.setText(car.getDescription());
+
         TextView owner= view.findViewById(R.id.car_details_owner);
         owner.setText(car.owner);
 

@@ -34,9 +34,9 @@ public class FirstFragment extends Fragment
             Model.instance.getUserByEmail(user.getEmail(), new Model.getUserByEmailListener()
             {
                 @Override
-                public void onComplete(User user)
+                public void onComplete(User temp_user)
                 {
-                    u=user;
+                    u=temp_user;
                 }
             });
         }
