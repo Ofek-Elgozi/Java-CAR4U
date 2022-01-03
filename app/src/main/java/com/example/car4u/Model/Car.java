@@ -23,7 +23,7 @@ public class Car implements Parcelable
     public final static String LAST_UPDATED="LAST_UPDATED";
     @PrimaryKey
     @NonNull
-    public int id_key;
+    public String id_key=null;
     public String owner;
     public String model;
     public String year;
@@ -33,7 +33,6 @@ public class Car implements Parcelable
     public String phone;
     public String description;
     boolean deleted;
-    public static int counter=1;
     Long lastUpdated= new Long(0);
 
     public Car(Car c)
@@ -49,7 +48,7 @@ public class Car implements Parcelable
         this.deleted=c.deleted;
     }
 
-    public Car(String owner, String model,String year,String price,String location,String phone,String description,String car_username,int id_key)
+    public Car(String owner, String model,String year,String price,String location,String phone,String description,String car_username)
     {
         this.owner=owner;
         this.model=model;
@@ -60,7 +59,6 @@ public class Car implements Parcelable
         this.description =description;
         this.car_username =car_username;
         this.deleted=false;
-        this.id_key=id_key;
     }
 
     public Car()
@@ -73,13 +71,12 @@ public class Car implements Parcelable
         phone=" ";
         description =" ";
         car_username =" ";
-        id_key=counter;
-        counter++;
         deleted=false;
     }
 
+
     protected Car(Parcel in) {
-        id_key = in.readInt();
+        id_key = in.readString();
         owner = in.readString();
         model = in.readString();
         year = in.readString();
@@ -121,7 +118,11 @@ public class Car implements Parcelable
         this.owner = owner;
     }
 
-    public int getId_key() {return id_key;}
+    public String getId_key() {return id_key;}
+
+    public void setId_key(@NonNull String id_key) {
+        this.id_key = id_key;
+    }
 
     public void setModel(String model)
     {
@@ -209,7 +210,6 @@ public class Car implements Parcelable
     public Map<String,Object> toJson()
     {
         Map<String, Object> json = new HashMap<>();
-        json.put("id_key", getId_key());
         json.put("owner", getOwner());
         json.put("model", getModel());
         json.put("year", getYear());
@@ -225,9 +225,6 @@ public class Car implements Parcelable
 
     static Car fromJson(Map<String, Object> json)
     {
-        int id_key=Integer.parseInt(String.valueOf(json.get("id_key")));
-        if(id_key==0)
-            return null;
         String owner=(String)json.get("owner");
         String model=(String)json.get("model");
         String year=(String)json.get("year");
@@ -237,7 +234,7 @@ public class Car implements Parcelable
         String description=(String)json.get("description");
         String car_username=(String)json.get("car_username");
         boolean deleted=(boolean)json.get("deleted");
-        Car car = new Car(owner,model,year,price,location,phone,description,car_username,id_key);
+        Car car = new Car(owner,model,year,price,location,phone,description,car_username);
         car.setDeleted(deleted);
         Timestamp ts = (Timestamp)json.get(LAST_UPDATED);
         car.setLastUpdated(new Long(ts.getSeconds()));
@@ -259,7 +256,6 @@ public class Car implements Parcelable
         Log.d("TAG", "new lud" + date);
     }
 
-
     @Override
     public int describeContents() {
         return 0;
@@ -267,7 +263,7 @@ public class Car implements Parcelable
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeInt(id_key);
+        dest.writeString(id_key);
         dest.writeString(owner);
         dest.writeString(model);
         dest.writeString(year);

@@ -34,8 +34,7 @@ import java.util.List;
 
 public class UserProfileFragment extends Fragment
 {
-    CarListFragmentViewModel viewModel;
-    List<Car> data;
+    UserProfileViewModel viewModel;
     Car car;
     User user;
     View view;
@@ -47,7 +46,7 @@ public class UserProfileFragment extends Fragment
     public void onAttach(@NonNull Context context)
     {
         super.onAttach(context);
-        viewModel=new ViewModelProvider(this).get(CarListFragmentViewModel.class);
+        viewModel=new ViewModelProvider(this).get(UserProfileViewModel.class);
     }
 
     @Override
@@ -56,6 +55,7 @@ public class UserProfileFragment extends Fragment
     {
         view = inflater.inflate(R.layout.fragment_user_profile, container, false);
         user = UserProfileFragmentArgs.fromBundle(getArguments()).getUser();
+        viewModel.setUser(user);
         userprofile_progressBar = view.findViewById(R.id.user_profile_progressBar);
         userprofile_progressBar.setVisibility(View.VISIBLE);
         RecyclerView list=view.findViewById(R.id.userprofilefragment_listv);
@@ -68,7 +68,7 @@ public class UserProfileFragment extends Fragment
             @Override
             public void onItemClick(int position, View v)
             {
-                car=data.get(position);
+                car=viewModel.getData().getValue().get(position);
                 UserProfileFragmentDirections.ActionUserProfileFragmentToCarEditFragment action = UserProfileFragmentDirections.actionUserProfileFragmentToCarEditFragment(car,user);
                 Navigation.findNavController(v).navigate(action);
             }
@@ -79,16 +79,9 @@ public class UserProfileFragment extends Fragment
             @Override
             public void onRefresh()
             {
-                //Model.instance.reloadCarList();
-                FilterData();
+                userprofile_swipeRefresh.setRefreshing(false);
             }
         });
-
-        if(viewModel.getData() == null)
-        {
-            //Model.instance.reloadCarList();
-            FilterData();
-        }
 
         viewModel.getData().observe(getViewLifecycleOwner(), new Observer<List<Car>>()
         {
@@ -96,25 +89,12 @@ public class UserProfileFragment extends Fragment
             public void onChanged(List<Car> cars)
             {
                 adapter.notifyDataSetChanged();
-                FilterData();
+                userprofile_swipeRefresh.setRefreshing(false);
                 userprofile_progressBar.setVisibility(View.GONE);
             }
         });
         setHasOptionsMenu(true);
         return view;
-    }
-
-    public void FilterData()
-    {
-        data = new LinkedList<Car>();
-        for(Car c: viewModel.getData().getValue())
-        {
-            if(c.car_username.equals(user.username))
-            {
-                data.add(c);
-            }
-        }
-        userprofile_swipeRefresh.setRefreshing(false);
     }
 
     class MyViewHolder extends RecyclerView.ViewHolder
@@ -170,18 +150,18 @@ public class UserProfileFragment extends Fragment
         @Override
         public void onBindViewHolder(@NonNull MyViewHolder holder, int position)
         {
-            holder.model.setText(data.get(position).model);
-            holder.year.setText(data.get(position).year);
-            holder.price.setText(data.get(position).price);
-            holder.description.setText(data.get(position).description);
+            holder.model.setText(viewModel.getData().getValue().get(position).model);
+            holder.year.setText(viewModel.getData().getValue().get(position).year);
+            holder.price.setText(viewModel.getData().getValue().get(position).price);
+            holder.description.setText(viewModel.getData().getValue().get(position).description);
         }
 
         @Override
         public int getItemCount()
         {
-            if(data==null)
+            if(viewModel.getData() == null || viewModel.getData().getValue()==null)
                 return 0;
-            return data.size();
+            return viewModel.getData().getValue().size();
         }
     }
 

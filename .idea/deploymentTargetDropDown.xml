@@ -7,11 +7,11 @@
         <deviceKey>
           <Key>
             <type value="VIRTUAL_DEVICE_PATH" />
-            <value value="C:\Users\Ofek Elgozi\.android\avd\Ofek.avd" />
+            <value value="C:\Users\Ofek Elgozi\.android\avd\Ofek2.avd" />
           </Key>
         </deviceKey>
       </Target>
     </targetSelectedWithDropDown>
-    <timeTargetWasSelectedWithDropDown value="2022-01-02T14:00:12.389496600Z" />
+    <timeTargetWasSelectedWithDropDown value="2022-01-03T12:13:15.312463900Z" />
   </component>
 </project>

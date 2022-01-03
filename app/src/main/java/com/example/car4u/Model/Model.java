@@ -70,14 +70,9 @@ public class Model
         return carListLd;
     }
 
-    public interface getCarByOwnerListener
+    public LiveData<List<Car>> getCarsByUserName(String username)
     {
-        void onComplete(Car car);
-    }
-
-    public void getCarByOwner(String owner,getCarByOwnerListener listener)
-    {
-        modelFireBase.getCarByOwner(owner,listener);
+        return AppLocalDB.db.carDao().getCarsByOwner(username);
     }
 
     public interface addCarListener

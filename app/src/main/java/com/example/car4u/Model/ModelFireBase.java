@@ -33,6 +33,7 @@ public class ModelFireBase
                     for(QueryDocumentSnapshot doc: task.getResult())
                     {
                         Car c = Car.fromJson(doc.getData());
+                        c.setId_key(doc.getId());
                         if(c!=null)
                             carList.add(c);
                     }
@@ -49,57 +50,50 @@ public class ModelFireBase
         });
     }
 
-    public void getCarByOwner(String owner, Model.getCarByOwnerListener listener)
-    {
-        DocumentReference docRef = db.collection("cars").document(owner);
-        docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>()
-        {
-            @Override
-            public void onComplete(@NonNull Task<DocumentSnapshot> task)
-            {
-                if (task.isSuccessful())
-                {
-                    DocumentSnapshot document = task.getResult();
-                    if (document.exists())
-                    {
-                        Car c = Car.fromJson(document.getData());
-                        if(c!=null)
-                            listener.onComplete(c);
-                    }
-                    else
-                    {
-                        listener.onComplete(null);
-                    }
-                }
-                else
-                {
-                    Log.d("TAG", "get failed with ", task.getException());
-                    listener.onComplete(null);
-                }
-            }
-        });
-    }
-
     public void addCar(Car car, Model.addCarListener listener)
     {
-        db.collection("cars")
-                .document((String.valueOf(car.getId_key()))).set(car.toJson())
-                .addOnSuccessListener(new OnSuccessListener<Void>()
-                {
-                    @Override
-                    public void onSuccess(@NonNull Void unused)
+        if(car.getId_key()==null)
+        {
+            db.collection("cars")
+                    .document().set(car.toJson())
+                    .addOnSuccessListener(new OnSuccessListener<Void>()
                     {
-                        listener.onComplete();
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener()
-                {
-                    @Override
-                    public void onFailure(@NonNull Exception e)
+                        @Override
+                        public void onSuccess(@NonNull Void unused)
+                        {
+                            listener.onComplete();
+                        }
+                    })
+                    .addOnFailureListener(new OnFailureListener()
                     {
-                        Log.d("TAG", e.getMessage());
-                    }
-                });
+                        @Override
+                        public void onFailure(@NonNull Exception e)
+                        {
+                            Log.d("TAG", e.getMessage());
+                        }
+                    });
+        }
+        else
+        {
+            db.collection("cars")
+                    .document(car.getId_key()).set(car.toJson())
+                    .addOnSuccessListener(new OnSuccessListener<Void>()
+                    {
+                        @Override
+                        public void onSuccess(@NonNull Void unused)
+                        {
+                            listener.onComplete();
+                        }
+                    })
+                    .addOnFailureListener(new OnFailureListener()
+                    {
+                        @Override
+                        public void onFailure(@NonNull Exception e)
+                        {
+                            Log.d("TAG", e.getMessage());
+                        }
+                    });
+        }
     }
 
     public void getAllUsers(Long since, Model.getAllUsersListener listener)

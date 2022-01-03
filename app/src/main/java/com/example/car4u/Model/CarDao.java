@@ -1,5 +1,6 @@
 package com.example.car4u.Model;
 
+import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
 import androidx.room.Delete;
 import androidx.room.Insert;
@@ -22,4 +23,7 @@ public interface CarDao
 
     @Query("SELECT * FROM Car WHERE owner=:owner ")
     Car getCarByOwner(String owner);
+
+    @Query("SELECT * FROM Car WHERE car_username=:car_username")
+    LiveData<List<Car>> getCarsByOwner(String car_username);
 }
