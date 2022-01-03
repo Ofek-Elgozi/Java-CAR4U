@@ -29,6 +29,17 @@ public class FirstFragment extends Fragment
         view = inflater.inflate(R.layout.fragment_first, container, false);
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         Button loginBtn = view.findViewById(R.id.login_btn);
+        if (user != null)
+        {
+            Model.instance.getUserByEmail(user.getEmail(), new Model.getUserByEmailListener()
+            {
+                @Override
+                public void onComplete(User user)
+                {
+                    u=user;
+                }
+            });
+        }
         loginBtn.setOnClickListener(new View.OnClickListener()
         {
             @Override
@@ -36,7 +47,7 @@ public class FirstFragment extends Fragment
             {
                 if (user != null)
                 {
-                    //Toast.makeText(getActivity(), "Welcome " + u.getName() +"!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(), "Welcome " + u.getName() +"!", Toast.LENGTH_SHORT).show();
                     FirstFragmentDirections.ActionFirstFragmentToCarsListFragment2 action = FirstFragmentDirections.actionFirstFragmentToCarsListFragment2(user.getEmail());
                     Navigation.findNavController(v).navigate(action);
                 } else {

@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
+import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
@@ -58,8 +59,11 @@ public class UserProfileFragment extends Fragment
         userprofile_progressBar.setVisibility(View.VISIBLE);
         RecyclerView list=view.findViewById(R.id.userprofilefragment_listv);
         list.setHasFixedSize(true);
-        list.setLayoutManager(new LinearLayoutManager(getContext()));
+        LinearLayoutManager LayoutManager = new LinearLayoutManager(getContext());
+        list.setLayoutManager(LayoutManager);
         adapter = new MyAdapter();
+        DividerItemDecoration DividerList = new DividerItemDecoration(list.getContext(),LayoutManager.getOrientation());
+        list.addItemDecoration(DividerList);
         list.setAdapter(adapter);
         adapter.setOnItemClickListener(new OnItemClickListener()
         {
@@ -107,7 +111,7 @@ public class UserProfileFragment extends Fragment
             model= itemView.findViewById(R.id.carlistrow_text_v1);
             year= itemView.findViewById(R.id.carlistrow_text_v2);
             price= itemView.findViewById(R.id.carlistrow_text_v3);
-            description= itemView.findViewById(R.id.carlistrow_text_v4);
+            //description= itemView.findViewById(R.id.carlistrow_text_v4);
             itemView.setOnClickListener(new View.OnClickListener()
             {
                 @Override
@@ -151,7 +155,7 @@ public class UserProfileFragment extends Fragment
             holder.model.setText(viewModel.getData().getValue().get(position).model);
             holder.year.setText(viewModel.getData().getValue().get(position).year);
             holder.price.setText(viewModel.getData().getValue().get(position).price);
-            holder.description.setText(viewModel.getData().getValue().get(position).description);
+            //holder.description.setText(viewModel.getData().getValue().get(position).description);
         }
 
         @Override
@@ -167,7 +171,7 @@ public class UserProfileFragment extends Fragment
     public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater)
     {
         super.onCreateOptionsMenu(menu, inflater);
-        inflater.inflate(R.menu.homepage_menu,menu);
+        inflater.inflate(R.menu.userprofile_menu,menu);
     }
 
     @Override

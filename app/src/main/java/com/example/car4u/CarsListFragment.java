@@ -10,6 +10,7 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
+import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
@@ -60,6 +61,7 @@ public class CarsListFragment extends Fragment
                              Bundle savedInstanceState)
     {
         view =inflater.inflate(R.layout.fragment_cars_list, container, false);
+        LinearLayoutManager LayoutManager = new LinearLayoutManager(getContext());
         temp_email=CarsListFragmentArgs.fromBundle(getArguments()).getEmailId();
         Model.instance.getUserByEmail(temp_email, new Model.getUserByEmailListener()
         {
@@ -73,8 +75,10 @@ public class CarsListFragment extends Fragment
         carlist_progressBar.setVisibility(View.VISIBLE);
         RecyclerView list= view.findViewById(R.id.carslistfragment_listv);
         list.setHasFixedSize(true);
-        list.setLayoutManager(new LinearLayoutManager(getContext()));
+        list.setLayoutManager(LayoutManager);
         adapter = new MyAdapter();
+        DividerItemDecoration DividerList = new DividerItemDecoration(list.getContext(),LayoutManager.getOrientation());
+        list.addItemDecoration(DividerList);
         list.setAdapter(adapter);
         adapter.setOnItemClickListener(new OnItemClickListener()
         {
@@ -129,7 +133,7 @@ public class CarsListFragment extends Fragment
             model= itemView.findViewById(R.id.carlistrow_text_v1);
             year= itemView.findViewById(R.id.carlistrow_text_v2);
             price= itemView.findViewById(R.id.carlistrow_text_v3);
-            description= itemView.findViewById(R.id.carlistrow_text_v4);
+            //description= itemView.findViewById(R.id.carlistrow_text_v4);
             itemView.setOnClickListener(new View.OnClickListener()
             {
                 @Override
@@ -173,7 +177,7 @@ public class CarsListFragment extends Fragment
             holder.model.setText(viewModel.getData().getValue().get(position).model);
             holder.year.setText(viewModel.getData().getValue().get(position).year);
             holder.price.setText(viewModel.getData().getValue().get(position).price);
-            holder.description.setText(viewModel.getData().getValue().get(position).description);
+            //holder.description.setText(viewModel.getData().getValue().get(position).description);
         }
 
         @Override

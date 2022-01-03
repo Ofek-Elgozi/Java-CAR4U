@@ -15,10 +15,6 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.example.car4u.Model.Car;
-import com.example.car4u.Model.Model;
-
-import java.util.LinkedList;
-import java.util.List;
 
 
 public class CarDetailsFragment extends Fragment
@@ -58,7 +54,7 @@ public class CarDetailsFragment extends Fragment
     public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater)
     {
         super.onCreateOptionsMenu(menu, inflater);
-        inflater.inflate(R.menu.homepage_menu,menu);
+        inflater.inflate(R.menu.cardetails_menu,menu);
     }
 
     @Override
@@ -66,7 +62,7 @@ public class CarDetailsFragment extends Fragment
     {
         switch (item.getItemId())
         {
-            case R.id.menu_home:
+            case R.id.cardetails_home:
                 Navigation.findNavController(view).popBackStack();
                 break;
             default:
