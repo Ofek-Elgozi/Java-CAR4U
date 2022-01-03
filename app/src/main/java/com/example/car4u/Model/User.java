@@ -23,16 +23,13 @@ public class User implements Parcelable
     public final static String LAST_UPDATED="LAST_UPDATED";
     @PrimaryKey
     @NonNull
-    public String username;
-    public String password;
     public String email;
-    public String phone;
-    Long lastUpdated= new Long(0);
+    public String name;
 
     protected User(Parcel in) {
-        username = in.readString();
-        password = in.readString();
         email = in.readString();
+        name = in.readString();
+        password = in.readString();
         phone = in.readString();
         if (in.readByte() == 0) {
             lastUpdated = null;
@@ -53,10 +50,19 @@ public class User implements Parcelable
         }
     };
 
-    @NonNull
-    public String getUsername() {
-        return username;
+    public void setName(String name) {
+        this.name = name;
     }
+
+    public String getName() {
+        return name;
+    }
+
+    public String password;
+    public String phone;
+    Long lastUpdated= new Long(0);
+
+    @NonNull
 
     public String getPassword() {
         return password;
@@ -68,10 +74,6 @@ public class User implements Parcelable
 
     public String getPhone() {
         return phone;
-    }
-
-    public void setUsername(@NonNull String username) {
-        this.username = username;
     }
 
     public void setPassword(String password) {
@@ -94,9 +96,9 @@ public class User implements Parcelable
         this.lastUpdated = lastUpdated;
     }
 
-    public User(String username, String password, String email,String phone)
+    public User(String name, String password, String email,String phone)
     {
-        this.username=username;
+        this.name=name;
         this.password=password;
         this.email=email;
         this.phone=phone;
@@ -104,14 +106,14 @@ public class User implements Parcelable
 
     public User()
     {
-        username=" ";
+        name=" ";
         password=" ";
         email=" ";
         phone=" ";
     }
     public User(User u)
     {
-        this.username=u.username;
+        this.name=u.name;
         this.password=u.password;
         this.email=u.email;
         this.phone=u.phone;
@@ -120,7 +122,7 @@ public class User implements Parcelable
     public Map<String,Object> toJson()
     {
         Map<String, Object> json = new HashMap<>();
-        json.put("username", getUsername());
+        json.put("name", getName());
         json.put("password", getPassword());
         json.put("email", getEmail());
         json.put("phone", getPhone());
@@ -130,13 +132,13 @@ public class User implements Parcelable
 
     static User fromJson(Map<String, Object> json)
     {
-        String username=(String)json.get("username");
-        if(username==null)
+        String email=(String)json.get("email");
+        if(email==null)
             return null;
         String password=(String)json.get("password");
-        String email=(String)json.get("address");
+        String name=(String)json.get("name");
         String phone=(String)json.get("phone");
-        User user = new User(username,password,email,phone);
+        User user = new User(name,password,email,phone);
         Timestamp ts = (Timestamp)json.get(LAST_UPDATED);
         user.setLastUpdated(new Long(ts.getSeconds()));
         return user;
@@ -164,9 +166,9 @@ public class User implements Parcelable
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(username);
-        dest.writeString(password);
         dest.writeString(email);
+        dest.writeString(name);
+        dest.writeString(password);
         dest.writeString(phone);
         if (lastUpdated == null) {
             dest.writeByte((byte) 0);

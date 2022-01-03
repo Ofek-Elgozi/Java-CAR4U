@@ -18,18 +18,13 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.BaseAdapter;
-import android.widget.Filter;
-import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.example.car4u.Model.Car;
-import com.example.car4u.Model.Model;
 import com.example.car4u.Model.User;
+import com.google.firebase.auth.FirebaseAuth;
 
-import java.util.LinkedList;
 import java.util.List;
 
 public class UserProfileFragment extends Fragment
@@ -41,6 +36,8 @@ public class UserProfileFragment extends Fragment
     MyAdapter adapter;
     ProgressBar userprofile_progressBar;
     SwipeRefreshLayout userprofile_swipeRefresh;
+    private FirebaseAuth mAuth;
+
 
     @Override
     public void onAttach(@NonNull Context context)
@@ -54,6 +51,7 @@ public class UserProfileFragment extends Fragment
                              Bundle savedInstanceState)
     {
         view = inflater.inflate(R.layout.fragment_user_profile, container, false);
+        mAuth = FirebaseAuth.getInstance();
         user = UserProfileFragmentArgs.fromBundle(getArguments()).getUser();
         viewModel.setUser(user);
         userprofile_progressBar = view.findViewById(R.id.user_profile_progressBar);
@@ -179,6 +177,10 @@ public class UserProfileFragment extends Fragment
         {
             case R.id.menu_home:
                 Navigation.findNavController(view).popBackStack();
+                break;
+            case R.id.menu_logout:
+                FirebaseAuth.getInstance().signOut();
+                Navigation.findNavController(view).navigate(R.id.action_userProfileFragment_to_carLoginFragment2);
                 break;
             default:
                 return super.onOptionsItemSelected(item);

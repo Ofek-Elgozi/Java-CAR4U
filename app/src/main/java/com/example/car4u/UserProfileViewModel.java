@@ -21,6 +21,6 @@ public class UserProfileViewModel extends ViewModel
     public void setUser(User user)
     {
         this.user = user;
-        data = Model.instance.getCarsByUserName(this.user.getUsername());
+        data = Model.instance.getCarsByUserName(this.user.getName());
     }
 }

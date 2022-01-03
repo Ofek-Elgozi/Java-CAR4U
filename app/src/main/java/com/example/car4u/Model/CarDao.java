@@ -21,9 +21,6 @@ public interface CarDao
     @Delete
     void delete(Car car);
 
-    @Query("SELECT * FROM Car WHERE owner=:owner ")
-    Car getCarByOwner(String owner);
-
     @Query("SELECT * FROM Car WHERE car_username=:car_username")
     LiveData<List<Car>> getCarsByOwner(String car_username);
 }

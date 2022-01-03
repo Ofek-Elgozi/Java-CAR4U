@@ -125,9 +125,9 @@ public class ModelFireBase
         });
     }
 
-    public void getUserByUsername(String username, Model.getUserByUsernameListener listener)
+    public void getUserByEmail(String email, Model.getUserByEmailListener listener)
     {
-        DocumentReference docRef = db.collection("users").document(username);
+        DocumentReference docRef = db.collection("users").document(email);
         docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>()
         {
             @Override
@@ -159,7 +159,7 @@ public class ModelFireBase
     public void addUser(User user, Model.addUserListener listener)
     {
         db.collection("users")
-                .document(user.getUsername()).set(user.toJson())
+                .document(user.getEmail()).set(user.toJson())
                 .addOnSuccessListener(new OnSuccessListener<Void>()
                 {
                     @Override

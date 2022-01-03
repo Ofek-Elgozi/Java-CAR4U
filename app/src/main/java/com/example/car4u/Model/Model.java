@@ -7,7 +7,6 @@ import androidx.lifecycle.MutableLiveData;
 
 import com.example.car4u.MyApplication;
 
-import java.util.LinkedList;
 import java.util.List;
 
 public class Model
@@ -146,14 +145,14 @@ public class Model
         });
     }
 
-    public interface getUserByUsernameListener
+    public interface getUserByEmailListener
     {
         void onComplete(User user);
     }
 
-    public void getUserByUsername(String username,getUserByUsernameListener listener)
+    public void getUserByEmail(String email, getUserByEmailListener listener)
     {
-        modelFireBase.getUserByUsername(username,listener);
+        modelFireBase.getUserByEmail(email,listener);
     }
 
     public interface addUserListener

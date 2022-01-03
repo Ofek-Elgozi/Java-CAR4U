@@ -1,66 +1,57 @@
 package com.example.car4u;
 
-import android.content.Context;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
-import androidx.navigation.fragment.NavHostFragment;
-import androidx.navigation.ui.NavigationUI;
 
 import android.view.LayoutInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
-import com.example.car4u.Model.AppLocalDB;
 import com.example.car4u.Model.Model;
 import com.example.car4u.Model.User;
-
-import java.util.LinkedList;
-import java.util.List;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 public class CarLoginFragment extends Fragment
 {
-    User user;
+    User u;
     View view;
-    public String temp_username=" ";
-    public String temp_password=" ";
+    EditText emailEt;
+    EditText passwordEt;
+    ProgressBar login_progressBar;
+    private FirebaseAuth mAuth;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState)
     {
         view= inflater.inflate(R.layout.fragment_car_login, container, false);
-        EditText usernameEt = view.findViewById(R.id.login_username);
-        EditText passwordEt = view.findViewById(R.id.login_password);
+        mAuth = FirebaseAuth.getInstance();
+        emailEt = view.findViewById(R.id.login_email);
+        passwordEt = view.findViewById(R.id.login_password);
+        login_progressBar = view.findViewById(R.id.login_progressBar);
+        login_progressBar.setVisibility(View.GONE);
         Button sign_inBtn = view.findViewById(R.id.signin_btn);
         sign_inBtn.setOnClickListener(new View.OnClickListener()
         {
             @Override
             public void onClick(View v)
             {
-                temp_username=usernameEt.getText().toString();
-                temp_password=passwordEt.getText().toString();
-                Model.instance.getUserByUsername(temp_username, (user) ->
+                if(validate()==false)
                 {
-                    CarLoginFragment.this.user=user;
-                    if(CarLoginFragment.this.user!=null && temp_password.equals(CarLoginFragment.this.user.password))
-                    {
-                        Toast.makeText(getActivity(), "Welcome " + user.username +"!", Toast.LENGTH_SHORT).show();
-                        CarLoginFragmentDirections.ActionCarLoginFragmentToCarsListFragment action = CarLoginFragmentDirections.actionCarLoginFragmentToCarsListFragment(user);
-                        Navigation.findNavController(v).navigate(action);
-                    }
-                    else if(CarLoginFragment.this.user==null || !(temp_password.equals(CarLoginFragment.this.user.password)))
-                    {
-                        Toast.makeText(getActivity(), "Invaild User, Please Try Again.", Toast.LENGTH_SHORT).show();
-                    }
-                });
+                    Toast.makeText(getActivity(), "Login Failed!", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                validateUser(v);
             }
         });
         Button registerBtn = view.findViewById(R.id.register_btn);
@@ -73,6 +64,44 @@ public class CarLoginFragment extends Fragment
             }
         });
         return view;
+    }
+
+    private boolean validate()
+    {
+        return (emailEt.getText().length() > 2 && passwordEt.getText().length() > 5);
+    }
+
+    private void validateUser(View v)
+    {
+        mAuth.signInWithEmailAndPassword(emailEt.getText().toString(), passwordEt.getText().toString())
+                .addOnCompleteListener(getActivity(), new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task)
+                    {
+                        login_progressBar.setVisibility(View.VISIBLE);
+                        if (task.isSuccessful())
+                        {
+                            // Sign in success, update UI with the signed-in user's information
+                            FirebaseUser userAuth = mAuth.getCurrentUser();
+                            Model.instance.getUserByEmail(userAuth.getEmail(), new Model.getUserByEmailListener()
+                            {
+                                @Override
+                                public void onComplete(User user)
+                                {
+                                    u = user;
+                                    Toast.makeText(getActivity(), "Welcome " + u.name +"!", Toast.LENGTH_SHORT).show();
+                                    CarLoginFragmentDirections.ActionCarLoginFragmentToCarsListFragment action = CarLoginFragmentDirections.actionCarLoginFragmentToCarsListFragment(u.getEmail());
+                                    Navigation.findNavController(v).navigate(action);
+                                }
+                            });
+                        }
+                        else
+                            {
+                            // If sign in fails, display a message to the user.
+                            Toast.makeText(getActivity(), "Authentication failed.", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
     }
 }
 

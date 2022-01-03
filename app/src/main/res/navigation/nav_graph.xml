@@ -13,6 +13,9 @@
         <action
             android:id="@+id/action_firstFragment_to_carLoginFragment"
             app:destination="@id/carLoginFragment" />
+        <action
+            android:id="@+id/action_firstFragment_to_carsListFragment2"
+            app:destination="@id/carsListFragment" />
     </fragment>
     <fragment
         android:id="@+id/carLoginFragment"
@@ -46,8 +49,8 @@
             android:id="@+id/action_carsListFragment_to_userProfileFragment"
             app:destination="@id/userProfileFragment" />
         <argument
-            android:name="user"
-            app:argType="com.example.car4u.Model.User" />
+            android:name="email_id"
+            app:argType="string" />
     </fragment>
     <fragment
         android:id="@+id/addCarFragment"
@@ -81,6 +84,10 @@
         <argument
             android:name="user"
             app:argType="com.example.car4u.Model.User" />
+        <action
+            android:id="@+id/action_userProfileFragment_to_carLoginFragment2"
+            app:destination="@id/carLoginFragment"
+            app:popUpTo="@id/carLoginFragment" />
     </fragment>
     <fragment
         android:id="@+id/addCarDescriptionFragment"

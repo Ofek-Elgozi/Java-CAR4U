@@ -2,6 +2,7 @@ package com.example.car4u;
 
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
 
@@ -13,9 +14,12 @@ import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
-import com.example.car4u.Model.Car;
 import com.example.car4u.Model.Model;
 import com.example.car4u.Model.User;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.List;
 
@@ -25,15 +29,22 @@ public class CarRegisterFragment extends Fragment
     List<User> data;
     View view;
     ProgressBar progressBar;
+    EditText nameET;
+    EditText passwordEt;
+    EditText emailEt;
+    EditText phoneEt;
+    private FirebaseAuth mAuth;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState)
     {
         view = inflater.inflate(R.layout.fragment_car_register, container, false);
-        EditText usernameEt = view.findViewById(R.id.username_register);
-        EditText passwordEt = view.findViewById(R.id.password_register);
-        EditText emailEt = view.findViewById(R.id.email_register);
-        EditText phoneEt = view.findViewById(R.id.phone_register);
+        mAuth = FirebaseAuth.getInstance();
+        emailEt = view.findViewById(R.id.email_register);
+        passwordEt = view.findViewById(R.id.password_register);
+        nameET = view.findViewById(R.id.name_register);
+        phoneEt = view.findViewById(R.id.phone_register);
         progressBar = view.findViewById(R.id.progressbar_register);
         progressBar.setVisibility(View.GONE);
         Button cancelBtn = view.findViewById(R.id.register_cancel_btn);
@@ -52,24 +63,49 @@ public class CarRegisterFragment extends Fragment
             public void onClick(View v)
             {
                 progressBar.setVisibility(View.VISIBLE);
-                User user = new User();
-                user.username=usernameEt.getText().toString();
-                user.password=passwordEt.getText().toString();
-                user.email=emailEt.getText().toString();
-                user.phone=phoneEt.getText().toString();
-                usernameEt.setEnabled(false);
-                passwordEt.setEnabled(false);
-                emailEt.setEnabled(false);
-                phoneEt.setEnabled(false);
-                cancelBtn.setEnabled(false);
-                Model.instance.addUser(user,()->
+                if(validate()==false)
                 {
-                    Navigation.findNavController(v).popBackStack();
-                });
-                Toast.makeText(getActivity(), "User " + user.username + " Added Successfully!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(), "Register Failed!", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                mAuth.createUserWithEmailAndPassword(emailEt.getText().toString(), passwordEt.getText().toString())
+                        .addOnCompleteListener(getActivity(), new OnCompleteListener<AuthResult>()
+                        {
+                            @Override
+                            public void onComplete(@NonNull Task<AuthResult> task) {
+                                if (task.isSuccessful())
+                                {
+                                    User user = new User();
+                                    user.name=nameET.getText().toString();
+                                    user.password=passwordEt.getText().toString();
+                                    user.email=emailEt.getText().toString();
+                                    user.phone=phoneEt.getText().toString();
+                                    nameET.setEnabled(false);
+                                    passwordEt.setEnabled(false);
+                                    emailEt.setEnabled(false);
+                                    phoneEt.setEnabled(false);
+                                    cancelBtn.setEnabled(false);
+                                    // Sign up success, update UI with the signed-in user's information
+                                    Model.instance.addUser(user,()->
+                                    {
+                                        Navigation.findNavController(v).popBackStack();
+                                        Toast.makeText(getActivity(), "User " + user.name + " Added Successfully!", Toast.LENGTH_SHORT).show();
+                                    });
+                                } else {
+                                    // If sign up fails, display a message to the user.
+                                    Toast.makeText(getActivity(), "Register Failed!", Toast.LENGTH_SHORT).show();
+                                    progressBar.setVisibility(View.GONE);
+                                }
+                            }
+                        });
             }
         });
         return view;
+    }
+
+    private boolean validate()
+    {
+        return (nameET.getText().length() > 2 && passwordEt.getText().length() > 5 && emailEt.getText().length() > 2);
     }
 }
 

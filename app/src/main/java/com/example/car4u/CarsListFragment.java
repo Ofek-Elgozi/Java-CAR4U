@@ -40,7 +40,8 @@ public class CarsListFragment extends Fragment
 {
     CarListFragmentViewModel viewModel;
     Car car;
-    User user;
+    User u;
+    String temp_email;
     View view;
     MyAdapter adapter;
     ProgressBar carlist_progressBar;
@@ -59,7 +60,15 @@ public class CarsListFragment extends Fragment
                              Bundle savedInstanceState)
     {
         view =inflater.inflate(R.layout.fragment_cars_list, container, false);
-        user=CarsListFragmentArgs.fromBundle(getArguments()).getUser();
+        temp_email=CarsListFragmentArgs.fromBundle(getArguments()).getEmailId();
+        Model.instance.getUserByEmail(temp_email, new Model.getUserByEmailListener()
+        {
+            @Override
+            public void onComplete(User user)
+            {
+                u=user;
+            }
+        });
         carlist_progressBar = view.findViewById(R.id.carlist_progressBar);
         carlist_progressBar.setVisibility(View.VISIBLE);
         RecyclerView list= view.findViewById(R.id.carslistfragment_listv);
@@ -189,11 +198,11 @@ public class CarsListFragment extends Fragment
         switch (item.getItemId())
         {
             case R.id.menu_add:
-                CarsListFragmentDirections.ActionCarsListFragmentToAddCarFragment action = CarsListFragmentDirections.actionCarsListFragmentToAddCarFragment(user);
+                CarsListFragmentDirections.ActionCarsListFragmentToAddCarFragment action = CarsListFragmentDirections.actionCarsListFragmentToAddCarFragment(u);
                 Navigation.findNavController(view).navigate(action);
                 break;
             case R.id.menu_profile:
-                CarsListFragmentDirections.ActionCarsListFragmentToUserProfileFragment action2 = CarsListFragmentDirections.actionCarsListFragmentToUserProfileFragment(user);
+                CarsListFragmentDirections.ActionCarsListFragmentToUserProfileFragment action2 = CarsListFragmentDirections.actionCarsListFragmentToUserProfileFragment(u);
                 Navigation.findNavController(view).navigate(action2);
                 break;
             default:
