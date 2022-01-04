@@ -89,7 +89,7 @@ public class CarLoginFragment extends Fragment
                                 public void onComplete(User user)
                                 {
                                     u = user;
-                                    Toast.makeText(getActivity(), "Welcome " + u.name +"!", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(getActivity(), "Welcome To CAR4U!", Toast.LENGTH_SHORT).show();
                                     CarLoginFragmentDirections.ActionCarLoginFragmentToCarsListFragment action = CarLoginFragmentDirections.actionCarLoginFragmentToCarsListFragment(u.getEmail());
                                     Navigation.findNavController(v).navigate(action);
                                 }

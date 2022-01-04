@@ -4,8 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#E3E3E3"
-    android:backgroundTint="#E3E3E3"
+    android:background="@drawable/back"
     tools:context=".AddCarDescriptionFragment">
 
     <Button
@@ -44,9 +43,9 @@
         android:layout_marginTop="32dp"
         android:layout_marginEnd="45dp"
         android:background="#CFCFCF"
-        android:text="DESCRIPTION"
+        android:text="  DESCRIPTION"
         android:textColor="#FF4A4444"
-        android:textSize="50sp"
+        android:textSize="45sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -58,6 +57,7 @@
         android:layout_marginTop="60dp"
         android:text="Please Describe In A Few"
         android:textSize="32sp"
+        android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView17" />
@@ -68,6 +68,7 @@
         android:layout_height="wrap_content"
         android:text="Words The Car:"
         android:textSize="32sp"
+        android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="@+id/textView18"
         app:layout_constraintStart_toStartOf="@+id/textView18"
         app:layout_constraintTop_toBottomOf="@+id/textView18" />
@@ -80,6 +81,10 @@
         android:ems="10"
         android:inputType="textPersonName"
         android:minHeight="48dp"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:background="#E3E3E3"
+        android:backgroundTint="#E3E3E3"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView19"
