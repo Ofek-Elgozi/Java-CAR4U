@@ -61,7 +61,6 @@ public class CarsListFragment extends Fragment
                              Bundle savedInstanceState)
     {
         view =inflater.inflate(R.layout.fragment_cars_list, container, false);
-        LinearLayoutManager LayoutManager = new LinearLayoutManager(getContext());
         temp_email=CarsListFragmentArgs.fromBundle(getArguments()).getEmailId();
         Model.instance.getUserByEmail(temp_email, new Model.getUserByEmailListener()
         {
@@ -75,9 +74,11 @@ public class CarsListFragment extends Fragment
         carlist_progressBar.setVisibility(View.VISIBLE);
         RecyclerView list= view.findViewById(R.id.carslistfragment_listv);
         list.setHasFixedSize(true);
-        list.setLayoutManager(LayoutManager);
         adapter = new MyAdapter();
+        LinearLayoutManager LayoutManager = new LinearLayoutManager(getContext());
+        list.setLayoutManager(LayoutManager);
         DividerItemDecoration DividerList = new DividerItemDecoration(list.getContext(),LayoutManager.getOrientation());
+        DividerList.setDrawable(getResources().getDrawable(R.drawable.divider));
         list.addItemDecoration(DividerList);
         list.setAdapter(adapter);
         adapter.setOnItemClickListener(new OnItemClickListener()

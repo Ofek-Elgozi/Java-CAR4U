@@ -63,6 +63,7 @@ public class UserProfileFragment extends Fragment
         list.setLayoutManager(LayoutManager);
         adapter = new MyAdapter();
         DividerItemDecoration DividerList = new DividerItemDecoration(list.getContext(),LayoutManager.getOrientation());
+        DividerList.setDrawable(getResources().getDrawable(R.drawable.divider));
         list.addItemDecoration(DividerList);
         list.setAdapter(adapter);
         adapter.setOnItemClickListener(new OnItemClickListener()
