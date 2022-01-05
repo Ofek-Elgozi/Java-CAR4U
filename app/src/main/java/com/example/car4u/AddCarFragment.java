@@ -34,6 +34,8 @@ import com.example.car4u.Model.User;
 
 public class AddCarFragment extends Fragment
 {
+    static final int REQUEST_IMAGE_CAPTURE = 1;
+    final static int RESAULT_SUCCESS = 0;
     public String temp_owner=" ";
     public String temp_model=" ";
     public String temp_year=" ";

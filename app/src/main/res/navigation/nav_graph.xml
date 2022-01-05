@@ -166,5 +166,8 @@
         <argument
             android:name="phone"
             app:argType="string" />
+        <argument
+            android:name="url"
+            app:argType="string" />
     </fragment>
 </navigation>

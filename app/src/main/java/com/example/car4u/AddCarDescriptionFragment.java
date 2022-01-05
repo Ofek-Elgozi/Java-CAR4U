@@ -35,8 +35,6 @@ import java.util.List;
 
 public class AddCarDescriptionFragment extends Fragment
 {
-    static final int REQUEST_IMAGE_CAPTURE = 1;
-    final static int RESAULT_SUCCESS = 0;
     View view;
     User user;
     public String temp_owner=" ";
@@ -87,7 +85,7 @@ public class AddCarDescriptionFragment extends Fragment
                     car.setAvatarUrl(temp_url);
                     Model.instance.addCar(car,()->
                     {
-                        Toast.makeText(getActivity(), car.car_username + " Added New Car!!", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getActivity(), "New Car Added.", Toast.LENGTH_SHORT).show();
                         Navigation.findNavController(v).navigate(R.id.action_addCarDescriptionFragment_pop);
                     });
                 }
@@ -95,7 +93,7 @@ public class AddCarDescriptionFragment extends Fragment
                 {
                     Model.instance.addCar(car,()->
                     {
-                        Toast.makeText(getActivity(), car.car_username + " Added New Car!!", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getActivity(), "New Car Added.", Toast.LENGTH_SHORT).show();
                         Navigation.findNavController(v).navigate(R.id.action_addCarDescriptionFragment_pop);
                     });
                 }

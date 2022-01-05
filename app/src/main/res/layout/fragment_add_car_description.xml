@@ -37,13 +37,13 @@
 
     <TextView
         android:id="@+id/textView17"
-        android:layout_width="0dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="45dp"
         android:layout_marginTop="32dp"
         android:layout_marginEnd="45dp"
         android:background="#CFCFCF"
-        android:text="  DESCRIPTION"
+        android:text="DESCRIPTION"
         android:textColor="#FF4A4444"
         android:textSize="45sp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -58,6 +58,8 @@
         android:text="Please Describe In A Few"
         android:textSize="32sp"
         android:textStyle="bold"
+        android:background="#E3E3E3"
+        android:backgroundTint="#E3E3E3"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView17" />
@@ -69,6 +71,8 @@
         android:text="Words The Car:"
         android:textSize="32sp"
         android:textStyle="bold"
+        android:background="#E3E3E3"
+        android:backgroundTint="#E3E3E3"
         app:layout_constraintEnd_toEndOf="@+id/textView18"
         app:layout_constraintStart_toStartOf="@+id/textView18"
         app:layout_constraintTop_toBottomOf="@+id/textView18" />

@@ -31,6 +31,7 @@ public class CarEditDescriptionFragment extends Fragment
     public String temp_price=" ";
     public String temp_location=" ";
     public String temp_phone=" ";
+    public String temp_url;
     ProgressBar progressBar;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -43,6 +44,7 @@ public class CarEditDescriptionFragment extends Fragment
         temp_price=CarEditDescriptionFragmentArgs.fromBundle(getArguments()).getPrice();
         temp_location=CarEditDescriptionFragmentArgs.fromBundle(getArguments()).getLocation();
         temp_phone=CarEditDescriptionFragmentArgs.fromBundle(getArguments()).getPhone();
+        temp_url = CarEditDescriptionFragmentArgs.fromBundle(getArguments()).getUrl();
         car=CarEditDescriptionFragmentArgs.fromBundle(getArguments()).getCar();
         progressBar = view.findViewById(R.id.car_edit_des_progressBar);
         progressBar.setVisibility(View.GONE);
@@ -66,11 +68,23 @@ public class CarEditDescriptionFragment extends Fragment
                 car.location=temp_location;
                 car.phone=temp_phone;
                 car.description =description.getText().toString();
-                Model.instance.addCar(car,()->
+                if(temp_url != "")
                 {
-                    Navigation.findNavController(v).navigate(R.id.action_carEditDescriptionFragment_pop);
-                });
-                //Toast.makeText(getActivity(), "Car Details successfully Edited", Toast.LENGTH_SHORT).show();
+                    car.setAvatarUrl(temp_url);
+                    Model.instance.addCar(car,()->
+                    {
+                        Toast.makeText(getActivity(), "Car Details successfully Edited", Toast.LENGTH_SHORT).show();
+                        Navigation.findNavController(v).navigate(R.id.action_carEditDescriptionFragment_pop);
+                    });
+                }
+                else
+                {
+                    Model.instance.addCar(car,()->
+                    {
+                        Toast.makeText(getActivity(), "Car Details successfully Edited", Toast.LENGTH_SHORT).show();
+                        Navigation.findNavController(v).navigate(R.id.action_carEditDescriptionFragment_pop);
+                    });
+                }
             }
         });
         cancelBtn.setOnClickListener(new View.OnClickListener()

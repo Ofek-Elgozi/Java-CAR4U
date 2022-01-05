@@ -1,17 +1,28 @@
 package com.example.car4u;
 
+import static android.app.Activity.RESULT_CANCELED;
+
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
 
+import android.provider.MediaStore;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -27,6 +38,8 @@ import java.util.List;
 
 public class CarEditFragment extends Fragment
 {
+    static final int REQUEST_IMAGE_CAPTURE = 1;
+    final static int RESAULT_SUCCESS = 0;
     Car car;
     View view;
     User user;
@@ -36,6 +49,7 @@ public class CarEditFragment extends Fragment
     public String temp_price=" ";
     public String temp_location=" ";
     public String temp_phone=" ";
+    Bitmap bitmap;
     ImageView avatarImg;
     ProgressBar progressBar;
     @Override
@@ -77,6 +91,7 @@ public class CarEditFragment extends Fragment
         Button continueBtn= view.findViewById(R.id.car_edit_continuebtn);
         Button cancelBtn= view.findViewById(R.id.car_edit_cancelbtn);
         Button deleteBtn= view.findViewById(R.id.car_edit_deletebtn);
+        ImageButton editImagebTn = view.findViewById(R.id.car_edit_picturebtn);
         continueBtn.setOnClickListener(new View.OnClickListener()
         {
             @Override
@@ -88,8 +103,19 @@ public class CarEditFragment extends Fragment
                 temp_price=edit_price.getText().toString();
                 temp_location=edit_location.getText().toString();
                 temp_phone=edit_phone.getText().toString();
-                CarEditFragmentDirections.ActionCarEditFragmentToCarEditDescriptionFragment action = CarEditFragmentDirections.actionCarEditFragmentToCarEditDescriptionFragment(car,temp_owner,temp_model,temp_year,temp_price,temp_location,temp_phone);
-                Navigation.findNavController(v).navigate(action);
+                if(bitmap == null)
+                {
+                    CarEditFragmentDirections.ActionCarEditFragmentToCarEditDescriptionFragment action = CarEditFragmentDirections.actionCarEditFragmentToCarEditDescriptionFragment(car,temp_owner,temp_model,temp_year,temp_price,temp_location,temp_phone, "");
+                    Navigation.findNavController(v).navigate(action);
+                }
+                else
+                {
+                    Model.instance.saveImage(bitmap,temp_model, url ->
+                    {
+                        CarEditFragmentDirections.ActionCarEditFragmentToCarEditDescriptionFragment action = CarEditFragmentDirections.actionCarEditFragmentToCarEditDescriptionFragment(car,temp_owner,temp_model,temp_year,temp_price,temp_location,temp_phone, url);
+                        Navigation.findNavController(v).navigate(action);
+                    });
+                }
             }
         });
         cancelBtn.setOnClickListener(new View.OnClickListener()
@@ -120,6 +146,82 @@ public class CarEditFragment extends Fragment
                 });
             }
         });
+        editImagebTn.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+                selectImage();
+            }
+        });
         return view;
+    }
+
+    public void selectImage()
+    {
+        final CharSequence[] options = { "Take Photo", "Choose from Gallery","Cancel" };
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        builder.setTitle("Choose your car picture");
+
+        builder.setItems(options, new DialogInterface.OnClickListener()
+        {
+            @Override
+            public void onClick(DialogInterface dialog, int item)
+            {
+
+                if (options[item].equals("Take Photo"))
+                {
+                    Intent takePicture = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
+                    startActivityForResult(takePicture, 0);
+
+                } else if (options[item].equals("Choose from Gallery"))
+                {
+                    Intent pickPhoto = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                    startActivityForResult(pickPhoto , 1);
+
+                } else if (options[item].equals("Cancel"))
+                {
+                    dialog.dismiss();
+                }
+            }
+        });
+        builder.show();
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data)
+    {
+        if(resultCode != RESULT_CANCELED)
+        {
+            switch (requestCode) {
+                case 0://return from camera
+                    if (resultCode == getActivity().RESULT_OK && data != null) {
+                        bitmap = (Bitmap) data.getExtras().get("data");
+                        avatarImg.setImageBitmap(bitmap);
+                    }
+
+                    break;
+                case 1://return from gallery
+                    if (resultCode == getActivity().RESULT_OK && data != null)
+                    {
+                        Uri selectedImage =  data.getData();
+                        String[] filePathColumn = {MediaStore.Images.Media.DATA};
+                        if (selectedImage != null)
+                        {
+                            Cursor cursor = getActivity().getContentResolver().query(selectedImage, filePathColumn, null, null, null);
+                            if (cursor != null)
+                            {
+                                cursor.moveToFirst();
+                                int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
+                                String picturePath = cursor.getString(columnIndex);
+                                avatarImg.setImageBitmap(BitmapFactory.decodeFile(picturePath));
+                                cursor.close();
+                            }
+                        }
+                    }
+                    break;
+            }
+        }
     }
 }

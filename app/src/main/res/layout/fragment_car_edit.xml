@@ -9,8 +9,8 @@
 
     <ImageView
         android:id="@+id/car_edit_imagev"
-        android:layout_width="154dp"
-        android:layout_height="122dp"
+        android:layout_width="160dp"
+        android:layout_height="140dp"
         android:layout_marginTop="16dp"
         android:src="@drawable/avatar"
         app:layout_constraintEnd_toEndOf="parent"
@@ -188,6 +188,7 @@
         android:layout_marginStart="16dp"
         android:layout_marginBottom="16dp"
         android:text="CANCEL"
+        android:textSize="14dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/car_edit_continuebtn"
         app:layout_constraintStart_toStartOf="parent" />
@@ -200,6 +201,7 @@
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="16dp"
         android:text="Continue Edit"
+        android:textSize="12sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/car_edit_deletebtn"
         app:layout_constraintStart_toEndOf="@+id/car_edit_cancelbtn" />
@@ -212,6 +214,7 @@
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="16dp"
         android:text="DELETE"
+        android:textSize="14dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/car_edit_continuebtn" />
@@ -221,8 +224,6 @@
         style="?android:attr/progressBarStyle"
         android:layout_width="100dp"
         android:layout_height="100dp"
-        android:background="#E3E3E3"
-        android:backgroundTint="#E3E3E3"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -244,5 +245,13 @@
         app:layout_constraintStart_toEndOf="@+id/textView20"
         app:layout_constraintTop_toTopOf="@+id/textView20"
         tools:ignore="SpeakableTextPresentCheck" />
+
+    <ImageButton
+        android:id="@+id/car_edit_picturebtn"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:src="@android:drawable/ic_menu_camera"
+        app:layout_constraintBottom_toBottomOf="@+id/car_edit_imagev"
+        app:layout_constraintEnd_toEndOf="@+id/car_edit_imagev" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
