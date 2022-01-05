@@ -41,11 +41,16 @@ public class CarLoginFragment extends Fragment
         login_progressBar = view.findViewById(R.id.login_progressBar);
         login_progressBar.setVisibility(View.GONE);
         Button sign_inBtn = view.findViewById(R.id.signin_btn);
+        Button registerBtn = view.findViewById(R.id.register_btn);
         sign_inBtn.setOnClickListener(new View.OnClickListener()
         {
             @Override
             public void onClick(View v)
             {
+                registerBtn.setEnabled(false);
+                passwordEt.setEnabled(false);
+                emailEt.setEnabled(false);
+                login_progressBar.setVisibility(View.VISIBLE);
                 if(validate()==false)
                 {
                     Toast.makeText(getActivity(), "Login Failed!", Toast.LENGTH_SHORT).show();
@@ -54,7 +59,6 @@ public class CarLoginFragment extends Fragment
                 validateUser(v);
             }
         });
-        Button registerBtn = view.findViewById(R.id.register_btn);
         registerBtn.setOnClickListener(new View.OnClickListener()
         {
             @Override
@@ -78,7 +82,6 @@ public class CarLoginFragment extends Fragment
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task)
                     {
-                        login_progressBar.setVisibility(View.VISIBLE);
                         if (task.isSuccessful())
                         {
                             // Sign in success, update UI with the signed-in user's information

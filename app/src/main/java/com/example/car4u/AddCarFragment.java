@@ -25,6 +25,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.example.car4u.Model.Car;
@@ -46,12 +47,15 @@ public class AddCarFragment extends Fragment
     ImageView avatar;
     View view;
     User user;
+    ProgressBar progressBar;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState)
     {
         view = inflater.inflate(R.layout.fragment_add_car, container, false);
         user= AddCarFragmentArgs.fromBundle(getArguments()).getUser();
+        progressBar = view.findViewById(R.id.addcar_progressbar);
+        progressBar.setVisibility(View.GONE);
         EditText owner = view.findViewById(R.id.addcar_owner_et);
         EditText model = view.findViewById(R.id.addcar_model_et);
         EditText year = view.findViewById(R.id.addcar_year_et);
@@ -67,6 +71,15 @@ public class AddCarFragment extends Fragment
             @Override
             public void onClick(View v)
             {
+                editImagebTn.setEnabled(false);
+                cancelBtn.setEnabled(false);
+                owner.setEnabled(false);
+                model.setEnabled(false);
+                year.setEnabled(false);
+                price.setEnabled(false);
+                location.setEnabled(false);
+                phone.setEnabled(false);
+                progressBar.setVisibility(View.VISIBLE);
                 temp_owner=owner.getText().toString();
                 temp_model=model.getText().toString();
                 temp_year=year.getText().toString();

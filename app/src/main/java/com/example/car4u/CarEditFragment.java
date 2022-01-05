@@ -97,6 +97,16 @@ public class CarEditFragment extends Fragment
             @Override
             public void onClick(View v)
             {
+                edit_owner.setEnabled(false);
+                edit_model.setEnabled(false);
+                edit_year.setEnabled(false);
+                edit_price.setEnabled(false);
+                edit_location.setEnabled(false);
+                edit_phone.setEnabled(false);
+                editImagebTn.setEnabled(false);
+                deleteBtn.setEnabled(false);
+                cancelBtn.setEnabled(false);
+                progressBar.setVisibility(View.VISIBLE);
                 temp_owner=edit_owner.getText().toString();
                 temp_model=edit_model.getText().toString();
                 temp_year=edit_year.getText().toString();
