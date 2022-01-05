@@ -6,11 +6,13 @@
     android:layout_height="wrap_content">
 
     <ImageView
-        android:id="@+id/imageView4"
-        android:layout_width="140dp"
+        android:id="@+id/carlistrow_imagev"
+        android:layout_width="160dp"
         android:layout_height="160dp"
         android:layout_marginStart="10dp"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/avatar" />
@@ -19,41 +21,41 @@
         android:id="@+id/textView32"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="40dp"
+        android:layout_marginStart="20dp"
         android:background="#E3E3E3"
         android:backgroundTint="#E3E3E3"
         android:text="Model:"
         android:textSize="28sp"
         android:textStyle="bold"
-        app:layout_constraintStart_toEndOf="@+id/imageView4"
-        app:layout_constraintTop_toTopOf="@+id/imageView4" />
+        app:layout_constraintStart_toEndOf="@+id/carlistrow_imagev"
+        app:layout_constraintTop_toTopOf="@+id/carlistrow_imagev" />
 
     <TextView
         android:id="@+id/textView33"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="40dp"
+        android:layout_marginStart="20dp"
         android:layout_marginTop="20dp"
         android:background="#E3E3E3"
         android:backgroundTint="#E3E3E3"
         android:text="Year:"
         android:textSize="28sp"
         android:textStyle="bold"
-        app:layout_constraintStart_toEndOf="@+id/imageView4"
+        app:layout_constraintStart_toEndOf="@+id/carlistrow_imagev"
         app:layout_constraintTop_toBottomOf="@+id/textView32" />
 
     <TextView
         android:id="@+id/textView35"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="40dp"
+        android:layout_marginStart="20dp"
         android:layout_marginTop="20dp"
         android:background="#E3E3E3"
         android:backgroundTint="#E3E3E3"
         android:text="Price:"
         android:textSize="28sp"
         android:textStyle="bold"
-        app:layout_constraintStart_toEndOf="@+id/imageView4"
+        app:layout_constraintStart_toEndOf="@+id/carlistrow_imagev"
         app:layout_constraintTop_toBottomOf="@+id/textView33" />
 
     <TextView

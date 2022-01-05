@@ -32,6 +32,7 @@ public class Car implements Parcelable
     public String car_username;
     public String phone;
     public String description;
+    public String avatarUrl;
     boolean deleted;
     Long lastUpdated= new Long(0);
 
@@ -74,37 +75,6 @@ public class Car implements Parcelable
         deleted=false;
     }
 
-
-    protected Car(Parcel in) {
-        id_key = in.readString();
-        owner = in.readString();
-        model = in.readString();
-        year = in.readString();
-        price = in.readString();
-        location = in.readString();
-        car_username = in.readString();
-        phone = in.readString();
-        description = in.readString();
-        deleted = in.readByte() != 0;
-        if (in.readByte() == 0) {
-            lastUpdated = null;
-        } else {
-            lastUpdated = in.readLong();
-        }
-    }
-
-    public static final Creator<Car> CREATOR = new Creator<Car>() {
-        @Override
-        public Car createFromParcel(Parcel in) {
-            return new Car(in);
-        }
-
-        @Override
-        public Car[] newArray(int size) {
-            return new Car[size];
-        }
-    };
-
     @NonNull
     public String getOwner() {
         return owner;
@@ -112,6 +82,16 @@ public class Car implements Parcelable
 
     public String getModel() {
         return model;
+    }
+
+    public String getAvatarUrl()
+    {
+        return avatarUrl;
+    }
+
+    public void setAvatarUrl(String avatarUrl)
+    {
+        this.avatarUrl = avatarUrl;
     }
 
     public void setOwner(String owner) {
@@ -219,6 +199,7 @@ public class Car implements Parcelable
         json.put("description", getDescription());
         json.put("car_username", getCar_username());
         json.put("deleted", isDeleted());
+        json.put("avatarUrl", getAvatarUrl());
         json.put(LAST_UPDATED, FieldValue.serverTimestamp());
         return json;
     }
@@ -230,12 +211,14 @@ public class Car implements Parcelable
         String year=(String)json.get("year");
         String price=(String)json.get("price");
         String location=(String)json.get("location");
+        String avatarUrl=(String)json.get("avatarUrl");
         String phone=(String)json.get("phone");
         String description=(String)json.get("description");
         String car_username=(String)json.get("car_username");
         boolean deleted=(boolean)json.get("deleted");
         Car car = new Car(owner,model,year,price,location,phone,description,car_username);
         car.setDeleted(deleted);
+        car.setAvatarUrl(avatarUrl);
         Timestamp ts = (Timestamp)json.get(LAST_UPDATED);
         car.setLastUpdated(new Long(ts.getSeconds()));
         return car;
@@ -272,6 +255,7 @@ public class Car implements Parcelable
         dest.writeString(car_username);
         dest.writeString(phone);
         dest.writeString(description);
+        dest.writeString(avatarUrl);
         dest.writeByte((byte) (deleted ? 1 : 0));
         if (lastUpdated == null) {
             dest.writeByte((byte) 0);
@@ -280,4 +264,38 @@ public class Car implements Parcelable
             dest.writeLong(lastUpdated);
         }
     }
+
+    protected Car(Parcel in) {
+        id_key = in.readString();
+        owner = in.readString();
+        model = in.readString();
+        year = in.readString();
+        price = in.readString();
+        location = in.readString();
+        car_username = in.readString();
+        phone = in.readString();
+        description = in.readString();
+        avatarUrl = in.readString();
+        deleted = in.readByte() != 0;
+        if (in.readByte() == 0) {
+            lastUpdated = null;
+        } else {
+            lastUpdated = in.readLong();
+        }
+    }
+
+    public static final Creator<Car> CREATOR = new Creator<Car>()
+    {
+        @Override
+        public Car createFromParcel(Parcel in)
+        {
+            return new Car(in);
+        }
+
+        @Override
+        public Car[] newArray(int size)
+        {
+            return new Car[size];
+        }
+    };
 }

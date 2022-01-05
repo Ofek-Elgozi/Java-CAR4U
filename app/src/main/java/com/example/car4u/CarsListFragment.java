@@ -5,9 +5,7 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.LiveData;
 import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.DividerItemDecoration;
@@ -21,19 +19,15 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.BaseAdapter;
-import android.widget.CheckBox;
-import android.widget.ListView;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.car4u.Model.Car;
 import com.example.car4u.Model.Model;
 import com.example.car4u.Model.User;
+import com.squareup.picasso.Picasso;
 
-import java.util.LinkedList;
 import java.util.List;
 
 
@@ -127,14 +121,14 @@ public class CarsListFragment extends Fragment
         TextView model;
         TextView year;
         TextView price;
-        TextView description;
+        ImageView avatarImg;
         public MyViewHolder(@NonNull View itemView, OnItemClickListener listener)
         {
             super(itemView);
             model= itemView.findViewById(R.id.carlistrow_text_v1);
             year= itemView.findViewById(R.id.carlistrow_text_v2);
             price= itemView.findViewById(R.id.carlistrow_text_v3);
-            //description= itemView.findViewById(R.id.carlistrow_text_v4);
+            avatarImg = itemView.findViewById(R.id.carlistrow_imagev);
             itemView.setOnClickListener(new View.OnClickListener()
             {
                 @Override
@@ -147,6 +141,17 @@ public class CarsListFragment extends Fragment
                     }
                 }
             });
+        }
+        public void bind(Car car)
+        {
+            model.setText(car.getModel());
+            year.setText(car.getYear());
+            price.setText(car.getPrice());
+            avatarImg.setImageResource(R.drawable.avatar);
+            if(car.getAvatarUrl() != null)
+            {
+                Picasso.get().load(car.getAvatarUrl()).placeholder(R.drawable.avatar).into(avatarImg);
+            }
         }
     }
 
@@ -175,10 +180,8 @@ public class CarsListFragment extends Fragment
         @Override
         public void onBindViewHolder(@NonNull MyViewHolder holder, int position)
         {
-            holder.model.setText(viewModel.getData().getValue().get(position).model);
-            holder.year.setText(viewModel.getData().getValue().get(position).year);
-            holder.price.setText(viewModel.getData().getValue().get(position).price);
-            //holder.description.setText(viewModel.getData().getValue().get(position).description);
+            Car c2 = viewModel.getData().getValue().get(position);
+            holder.bind(c2);
         }
 
         @Override

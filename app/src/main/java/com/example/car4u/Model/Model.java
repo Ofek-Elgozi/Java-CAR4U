@@ -1,5 +1,6 @@
 package com.example.car4u.Model;
 
+import android.graphics.Bitmap;
 import android.util.Log;
 
 import androidx.lifecycle.LiveData;
@@ -181,6 +182,16 @@ public class Model
                 listener.onComplete();
             }
         });
+    }
+
+    public interface SaveImageListener
+    {
+        void onComplete(String url);
+    }
+
+    public void saveImage(Bitmap bitmap, String Car_username, SaveImageListener listener)
+    {
+        modelFireBase.saveImage(bitmap,Car_username, listener);
     }
 }
 
