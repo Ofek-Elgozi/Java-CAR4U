@@ -12,12 +12,14 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.example.car4u.Model.Car;
 import com.example.car4u.Model.Model;
 import com.example.car4u.Model.User;
+import com.squareup.picasso.Picasso;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -34,6 +36,7 @@ public class CarEditFragment extends Fragment
     public String temp_price=" ";
     public String temp_location=" ";
     public String temp_phone=" ";
+    ImageView avatarImg;
     ProgressBar progressBar;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -44,6 +47,14 @@ public class CarEditFragment extends Fragment
         user=CarEditFragmentArgs.fromBundle(getArguments()).getUser();
         progressBar = view.findViewById(R.id.car_edit_progressBar);
         progressBar.setVisibility(View.GONE);
+
+        avatarImg = view.findViewById(R.id.car_edit_imagev);
+        avatarImg.setImageResource(R.drawable.avatar);
+        if(car.getAvatarUrl() != null)
+        {
+            Picasso.get().load(car.getAvatarUrl()).placeholder(R.drawable.avatar).into(avatarImg);
+        }
+
         EditText edit_owner = view.findViewById(R.id.car_edit_owner);
         edit_owner.setText(car.owner);
 

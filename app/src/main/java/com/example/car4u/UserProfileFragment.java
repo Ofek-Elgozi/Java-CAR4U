@@ -19,12 +19,14 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.example.car4u.Model.Car;
 import com.example.car4u.Model.User;
 import com.google.firebase.auth.FirebaseAuth;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -105,14 +107,14 @@ public class UserProfileFragment extends Fragment
         TextView model;
         TextView year;
         TextView price;
-        TextView description;
+        ImageView avatarImg;
         public MyViewHolder(@NonNull View itemView, OnItemClickListener listener)
         {
             super(itemView);
             model= itemView.findViewById(R.id.carlistrow_text_v1);
             year= itemView.findViewById(R.id.carlistrow_text_v2);
             price= itemView.findViewById(R.id.carlistrow_text_v3);
-            //description= itemView.findViewById(R.id.carlistrow_text_v4);
+            avatarImg = itemView.findViewById(R.id.carlistrow_imagev);
             itemView.setOnClickListener(new View.OnClickListener()
             {
                 @Override
@@ -125,6 +127,17 @@ public class UserProfileFragment extends Fragment
                     }
                 }
             });
+        }
+        public void bind(Car car)
+        {
+            model.setText(car.getModel());
+            year.setText(car.getYear());
+            price.setText(car.getPrice());
+            avatarImg.setImageResource(R.drawable.avatar);
+            if(car.getAvatarUrl() != null)
+            {
+                Picasso.get().load(car.getAvatarUrl()).placeholder(R.drawable.avatar).into(avatarImg);
+            }
         }
     }
 
@@ -153,10 +166,8 @@ public class UserProfileFragment extends Fragment
         @Override
         public void onBindViewHolder(@NonNull MyViewHolder holder, int position)
         {
-            holder.model.setText(viewModel.getData().getValue().get(position).model);
-            holder.year.setText(viewModel.getData().getValue().get(position).year);
-            holder.price.setText(viewModel.getData().getValue().get(position).price);
-            //holder.description.setText(viewModel.getData().getValue().get(position).description);
+            Car c2 = viewModel.getData().getValue().get(position);
+            holder.bind(c2);
         }
 
         @Override

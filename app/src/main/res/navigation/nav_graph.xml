@@ -118,6 +118,9 @@
         <argument
             android:name="user"
             app:argType="com.example.car4u.Model.User" />
+        <argument
+            android:name="url"
+            app:argType="string" />
     </fragment>
     <fragment
         android:id="@+id/carEditFragment"

@@ -45,8 +45,7 @@ public class AddCarDescriptionFragment extends Fragment
     public String temp_price=" ";
     public String temp_location=" ";
     public String temp_phone=" ";
-    Bitmap bitmap;
-    ImageView avatar;
+    public String temp_url;
     ProgressBar progressBar;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -59,14 +58,13 @@ public class AddCarDescriptionFragment extends Fragment
         temp_price= AddCarDescriptionFragmentArgs.fromBundle(getArguments()).getTempPrice();
         temp_location= AddCarDescriptionFragmentArgs.fromBundle(getArguments()).getTempLocation();
         temp_phone= AddCarDescriptionFragmentArgs.fromBundle(getArguments()).getTempPhone();
+        temp_url = AddCarDescriptionFragmentArgs.fromBundle(getArguments()).getUrl();
         user= AddCarDescriptionFragmentArgs.fromBundle(getArguments()).getUser();
-        avatar = view.findViewById(R.id.addcar_image);
         progressBar = view.findViewById(R.id.addcar_des_progressbar);
         progressBar.setVisibility(View.GONE);
         EditText description = view.findViewById(R.id.addcar_des_description_et);
         Button saveBtn= view.findViewById(R.id.addcar_des_save_btn);
         Button cancelBtn= view.findViewById(R.id.addcar_des_cancel_btn);
-        ImageButton editImagebTn = view.findViewById(R.id.addcar_imagev_btn);
         saveBtn.setOnClickListener(new View.OnClickListener()
         {
             @Override
@@ -84,8 +82,9 @@ public class AddCarDescriptionFragment extends Fragment
                 car.setPhone(temp_phone);
                 car.setCar_username(user.name);
                 car.setDescription(description.getText().toString());
-                if(bitmap == null)
+                if(temp_url != "")
                 {
+                    car.setAvatarUrl(temp_url);
                     Model.instance.addCar(car,()->
                     {
                         Toast.makeText(getActivity(), car.car_username + " Added New Car!!", Toast.LENGTH_SHORT).show();
@@ -94,14 +93,10 @@ public class AddCarDescriptionFragment extends Fragment
                 }
                 else
                 {
-                    Model.instance.saveImage(bitmap,car.getCar_username(), url ->
+                    Model.instance.addCar(car,()->
                     {
-                        car.setAvatarUrl(url);
-                        Model.instance.addCar(car,()->
-                        {
-                            Toast.makeText(getActivity(), car.car_username + " Added New Car!!", Toast.LENGTH_SHORT).show();
-                            Navigation.findNavController(v).navigate(R.id.action_addCarDescriptionFragment_pop);
-                        });
+                        Toast.makeText(getActivity(), car.car_username + " Added New Car!!", Toast.LENGTH_SHORT).show();
+                        Navigation.findNavController(v).navigate(R.id.action_addCarDescriptionFragment_pop);
                     });
                 }
             }
@@ -114,83 +109,7 @@ public class AddCarDescriptionFragment extends Fragment
                 Navigation.findNavController(v).popBackStack();
             }
         });
-        editImagebTn.setOnClickListener(new View.OnClickListener()
-        {
-            @Override
-            public void onClick(View v)
-            {
-                selectImage();
-            }
-        });
         return view;
-    }
-
-    public void selectImage()
-    {
-        final CharSequence[] options = { "Take Photo", "Choose from Gallery","Cancel" };
-
-        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-        builder.setTitle("Choose your car picture");
-
-        builder.setItems(options, new DialogInterface.OnClickListener()
-        {
-            @Override
-            public void onClick(DialogInterface dialog, int item)
-            {
-
-                if (options[item].equals("Take Photo"))
-                {
-                    Intent takePicture = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
-                    startActivityForResult(takePicture, 0);
-
-                } else if (options[item].equals("Choose from Gallery"))
-                {
-                    Intent pickPhoto = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                    startActivityForResult(pickPhoto , 1);
-
-                } else if (options[item].equals("Cancel"))
-                {
-                    dialog.dismiss();
-                }
-            }
-        });
-        builder.show();
-    }
-
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data)
-    {
-        if(resultCode != RESULT_CANCELED)
-        {
-            switch (requestCode) {
-                case 0://return from camera
-                    if (resultCode == getActivity().RESULT_OK && data != null) {
-                        bitmap = (Bitmap) data.getExtras().get("data");
-                        avatar.setImageBitmap(bitmap);
-                    }
-
-                    break;
-                case 1://return from gallery
-                    if (resultCode == getActivity().RESULT_OK && data != null)
-                    {
-                        Uri selectedImage =  data.getData();
-                        String[] filePathColumn = {MediaStore.Images.Media.DATA};
-                        if (selectedImage != null)
-                        {
-                            Cursor cursor = getActivity().getContentResolver().query(selectedImage, filePathColumn, null, null, null);
-                            if (cursor != null)
-                            {
-                                cursor.moveToFirst();
-                                int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
-                                String picturePath = cursor.getString(columnIndex);
-                                avatar.setImageBitmap(BitmapFactory.decodeFile(picturePath));
-                                cursor.close();
-                            }
-                        }
-                    }
-                    break;
-            }
-        }
     }
 }
 

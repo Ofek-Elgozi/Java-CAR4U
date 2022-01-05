@@ -12,21 +12,31 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.car4u.Model.Car;
+import com.squareup.picasso.Picasso;
 
 
 public class CarDetailsFragment extends Fragment
 {
     Car car;
     View view;
+    ImageView avatarImg;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState)
     {
         view =inflater.inflate(R.layout.fragment_car_details, container, false);
         car=CarDetailsFragmentArgs.fromBundle(getArguments()).getCar();
+
+        avatarImg = view.findViewById(R.id.car_details_imagev);
+        avatarImg.setImageResource(R.drawable.avatar);
+        if(car.getAvatarUrl() != null)
+        {
+            Picasso.get().load(car.getAvatarUrl()).placeholder(R.drawable.avatar).into(avatarImg);
+        }
 
         TextView description= view.findViewById(R.id.car_details_description);
         description.setText(car.getDescription());

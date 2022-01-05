@@ -8,7 +8,7 @@
     tools:context=".CarEditFragment">
 
     <ImageView
-        android:id="@+id/imageView3"
+        android:id="@+id/car_edit_imagev"
         android:layout_width="154dp"
         android:layout_height="122dp"
         android:layout_marginTop="16dp"
@@ -29,7 +29,7 @@
         android:background="#E3E3E3"
         android:backgroundTint="#E3E3E3"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView3" />
+        app:layout_constraintTop_toBottomOf="@+id/car_edit_imagev" />
 
     <TextView
         android:id="@+id/textView21"
