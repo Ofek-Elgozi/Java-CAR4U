@@ -5,13 +5,16 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
-    <ImageView
+    <com.google.android.material.imageview.ShapeableImageView
         android:id="@+id/carlistrow_imagev"
         android:layout_width="160dp"
         android:layout_height="160dp"
         android:layout_marginStart="10dp"
         android:layout_marginTop="8dp"
         android:layout_marginBottom="8dp"
+        android:adjustViewBounds="true"
+        android:scaleType="fitXY"
+        app:shapeAppearanceOverlay="@style/roundimageview"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"

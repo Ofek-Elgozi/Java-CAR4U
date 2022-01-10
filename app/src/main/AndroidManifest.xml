@@ -2,13 +2,15 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     package="com.example.car4u">
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <application
         android:name=".MyApplication"
         android:allowBackup="true"
         android:icon="@drawable/icon"
         android:label="CAR4U"
         android:roundIcon="@drawable/icon"
-        android:supportsRtl="true"
+        android:supportsRtl="false"
         android:theme="@style/Theme.CAR4U">
         <activity
             android:name=".MainActivity"

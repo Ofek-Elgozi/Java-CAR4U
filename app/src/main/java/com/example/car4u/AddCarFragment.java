@@ -32,6 +32,9 @@ import com.example.car4u.Model.Car;
 import com.example.car4u.Model.Model;
 import com.example.car4u.Model.User;
 
+import java.io.FileNotFoundException;
+import java.io.InputStream;
+
 
 public class AddCarFragment extends Fragment
 {
@@ -157,31 +160,28 @@ public class AddCarFragment extends Fragment
     {
         if(resultCode != RESULT_CANCELED)
         {
-            switch (requestCode) {
+            switch (requestCode)
+            {
                 case 0://return from camera
-                    if (resultCode == getActivity().RESULT_OK && data != null) {
+                    if (resultCode == getActivity().RESULT_OK && data != null)
+                    {
                         bitmap = (Bitmap) data.getExtras().get("data");
                         avatar.setImageBitmap(bitmap);
                     }
-
                     break;
                 case 1://return from gallery
                     if (resultCode == getActivity().RESULT_OK && data != null)
                     {
-                        Uri selectedImage =  data.getData();
-                        String[] filePathColumn = {MediaStore.Images.Media.DATA};
-                        if (selectedImage != null)
+                        InputStream inputStream = null;
+                        try
                         {
-                            Cursor cursor = getActivity().getContentResolver().query(selectedImage, filePathColumn, null, null, null);
-                            if (cursor != null)
-                            {
-                                cursor.moveToFirst();
-                                int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
-                                String picturePath = cursor.getString(columnIndex);
-                                avatar.setImageBitmap(BitmapFactory.decodeFile(picturePath));
-                                cursor.close();
-                            }
+                            inputStream = getActivity().getContentResolver().openInputStream(data.getData());
+                        } catch (FileNotFoundException e)
+                        {
+                            e.printStackTrace();
                         }
+                        bitmap = BitmapFactory.decodeStream(inputStream);
+                        avatar.setImageBitmap(bitmap);
                     }
                     break;
             }

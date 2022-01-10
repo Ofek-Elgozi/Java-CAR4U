@@ -12,16 +12,21 @@
         android:background="@drawable/back"
         tools:context=".CarDetailsFragment">
 
-        <ImageView
+        <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/car_details_imagev"
-            android:layout_width="178dp"
+            android:layout_width="0dp"
             android:layout_height="176dp"
+            android:layout_marginStart="48dp"
             android:layout_marginTop="16dp"
+            android:layout_marginEnd="48dp"
+            android:adjustViewBounds="true"
             android:contentDescription="@string/todo"
+            android:scaleType="fitXY"
             android:src="@drawable/avatar"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:shapeAppearanceOverlay="@style/roundimageview" />
 
         <TextView
             android:id="@+id/textView5"

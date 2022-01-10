@@ -7,12 +7,15 @@
     android:background="@drawable/back"
     tools:context=".CarEditFragment">
 
-    <ImageView
+    <com.google.android.material.imageview.ShapeableImageView
         android:id="@+id/car_edit_imagev"
         android:layout_width="160dp"
         android:layout_height="140dp"
         android:layout_marginTop="16dp"
         android:src="@drawable/avatar"
+        android:adjustViewBounds="true"
+        android:scaleType="fitXY"
+        app:shapeAppearanceOverlay="@style/roundimageview"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
