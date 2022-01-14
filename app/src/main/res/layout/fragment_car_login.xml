@@ -26,12 +26,12 @@
         android:id="@+id/textView2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="40dp"
+        android:layout_marginStart="20dp"
         android:layout_marginTop="60dp"
-        android:text="Email:"
-        android:textSize="28sp"
         android:background="#E3E3E3"
         android:backgroundTint="#E3E3E3"
+        android:text="Email:"
+        android:textSize="28sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView" />
 
@@ -51,12 +51,12 @@
         android:id="@+id/login_email"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
+        android:layout_marginStart="10dp"
+        android:background="#E3E3E3"
+        android:backgroundTint="#E3E3E3"
         android:ems="10"
         android:inputType="textPersonName"
         android:minHeight="48dp"
-        android:background="#E3E3E3"
-        android:backgroundTint="#E3E3E3"
         app:layout_constraintBottom_toBottomOf="@+id/textView2"
         app:layout_constraintStart_toEndOf="@+id/textView2"
         app:layout_constraintTop_toTopOf="@+id/textView2"
@@ -67,11 +67,11 @@
         android:id="@+id/login_password"
         android:layout_width="137dp"
         android:layout_height="49dp"
-        android:layout_marginStart="20dp"
-        android:ems="10"
-        android:inputType="textPersonName"
+        android:layout_marginStart="10dp"
         android:background="#E3E3E3"
         android:backgroundTint="#E3E3E3"
+        android:ems="10"
+        android:inputType="textPassword"
         app:layout_constraintBottom_toBottomOf="@+id/textView3"
         app:layout_constraintEnd_toEndOf="@+id/login_email"
         app:layout_constraintStart_toEndOf="@+id/textView3"
@@ -126,5 +126,15 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.496" />
+
+    <Button
+        android:id="@+id/hidden_btn"
+        android:layout_width="80dp"
+        android:layout_height="49dp"
+        android:text="Show"
+        app:layout_constraintBottom_toBottomOf="@+id/login_password"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/login_password"
+        app:layout_constraintTop_toTopOf="@+id/login_password" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

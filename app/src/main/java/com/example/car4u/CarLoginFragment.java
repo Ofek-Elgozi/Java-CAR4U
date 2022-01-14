@@ -6,11 +6,14 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
 
+import android.text.method.HideReturnsTransformationMethod;
+import android.text.method.PasswordTransformationMethod;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
@@ -29,6 +32,9 @@ public class CarLoginFragment extends Fragment
     EditText emailEt;
     EditText passwordEt;
     ProgressBar login_progressBar;
+    Button registerBtn;
+    Button sign_inBtn;
+    Button hiddenBtn;
     private FirebaseAuth mAuth;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -40,17 +46,31 @@ public class CarLoginFragment extends Fragment
         passwordEt = view.findViewById(R.id.login_password);
         login_progressBar = view.findViewById(R.id.login_progressBar);
         login_progressBar.setVisibility(View.GONE);
-        Button sign_inBtn = view.findViewById(R.id.signin_btn);
-        Button registerBtn = view.findViewById(R.id.register_btn);
+        sign_inBtn = view.findViewById(R.id.signin_btn);
+        registerBtn = view.findViewById(R.id.register_btn);
+        hiddenBtn = view.findViewById(R.id.hidden_btn);
+        hiddenBtn.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+                if(hiddenBtn.getText().toString().equals("Show"))
+                {
+                    passwordEt.setTransformationMethod(null);
+                    hiddenBtn.setText("Hide");
+                } else{
+                    passwordEt.setTransformationMethod(new PasswordTransformationMethod());
+                    hiddenBtn.setText("Show");
+                }
+            }
+        });
+
         sign_inBtn.setOnClickListener(new View.OnClickListener()
         {
             @Override
             public void onClick(View v)
             {
-                registerBtn.setEnabled(false);
-                passwordEt.setEnabled(false);
-                emailEt.setEnabled(false);
-                login_progressBar.setVisibility(View.VISIBLE);
+
                 if(validate()==false)
                 {
                     Toast.makeText(getActivity(), "Login Failed!", Toast.LENGTH_SHORT).show();
@@ -91,6 +111,10 @@ public class CarLoginFragment extends Fragment
                                 @Override
                                 public void onComplete(User user)
                                 {
+                                    registerBtn.setEnabled(false);
+                                    passwordEt.setEnabled(false);
+                                    emailEt.setEnabled(false);
+                                    login_progressBar.setVisibility(View.VISIBLE);
                                     u = user;
                                     Toast.makeText(getActivity(), "Welcome To CAR4U!", Toast.LENGTH_SHORT).show();
                                     CarLoginFragmentDirections.ActionCarLoginFragmentToCarsListFragment action = CarLoginFragmentDirections.actionCarLoginFragmentToCarsListFragment(u.getEmail());
