@@ -104,7 +104,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
         android:ems="10"
-        android:inputType="textPersonName"
+        android:inputType="textPassword"
         android:minHeight="48dp"
         android:background="#E3E3E3"
         android:backgroundTint="#E3E3E3"
