@@ -62,7 +62,6 @@ public class CarRegisterFragment extends Fragment
             @Override
             public void onClick(View v)
             {
-                progressBar.setVisibility(View.VISIBLE);
                 if(validate()==false)
                 {
                     Toast.makeText(getActivity(), "Register Failed!", Toast.LENGTH_SHORT).show();
@@ -75,11 +74,12 @@ public class CarRegisterFragment extends Fragment
                             public void onComplete(@NonNull Task<AuthResult> task) {
                                 if (task.isSuccessful())
                                 {
+                                    progressBar.setVisibility(View.VISIBLE);
                                     User user = new User();
-                                    user.name=nameET.getText().toString();
-                                    user.password=passwordEt.getText().toString();
-                                    user.email=emailEt.getText().toString();
-                                    user.phone=phoneEt.getText().toString();
+                                    user.setName(nameET.getText().toString());
+                                    user.setPassword(passwordEt.getText().toString());
+                                    user.setEmail(emailEt.getText().toString());
+                                    user.setPhone(phoneEt.getText().toString());
                                     nameET.setEnabled(false);
                                     passwordEt.setEnabled(false);
                                     emailEt.setEnabled(false);

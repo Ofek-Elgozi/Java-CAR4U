@@ -75,11 +75,6 @@ public class Model
         void onComplete(Car car);
     }
 
-    public void getCarByID(String id,getCarByIDListener listener)
-    {
-        modelFireBase.getCarByID(id,listener);
-    }
-
     public LiveData<List<Car>> getCarsByUserName(String username)
     {
         return AppLocalDB.db.carDao().getCarsByOwner(username);
