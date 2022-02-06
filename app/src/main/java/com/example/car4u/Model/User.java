@@ -25,45 +25,11 @@ public class User implements Parcelable
     @NonNull
     public String email;
     public String name;
-
-    protected User(Parcel in) {
-        email = in.readString();
-        name = in.readString();
-        password = in.readString();
-        phone = in.readString();
-        if (in.readByte() == 0) {
-            lastUpdated = null;
-        } else {
-            lastUpdated = in.readLong();
-        }
-    }
-
-    public static final Creator<User> CREATOR = new Creator<User>() {
-        @Override
-        public User createFromParcel(Parcel in) {
-            return new User(in);
-        }
-
-        @Override
-        public User[] newArray(int size) {
-            return new User[size];
-        }
-    };
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getName() {
-        return name;
-    }
-
     public String password;
     public String phone;
     Long lastUpdated= new Long(0);
 
     @NonNull
-
     public String getPassword() {
         return password;
     }
@@ -74,6 +40,14 @@ public class User implements Parcelable
 
     public String getPhone() {
         return phone;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getName() {
+        return name;
     }
 
     public void setPassword(String password) {
@@ -177,4 +151,28 @@ public class User implements Parcelable
             dest.writeLong(lastUpdated);
         }
     }
+
+    protected User(Parcel in) {
+        email = in.readString();
+        name = in.readString();
+        password = in.readString();
+        phone = in.readString();
+        if (in.readByte() == 0) {
+            lastUpdated = null;
+        } else {
+            lastUpdated = in.readLong();
+        }
+    }
+
+    public static final Creator<User> CREATOR = new Creator<User>() {
+        @Override
+        public User createFromParcel(Parcel in) {
+            return new User(in);
+        }
+
+        @Override
+        public User[] newArray(int size) {
+            return new User[size];
+        }
+    };
 }

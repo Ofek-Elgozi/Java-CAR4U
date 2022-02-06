@@ -20,7 +20,6 @@ import com.google.firebase.auth.FirebaseUser;
 
 public class FirstFragment extends Fragment
 {
-    User u;
     View view;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,

@@ -26,7 +26,6 @@ import java.util.List;
 
 public class CarRegisterFragment extends Fragment
 {
-    List<User> data;
     View view;
     ProgressBar progressBar;
     EditText nameET;

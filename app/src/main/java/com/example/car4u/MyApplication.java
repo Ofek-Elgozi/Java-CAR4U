@@ -17,7 +17,6 @@ public class MyApplication extends Application
 {
     private static Context appContext;
     public static ExecutorService executorService = Executors.newFixedThreadPool(1);
-    public static Handler mainHandler = HandlerCompat.createAsync(Looper.getMainLooper());
 
     @Override
     public void onCreate()

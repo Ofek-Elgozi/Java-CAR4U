@@ -265,7 +265,8 @@ public class Car implements Parcelable
         }
     }
 
-    protected Car(Parcel in) {
+    protected Car(Parcel in)
+    {
         id_key = in.readString();
         owner = in.readString();
         model = in.readString();

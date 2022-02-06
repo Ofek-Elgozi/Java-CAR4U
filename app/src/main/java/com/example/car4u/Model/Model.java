@@ -70,10 +70,6 @@ public class Model
         return carListLd;
     }
 
-    public interface getCarByIDListener
-    {
-        void onComplete(Car car);
-    }
 
     public LiveData<List<Car>> getCarsByUserName(String username)
     {
